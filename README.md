@@ -1,1 +1,1 @@
-# Xidou BO (Management)
+Management
