@@ -1,0 +1,56 @@
+<?php
+// [ko] 한국어 KOREAN KOR ko kr
+// resources/lang/ko/navigation.php
+
+return [
+    'user' => '사용자',
+    'maingame' => '메인게임관리',
+    'packageTitle' => '패키지 관리',
+    'requestTitle' => '패키지 요청',
+    'requestInbound' => '인바운드',
+    'requestOutbound' => '아웃바운드',
+    'partnerTitle' => '판매자',
+    'partnerAccount' => '판매자 계정',
+    'partnerSole' => '유통판매 대리인',
+    'partnerSeller' => '판매 대리인',
+    'buyerTitle' => '바이어(샵)',
+    'buyerAccount' => '바이어(샵) 계정',
+    'buyerSales' => '패키지 판매',
+    'buyerContract' => '계약',
+    'marketTitle' => '마케팅 이벤트',
+    'adTitle' => '광고',
+    'eventList' => '이벤트 목록',
+    'winnerList' => '당첨자 목록',
+    'cashTitle' => '출금 신청',
+    'cashUserList' => '사용자 출금 신청',
+    'cashPartnerList' => '판매자 출금 신청',
+    'cashBuyerList' => '바이어(샵) 출금 신청',
+    'boardTitle' => '게시판',
+    'noticeList' => '공지사항',
+    'staffTitle' => '관리자 관리',
+    'staffAccountList' => '관리자 목록',
+    'staffAuthList' => '권한 목록',
+    'pushlogTitle' => 'PUSH 기록'
+    // 'dashboard' => '대시보드',
+    // 'user' => '회원 관리',
+    // 'event' => '로또이벤트 관리',
+
+    // 'q35code' => 'QR코드 관리',
+    //     'q35code.unregistered' => '미등록 코드 리스트',
+    //     'q35code.registered' => '등록 코드 리스트',
+    //     'q35code.activated' => '활성화 코드 리스트',
+    //     'q35code.expired' => '만료 코드 리스트',
+    //     'q35code.disposal' => '폐기 코드 리스트',
+
+    // 'partner' => '파트너 관리',
+    //     'partner.provider' => '프로바이더 리스트',
+    //     'partner.distributor' => '총판 리스트',
+    //     'partner.agency' => '대리점 리스트',
+    //     'partner.seller' => '영업 리스트',
+
+    // 'franchise' => '가맹점 관리',
+    // 'ads' => '광고 관리',
+    // 'allowance' => '수당 관리',
+    // 'board' => '게시판 관리',
+    // 'adminlist' => '관리자 목록',
+];
