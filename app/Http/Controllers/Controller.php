@@ -43,7 +43,7 @@ class Controller extends BaseController
             'status'    => $code,
             'message'   => $msg,
             'data'      => $data,
-        ], static::$httpUnauthorized, [], JSON_UNESCAPED_UNICODE);
+        ], static::$httpOK, [], JSON_UNESCAPED_UNICODE);
     }
 
     protected function responseBadRequest($msg, $paramCode = null, $data = null)
@@ -53,7 +53,7 @@ class Controller extends BaseController
             'status'    => $code,
             'message'   => $msg,
             'data'      => $data,
-        ], static::$httpBadRequest, [], JSON_UNESCAPED_UNICODE);
+        ], static::$httpOK, [], JSON_UNESCAPED_UNICODE);
     }
 
     protected function responseNotFound($msg, $paramCode = null, $data = null)
@@ -63,7 +63,7 @@ class Controller extends BaseController
             'status'    => $code,
             'message'   => $msg,
             'data'      => $data,
-        ], static::$httpNotFound, [], JSON_UNESCAPED_UNICODE);
+        ], static::$httpOK, [], JSON_UNESCAPED_UNICODE);
     }
 
     protected function responseTimeOut($msg, $paramCode = null, $data = null)
@@ -73,7 +73,7 @@ class Controller extends BaseController
             'status'    => $code,
             'message'   => $msg,
             'data'      => $data,
-        ], static::$httpTimeOut, [], JSON_UNESCAPED_UNICODE);
+        ], static::$httpOK, [], JSON_UNESCAPED_UNICODE);
     }
 
     protected function responseConflict($msg, $paramCode = null, $data = null)
@@ -83,7 +83,7 @@ class Controller extends BaseController
             'status'    => $code,
             'message'   => $msg,
             'data'      => $data,
-        ], static::$httpConflict, [], JSON_UNESCAPED_UNICODE);
+        ], static::$httpOK, [], JSON_UNESCAPED_UNICODE);
     }
 
     protected function responseGone($msg, $paramCode = null, $data = null)
@@ -93,7 +93,7 @@ class Controller extends BaseController
             'status'    => $code,
             'message'   => $msg,
             'data'      => $data,
-        ], static::$httpGone, [], JSON_UNESCAPED_UNICODE);
+        ], static::$httpOK, [], JSON_UNESCAPED_UNICODE);
     }
 
     protected function responseServerError($msg, $paramCode = null, $data = null)
@@ -103,7 +103,7 @@ class Controller extends BaseController
             'status'    => $code,
             'message'   => $msg,
             'data'      => $data,
-        ], static::$httpServerError, [], JSON_UNESCAPED_UNICODE);
+        ], static::$httpOK, [], JSON_UNESCAPED_UNICODE);
     }
 
     protected function response4List($data)
@@ -111,12 +111,12 @@ class Controller extends BaseController
         $totalCnt = count($data);
 
         if ($totalCnt == 0) {
-            return $this->responseOK('목록이 존재하지 않습니다.', [
+            return $this->responseOK('', [
                 'total_cnt' => $totalCnt,
                 'data'      => $data,
             ]);
         } else {
-            return $this->responseOK('전체 목록을 조회합니다.', [
+            return $this->responseOK('', [
                 'total_cnt' => $totalCnt,
                 'data'      => $data,
             ]);
@@ -128,13 +128,13 @@ class Controller extends BaseController
         $totalCnt = count($items);
 
         if ($totalCnt == 0 || $recordsTotal === 0) {
-            return $this->responseOK('목록이 존재하지 않습니다.',[
+            return $this->responseOK('',[
                 'data'              => $items,
                 'recordsTotal'      => $recordsTotal,
                 'recordsFiltered'   => $recordsFiltered,
             ]);
         } else {
-            return $this->responseOK('목록을 조회합니다.', [
+            return $this->responseOK('', [
                 'data'              => $items,
                 'recordsTotal'      => $recordsTotal,
                 'recordsFiltered'   => $recordsFiltered,
