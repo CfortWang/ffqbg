@@ -64,11 +64,12 @@ function setDatePicker()
 {
     $('.date').datepicker({
         todayBtn: "linked",
+        todayHighlight: true,
         keyboardNavigation: false,
         forceParse: false,
         autoclose: true,
         format: "yyyy-mm-dd",
-        language: 'ko'
+        language: 'zh'
     });
 }
 
@@ -82,6 +83,10 @@ function setPickers()
     setDatePicker();
     setClockPicker();
 }
+
+$(".date").on("click", function () {
+    setPickers()
+})
 
 $(document).ready(function(){
 

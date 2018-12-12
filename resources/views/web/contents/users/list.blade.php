@@ -33,6 +33,52 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                    <div id="" class="dataTables_filter">
+                        <div class="search-box">
+                            <label>搜索 :</label>
+                            <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                        </div>
+                        <div class="filter-box">
+                            <label>用户等级 :</label>
+                            <select class="form-control" id="list-select">
+                                <option value="">全部</option>
+                                <option value="0">游客</option>
+                                <option value="1">会员</option>
+                                <option value="2">中级会员</option>
+                                <option value="3">高级会员</option>
+                            </select>
+                        </div>
+                        <div class="interval-box">
+                            <label>注册时间 :</label>
+                            <div>
+                                <div class="input-group date">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="start-date" name="start-date" readonly="">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="input-group date">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="end-date" name="end-date" readonly="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-box">
+                            <label>用户状态 :</label>
+                            <select class="form-control" id="list-select">
+                                <option value="">不限制</option>
+                                <option value="0">正常</option>
+                                <option value="1">已删除</option>
+                            </select>
+                        </div>
+                        <div class="search-btn">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="" data-target="">查找</button>
+                        </div>
+                    </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -53,9 +99,11 @@
             </div>
         </div>
     </div>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUser">编辑用户</button>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button>
-    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>
+    <div class="btn-group-vertical" role="group" aria-label="">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUser">编辑用户</button>
+        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button>
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>
+    </div>
     <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -131,11 +179,22 @@
 
 @section('scripts')
 <script>
+console.log($(".date"))
+// function setClockPicker()
+// {
+//     $('.clockpicker').clockpicker();
+// }
+
+// function setPickers()
+// {
+//     setDatePicker();
+//     setClockPicker();
+// }
 $(document).ready(function(){
     $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",
@@ -195,8 +254,17 @@ $(document).ready(function(){
                 className:"text-center",
             },
             {
-                data:"created_at",
+                // data:"",
                 className:"text-center",
+                render:function(data,type,row) {
+                    var details;
+                    if(row.is_cert_email){
+                        details = "";
+                    }else{
+                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
+                    }
+                    return details;
+                }
             },
         ],
     });
