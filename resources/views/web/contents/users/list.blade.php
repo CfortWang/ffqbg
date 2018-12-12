@@ -247,8 +247,19 @@ $(document).ready(function(){
             {
                 data:null,
                 className:"text-center",
+                // render:function(data,type,row) {
+                //     return '<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>';
+                //     // var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
+                //     // return details;
+                // }
                 render:function(data,type,row) {
-                    return '<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>';
+                    var details = '<div class="btn-group-vertical" role="group" aria-label=""><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button>'
+                    if () {
+                        details = details + '<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button></div>'
+                    } else {
+                        details = details + '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#memberLevel">恢复用户</button></div>'
+                    }
+                    return details
                     // var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
                     // return details;
                 }
