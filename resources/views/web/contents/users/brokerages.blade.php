@@ -33,6 +33,25 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                    <div id="" class="dataTables_filter">
+                            <div class="search-box">
+                                <label>搜索 :</label>
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                            </div>
+                            <div class="filter-box">
+                                <label>筛选 :</label>
+                                <select class="form-control" id="list-select">
+                                    <option value="">全部</option>
+                                    <option value="0">最新返佣</option>
+                                    <option value="1">最早返佣</option>
+                                    <option value="2">最高返佣</option>
+                                    <option value="3">最低返佣</option>
+                                </select>
+                            </div>
+                            <div class="search-btn">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="" data-target="">查找</button>
+                            </div>
+                        </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -59,7 +78,7 @@ $(document).ready(function(){
     $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",

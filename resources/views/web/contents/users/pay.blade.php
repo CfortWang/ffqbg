@@ -33,6 +33,58 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                    <div id="" class="dataTables_filter">
+                            <div class="search-box">
+                                <label>搜索 :</label>
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                            </div>
+                            <div class="interval-box">
+                                <label>时间 :</label>
+                                <div>
+                                    <div class="input-group date">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="start-date" name="start-date" readonly="">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="input-group date">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="end-date" name="end-date" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-box">
+                                <label>状态 :</label>
+                                <select class="form-control" id="list-select">
+                                    <option value="">全部</option>
+                                    <option value="0">已支付</option>
+                                    <option value="1">未支付</option>
+                                </select>
+                            </div>
+                            <div class="filter-box">
+                                <label>支付方式 :</label>
+                                <select class="form-control" id="list-select">
+                                    <option value="">全部</option>
+                                    <option value="0">微信</option>
+                                    <option value="1">支付宝</option>
+                                </select>
+                            </div>
+                            <div class="filter-box">
+                                <label>类型 :</label>
+                                <select class="form-control" id="list-select">
+                                    <option value="">全部</option>
+                                    <option value="0">购买会员</option>
+                                    <option value="1">发布广告</option>
+                                </select>
+                            </div>
+                            <div class="search-btn">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="" data-target="">查找</button>
+                            </div>
+                        </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -63,7 +115,7 @@ $(document).ready(function(){
     $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",
