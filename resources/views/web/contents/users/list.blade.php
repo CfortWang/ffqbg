@@ -150,7 +150,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/datatable/user/list')}}",
+            url: "{{ url('/api/user/list')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -158,45 +158,41 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"seq",
+                data:"id",
                 className:"text-center",
             },
             {
-                data:"phone_num",
+                data:"phone_number",
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
+                    var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
                     return details;
                 }
             },
             {
-                data:"point",
+                data:"user_register_time",
                 className:"text-center",
             },
             {
-                data:"ticket_cnt",
+                data:"user_register_ip",
                 className:"text-center",
             },
             {
-                data:"is_cert_email",
+                data:"user_level_id",
+                className:"text-center",
+            },
+            {
+                data:"total_amount",
+                className:"text-center",
+            },
+            {
+                data:null,
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
-                    }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
-                    }
-                    return details;
+                    return '<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>';
+                    // var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
+                    // return details;
                 }
-            },
-            {
-                data:"last_login_at",
-                className:"text-center",
-            },
-            {
-                data:"created_at",
-                className:"text-center",
             },
         ],
     });

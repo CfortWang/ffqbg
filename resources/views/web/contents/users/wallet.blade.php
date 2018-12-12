@@ -82,7 +82,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/datatable/user/list')}}",
+            url: "{{ url('/api/user/wallet')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -90,45 +90,32 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"seq",
-                className:"text-center",
-            },
-            {
-                data:"info",
+                data:"name",
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
+                    var details = row.name+'<br>'+row.phone_number;
                     return details;
                 }
             },
             {
-                data:"point",
+                data:"amount",
                 className:"text-center",
+            },
+            {
+                data:"p_amount",
+                className:"text-center",
+                render:function(data,type,row) {
+                    var details = row.p_amount+'-->'+row.n_amount;
+                    return details;
+                }
             },
             {
                 data:"ticket_cnt",
                 className:"text-center",
-            },
-            {
-                data:"is_cert_email",
-                className:"text-center",
                 render:function(data,type,row) {
-                    var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
-                    }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
-                    }
+                    var details = row.remarks+'<br>'+row.type;
                     return details;
                 }
-            },
-            {
-                data:"last_login_at",
-                className:"text-center",
-            },
-            {
-                data:"created_at",
-                className:"text-center",
             },
         ],
     });
