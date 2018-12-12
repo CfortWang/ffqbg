@@ -16,7 +16,7 @@ class LoginMiddleware
     public function handle($request, Closure $next)
     {
         if ($request->session()->has('admin') === false && !$request->is('login')) {
-            return redirect()->route('bo_login');
+            return redirect()->route('login');
         }
 
         return $next($request);

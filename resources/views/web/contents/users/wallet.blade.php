@@ -71,6 +71,13 @@ $(document).ready(function(){
                 "previous":   "@lang('user/list.table.pagination.prev')"
             },
         },
+        buttons: {
+            buttons: [
+                {
+                    text: 'Alert'
+                }
+            ]
+        },
         deferRender: true,
         processing:true,
         serverSide:true,
@@ -87,7 +94,7 @@ $(document).ready(function(){
                 className:"text-center",
             },
             {
-                data:"phone_num",
+                data:"info",
                 className:"text-center",
                 render:function(data,type,row) {
                     var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';

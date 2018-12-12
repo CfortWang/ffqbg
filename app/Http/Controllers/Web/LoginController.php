@@ -21,7 +21,7 @@ class LoginController extends Controller
 
     public function login()
     {
-        return view('contents.login', [
+        return view('web.contents.login', [
             'title' => $this->title,
         ]);
     }

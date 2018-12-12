@@ -53,6 +53,79 @@
             </div>
         </div>
     </div>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUser">编辑用户</button>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button>
+    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>
+    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">用户资料</h4>
+            </div>
+            <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label for="phone_number" class="control-label">手机号:</label>
+                    <input type="text" class="form-control" id="phone_number">
+                </div>
+                <div class="form-group">
+                    <label for="nickname" class="control-label">昵称:</label>
+                    <input type="text" class="form-control" id="nickname">
+                </div>
+                <div class="form-group">
+                    <label for="superior_id" class="control-label">上级ID:</label>
+                    <input type="text" class="form-control" id="superior_id">
+                </div>
+                <div class="form-group">
+                    <label for="nickname" class="control-label">用户等级:</label>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">游客<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">游客</a></li>
+                            <li><a href="#">会员</a></li>
+                            <li><a href="#">中级会员</a></li>
+                            <li><a href="#">高级会员</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <label for="nickname" class="control-label">操作账户余额</label><span>当前余额35</span>
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <input type="text" class="form-control" aria-label="...">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">增加<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">增加</a></li>
+                            <li><a href="#">减少</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存修改</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="memberLevel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">会员层级</h4>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存修改</button>
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
