@@ -249,11 +249,6 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (res) {
                 console.log(res)
-                // let resData = res.data
-                // for (let i = 0; i < res.data.length; i++) {
-                //     let $pkgData = '<option value="' + resData[i].pkg_seq + '">' + resData[i].pkg_code + '</option>'
-                //     $(".pkg-data").append($pkgData)
-                // }
             },
             error: function (ex) {
                 console.log(ex)
