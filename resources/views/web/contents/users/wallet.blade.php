@@ -83,68 +83,90 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
-        pageLength: 10,
-        responsive: true,
-        dom: '<"row"t>p',
-        order: [[ 0, "desc" ]],
-        language: {
-            "zeroRecords": "@lang('user/list.table.no_data')",
-            "info": "_PAGE_ / _PAGES_ ",
-            "search": "@lang('user/list.table.search') :",
-            "paginate": {
-                "next":       "@lang('user/list.table.pagination.next')",
-                "previous":   "@lang('user/list.table.pagination.prev')"
+    drawList();
+    function drawList() {
+        $('.user-list-table').DataTable({
+            pageLength: 10,
+            responsive: true,
+            dom: '<"row"t>p',
+            order: [[ 0, "desc" ]],
+            language: {
+                "zeroRecords": "@lang('user/list.table.no_data')",
+                "info": "_PAGE_ / _PAGES_ ",
+                "search": "@lang('user/list.table.search') :",
+                "paginate": {
+                    "next":       "@lang('user/list.table.pagination.next')",
+                    "previous":   "@lang('user/list.table.pagination.prev')"
+                },
             },
-        },
-        buttons: {
-            buttons: [
+            buttons: {
+                buttons: [
+                    {
+                        text: 'Alert'
+                    }
+                ]
+            },
+            deferRender: true,
+            processing:true,
+            serverSide:true,
+            ajax: {
+                url: "{{ url('/api/user/wallet')}}",
+                dataFilter: function(data){
+                    var json = jQuery.parseJSON( data );
+                    return JSON.stringify( json.data ); // return JSON string
+                }
+            },
+            columns:[
                 {
-                    text: 'Alert'
-                }
-            ]
-        },
-        deferRender: true,
-        processing:true,
-        serverSide:true,
-        ajax: {
-            url: "{{ url('/api/user/wallet')}}",
-            dataFilter: function(data){
-                var json = jQuery.parseJSON( data );
-                return JSON.stringify( json.data ); // return JSON string
+                    data:"id",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        var userLevel = ""
+                        if (row.user_level_id == 1) {
+                            userLevel = "会员"
+                        } else if (row.user_level_id == 2) {
+                            userLevel = "中级会员"
+                        } else if (row.user_level_id == 3) {
+                            userLevel = "高级会员"
+                        } else {
+                            userLevel = "游客"
+                        }
+                        if (row.phone_number == "" || row.phone_number == null) {
+                            row.phone_number = "-"
+                        }
+                        var details = row.name + '[' + row.id + ']' + '<br>' + row.phone_number + '<br/>' + userLevel
+                        return details;
+                    }
+                },
+                {
+                    data:"amount",
+                    className:"text-center",
+                    render: function (data, type, row) {
+                        return row.amount + '<br/>' + row.time
+                    }
+                },
+                {
+                    data:"p_amount",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        var details = row.p_amount+'-->'+row.n_amount;
+                        return details;
+                    }
+                },
+                {
+                    data: null,
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        var details = row.remarks+'<br>'+row.type;
+                        return details;
+                    }
+                },
+            ],
+            drawCallback: function () {
+                appendSkipPage()
             }
-        },
-        columns:[
-            {
-                data:"name",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details = row.name+'<br>'+row.phone_number;
-                    return details;
-                }
-            },
-            {
-                data:"amount",
-                className:"text-center",
-            },
-            {
-                data:"p_amount",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details = row.p_amount+'-->'+row.n_amount;
-                    return details;
-                }
-            },
-            {
-                data:"ticket_cnt",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details = row.remarks+'<br>'+row.type;
-                    return details;
-                }
-            },
-        ],
-    });
+        });
+    }
 });
 </script>
 @endsection

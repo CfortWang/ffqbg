@@ -28,6 +28,13 @@ class UserController extends Controller
         ]);
     }
 
+    public function level()
+    {
+        return view('web.contents.users.level', [
+            'title' => $this->title,
+        ]);
+    }
+
     public function detail($id)
     {
         $validator = Validator::make(['seq' => $seq],[
