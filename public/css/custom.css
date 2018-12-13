@@ -184,6 +184,27 @@ div.dataTables_filter {
     white-space: nowrap;
     text-align: left;
 }
+.dataTables_filter > div{
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.dataTables_filter .form-control{
+    display: inline-block;
+    width: 100px;
+}
+.dataTables_filter .search-box .form-control{
+    width: 150px;
+}
+.interval-box > div{
+    display: inline-block;
+    width: 150px;
+    vertical-align: bottom;
+}
+.table>tbody>tr>.text-center{
+    vertical-align: middle;
+}
+
 
 .float-e-margins .btn {
     margin-bottom: 0px;

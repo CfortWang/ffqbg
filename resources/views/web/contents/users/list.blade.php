@@ -33,6 +33,44 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                        <div id="" class="dataTables_filter">
+                            <div class="search-box">
+                                <label>搜索 :</label>
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                            </div>
+                            <div class="filter-box">
+                                <label>用户等级 :</label>
+                                <select class="form-control" id="list-select">
+                                    <option value="">全部</option>
+                                    <option value="0">游客</option>
+                                    <option value="1">会员</option>
+                                    <option value="2">中级会员</option>
+                                    <option value="3">高级会员</option>
+                                </select>
+                            </div>
+                            <div class="interval-box">
+                                <label>注册时间 :</label>
+                                <div>
+                                    <div class="input-group date">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="start-date" name="start-date" readonly="">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="input-group date">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="end-date" name="end-date" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search-btn">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="" data-target="">查找</button>
+                            </div>
+                        </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -53,9 +91,6 @@
             </div>
         </div>
     </div>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUser">编辑用户</button>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button>
-    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>
     <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -131,11 +166,12 @@
 
 @section('scripts')
 <script>
+
 $(document).ready(function(){
     $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",
@@ -165,7 +201,7 @@ $(document).ready(function(){
                 data:"phone_number",
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
+                    var details = '<p>' + row.phone_number + '</p>'+ '<p>' + row.name + '</p>';
                     return details;
                 }
             },
@@ -189,13 +225,26 @@ $(document).ready(function(){
                 data:null,
                 className:"text-center",
                 render:function(data,type,row) {
-                    return '<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>';
-                    // var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
-                    // return details;
+                    return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button></div>'
                 }
             },
         ],
     });
+
+    $('.ibox-content').on("click", ".btn-group-vertical .edit-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        $.ajax({
+            url: '/user/' + id + '/detail',
+            type: 'get',
+            dataType: 'json',
+            success: function (res) {
+                console.log(res)
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
 });
 </script>
 @endsection

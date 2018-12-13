@@ -33,6 +33,32 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                    <div id="" class="dataTables_filter">
+                            <div class="search-box">
+                                <label>搜索 :</label>
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                            </div>
+                            <div class="filter-box">
+                                <label>类型 :</label>
+                                <select class="form-control" id="list-select">
+                                    <option value="">不限制</option>
+                                    <option value="0">管理员操作</option>
+                                    <option value="1">购买会员返佣</option>
+                                    <option value="2">任务</option>
+                                </select>
+                            </div>
+                            <div class="filter-box">
+                                <label>收支 :</label>
+                                <select class="form-control" id="list-select">
+                                    <option value="">不限制</option>
+                                    <option value="0">收入</option>
+                                    <option value="1">支出</option>
+                                </select>
+                            </div>
+                            <div class="search-btn">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="" data-target="">查找</button>
+                            </div>
+                        </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -60,7 +86,7 @@ $(document).ready(function(){
     $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",
