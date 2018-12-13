@@ -67,14 +67,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="filter-box">
-                                <label>用户状态 :</label>
-                                <select class="form-control" id="list-select">
-                                    <option value="">不限制</option>
-                                    <option value="0">正常</option>
-                                    <option value="1">已删除</option>
-                                </select>
-                            </div>
                             <div class="search-btn">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="" data-target="">查找</button>
                             </div>
@@ -179,17 +171,7 @@
 
 @section('scripts')
 <script>
-console.log($(".date"))
-// function setClockPicker()
-// {
-//     $('.clockpicker').clockpicker();
-// }
 
-// function setPickers()
-// {
-//     setDatePicker();
-//     setClockPicker();
-// }
 $(document).ready(function(){
     $('.user-list-table').DataTable({
         pageLength: 10,
@@ -224,7 +206,7 @@ $(document).ready(function(){
                 data:"phone_number",
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
+                    var details = '<p>' + row.phone_number + '</p>'+ '<p>' + row.name + '</p>';
                     return details;
                 }
             },
@@ -253,19 +235,31 @@ $(document).ready(function(){
                 //     // return details;
                 // }
                 render:function(data,type,row) {
-                    var details = '<div class="btn-group-vertical" role="group" aria-label=""><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button>'
-                    if () {
-                        details = details + '<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button></div>'
-                    } else {
-                        details = details + '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#memberLevel">恢复用户</button></div>'
-                    }
-                    return details
-                    // var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
-                    // return details;
+                    return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button></div>'
                 }
             },
         ],
     });
+
+    $('.ibox-content').on("click", ".btn-group-vertical .edit-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        $.ajax({
+            url: '/user/' + id + '/detail',
+            type: 'get',
+            dataType: 'json',
+            success: function (res) {
+                console.log(res)
+                // let resData = res.data
+                // for (let i = 0; i < res.data.length; i++) {
+                //     let $pkgData = '<option value="' + resData[i].pkg_seq + '">' + resData[i].pkg_code + '</option>'
+                //     $(".pkg-data").append($pkgData)
+                // }
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
 });
 </script>
 @endsection

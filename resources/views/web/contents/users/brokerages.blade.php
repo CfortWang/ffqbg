@@ -33,7 +33,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                    <div id="" class="dataTables_filter">
+                        <div id="" class="dataTables_filter">
                             <div class="search-box">
                                 <label>搜索 :</label>
                                 <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">

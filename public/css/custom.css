@@ -201,6 +201,10 @@ div.dataTables_filter {
     width: 150px;
     vertical-align: bottom;
 }
+.table>tbody>tr>.text-center{
+    vertical-align: middle;
+}
+
 
 .float-e-margins .btn {
     margin-bottom: 0px;
