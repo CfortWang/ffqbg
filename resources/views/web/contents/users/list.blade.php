@@ -91,11 +91,6 @@
             </div>
         </div>
     </div>
-    <div class="btn-group-vertical" role="group" aria-label="">
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUser">编辑用户</button>
-        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button>
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>
-    </div>
     <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -229,11 +224,6 @@ $(document).ready(function(){
             {
                 data:null,
                 className:"text-center",
-                // render:function(data,type,row) {
-                //     return '<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button>';
-                //     // var details = '<a href="/user/detail/' + row.id + '">' + row.phone_number + '</a><br>'+row.name;
-                //     // return details;
-                // }
                 render:function(data,type,row) {
                     return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button></div>'
                 }
