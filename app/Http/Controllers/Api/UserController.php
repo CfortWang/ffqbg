@@ -235,7 +235,7 @@ class UserController extends Controller
             }
         }
         $recordsFiltered = $items->count();
-        $items = $items->select('users_cashout.id','u.name','u.phone_number','withdraw_type','withdraw_amount','withdraw_alipay_account','withdraw_alipay_realname','withdraw_status','withdraw_apply_time','withdraw_confirm_time','withdraw_complete_time')
+        $items = $items->select('users_cashout.id','u.name','u.phone_number','withdraw_type','withdraw_amount','withdraw_alipay_account','withdraw_alipay_realname','withdraw_status','withdraw_apply_time','withdraw_confirm_time','withdraw_complete_time','withdraw_reason')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
             ->offset($offset)
             ->limit($limit)
@@ -254,5 +254,91 @@ class UserController extends Controller
         $data['top'] =  $data['top_total'] = UserLevelUp::where('status','PAIED')->where('fid',3)->count('id');
         $data['amount'] = UserWalletRecord::sum('amount');
         return $this->responseOK('', $data);
+    }
+
+    public function detail (Request $request,$id)
+    {
+        $data = User::where('id',$id)->select('id','name','phone_number','user_level_id','total_amount')->first();
+        $up = UserLevel::where('uid',$id)->where('layer',1)->first();
+        if(!$data){
+            return $this->responseBadRequest('用户不存在');
+
+        }
+        if($up){
+            $data['recommder_id'] = $up['from_uid'];
+        }else{
+            $data['recommder_id'] = 0;
+        }
+        return $this->responseOK('', $data);
+    }
+
+    public function update(Request $request)
+    {
+        $id = $request->input('id');
+        $data = User::where('id',$id)->first();
+        $data->name = $request->input('name');
+        $data->phone_number = $request->input('phone_number');
+        $data->user_level_id = $request->input('user_level_id');
+        $data->total_amount = $request->input('total_amount');
+        $data->save();
+        $recommder_id = $request->input('recommder_id');
+        if($recommder_id){
+            $recommder = UserLevel::where('uid',$id)->first();
+            if($recommder){
+                return $this->responseBadRequest('已有推荐人');
+            }
+            $this->updateRecommder($id,$recommder_id);
+        }
+        return $this->responseOK('更新成功', []);
+    }
+    protected function updateRecommder($id,$recommder_id)
+    {
+        $ids = UserLevel::where('uid',$recommder_id)->get();
+        if($ids){
+            foreach ($ids as $key => $value) {
+                unset($new_arr);
+                $new_arr['uid'] = $id;
+                $new_arr['from_uid'] = $value['from_uid'];
+                $new_arr['layer'] = $value['layer'] + 1;
+                $new_arr['time'] = time();
+                UserLevel::create($new_arr);
+            }
+        }
+        $new_arr['uid'] = $id;
+        $new_arr['from_uid'] = $recommder_id;
+        $new_arr['layer'] = 1;
+        $new_arr['time'] = time();
+        UserLevel::create($new_arr);
+    }
+
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $user = User::where('id',$id)->first();
+        if($user){
+            $user->delete();
+        }
+        return $this->responseOK('删除成功', []);
+    }
+
+    public function deal(Request $request)
+    {
+        $type = $request->input('type');
+        $id = $request->input('id');
+        $data = UserCashout::where('id',$id)->where('withdraw_status',0)->first();
+        $data->withdraw_confirm_time = time();
+        if($type =='refuse'){
+            $data->refuse_msg = $request->input('withdraw_reason');
+            $data->status = 2;
+        }else{
+            $this->callAlipay($id);
+        }
+        $data->save();
+        return $this->responseOK('操作成功', []);
+    }
+
+    protected function callAlipay($id)
+    {
+        // $
     }
 }

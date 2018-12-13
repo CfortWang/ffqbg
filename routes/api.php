@@ -22,6 +22,9 @@ use Illuminate\Http\Request;
             Route::get('pay',              'UserController@pay');
             Route::get('cashout',              'UserController@cashout');
             Route::get('data',              'UserController@data');
+            Route::post('update',              'UserController@update');
+            Route::delete('delete',              'UserController@delete');
+            Route::post('deal',              'UserController@deal');
         });
 
         Route::group(['prefix' => 'task'], function() {
