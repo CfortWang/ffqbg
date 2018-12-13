@@ -17,10 +17,18 @@ use App\Models\Setting;
 use App\Models\UserLevel;
 use App\Models\UserBrokerages;
 use App\Models\UserLevelUp;
-
+use Yansongda\Pay\Pay;
 class UserController extends Controller
 {
 
+    protected $config = [
+        'alipay'=>[
+            'app_id' => '2018061760401553',
+            'notify_url' => 'https://api.gxwhkj.cn/notify/alipay',
+            'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApU4RLt13Pj9BI9u4X6QiUIiJ7SVs25ol4e2A+FDffsfNLjUTp9X++gIunW/vRQ/cdsVLx1jDSFKsZ/B/R0jdqGQfjkgDDrLbkXToXZUTI8VEl82BND22Jj+6ioOb2fBSfSbLO4yspNXSLYHowHW25O1wvl8V4O7JyiymMRsxwjsA8A1XlFE13LihJE3G8yo9dGN6McD2XeXEyyhr4OmNGrCie0Y7WeEkyO3++7Sf1TrVXLjjrB9JUjz3IRwmnDqHJOnDT4vuz7CJp86KHT7edIKHd48HJMmMLrUSVeH2B8NIBoR6rVVng/K31uZ+3upVyzsMcPELixBIKWiaqcJazwIDAQAB',
+            'private_key' => 'MIIEowIBAAKCAQEAnj/JejehRCPoRkwOGdIMPWiktZrrcgDJUUZDzAeOd0VKG0d9NmeJ3smhqRPujKQqTg+AQcmrYb+aADC3y3q8uPOo6UugEiUwMyUghkwhL3HK4mIo5DAZ3OJfS83ZKomj4pKerTL4DGFreg/FE7t1rhIao/PmxeAuVgbpJ34jB3PAWIXA7MXsto+Lo3jUWf/+SpnrePfoZIrFzEqVYJoCBr5mRN4HpaOcmqXbBN+ktPiaZCJJ3q28CLVINz8i0s1TkWm/zd4pf2cPmyb+0sGfqvYWidqvRkRCZfJNVFAw/VXGP6QjgufqQJOOXmRFRT3FohzD0PnDX8EIztbWKL4slQIDAQABAoIBAQCWdQM0Rkv3o0QmAg2uEv08LY/ccozEeWbu9SVkiRK055YL1a6A2XRF8+LWBHNcGIF4clh5NCrT5v2ejLNSrUFdf5zrItHwLpdjKTuBNESg/Unub3F9cxZD4p7ETdTaEr9Unh5rgfhAnSc4iGHR3vuGIwRdOXoCTKEBfdSTjeP0ImTJofpYf/85K9Suu2du7uKu22TrX5sQ4hvdm1cQXiqsAgQLOBko7fO5kkRlJzwdgofPmWKmRKmXW3zMT0kb8Gi5KoWDz2jHhpvDM356YylaxY57ZyK4j3PxQxZb0Ab+b3kii4mL1crwc70PCnqsdaeQCmxlmnynvTAOi9ERq6pJAoGBAMw60vP39pyeVE/lp1s5HJfM7496xx5ryijfSqgg52EhcAEvSVLfNqG0TxZdxJWMXXGjriDpOdHoLzdN5D3XlsXArfCQ+DJGADaFQHsImVxGOekul9f8e1B/6V2MZNnn6potkSGK+eP07rllrOsXeOeKx+yMVkWpPY7OMxWtE5YzAoGBAMZdH0XmaYna78Tr8JcWELGk+aVZ2U0MBDHPdoLuNpBz7O7cjfEoT10HZVhhR4IDMyKQWL0pYw3L/9lqNqCJe96jqqZQ4uxKs3UzYtKVMS4DYGWGGQhP3WL+gDdD1GtxhVY3JYD0zUS+V4dRYRum5OfL8NBVN4TWDQ3mqHhS25oXAoGANjg7vyeKomPqcFfBCZfs/mQbCZWH/YySXC2DzYUGyKOu77GVHtpBz8Zl5MM6KJXeTQgud3BTuGWS+3TDbqOo1JFl3GMwcXBiKBdSWhebV4MRZtXG3EGcn2+GDh7yu2M1xn7oc+ZIl3t0UWYr9TIDGD2g/Cz5zn6y6BHYQB32AD8CgYBioSbNkLVlMBEL7uyfkv8V9RuUFcqwPotPYQJiM6O5y4pBcjS5dfuQG/9OJIBzqregNfmJhKyVzZsXNXKX/AQ1PVe6fnl2V+ZHHhfC8R+U62Tg1f5YXa2MbVK/J+DU04sixSTGq/Hsfl/zDomkQCWNA6BnVhfW2r9+6/NUcI50XQKBgBGgFVN5UkSTw7Fv2itvcbcCnR1wcb7k9thW1iwooLMPSS4RLHyGVlSq/7iJcXSFl/iern7SSmm6nMm3GxkPHBJ0HzAo+PJvjPr6lwfXCsO/5QYCoI3AW4yHIB4NjvyOMYIvCWpARq5krjkBZtqcOcH41VCRLW754UroLkR50EGl'
+        ],
+    ];
     public function list(Request $request)
     {
         $offset = $request->start;
@@ -332,9 +340,25 @@ class UserController extends Controller
         return $this->responseOK('操作成功', []);
     }
 
-    protected function callAlipay($id)
+    public function callAlipay()
     {
-        // $
+        $config = $this->config['alipay'];
+        // if($return_url&&$mobileOs=='web'){
+        $alipay = Pay::alipay($config);
+        $order = [
+            'out_biz_no' => time(),
+            'payee_type' => 'ALIPAY_LOGONID',
+            'payee_account' => '18202777477',
+            'amount' => '1',
+        ];
+        // "code" => "10000"
+        // "msg" => "Success"
+        // "order_id" => "20181213110070001502460072184860"
+        // "out_biz_no" => "1544710615"
+        // "pay_date" => "2018-12-13 22:16:51"
+        $result = $alipay->transfer($order);
+        dd($result);
+        exit;
     }
 
     public function levelList()

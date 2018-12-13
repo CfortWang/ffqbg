@@ -80,7 +80,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/datatable/user/list')}}",
+            url: "{{ url('/api/task/list')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -88,14 +88,14 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"seq",
+                data:"id",
                 className:"text-center",
             },
             {
                 data:"phone_num",
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
+                    var details = '<a href="/api/task/detail/?id=' + row.id + '">' + row.phone_num + '</a>';
                     return details;
                 }
             },

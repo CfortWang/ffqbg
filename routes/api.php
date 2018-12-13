@@ -26,12 +26,16 @@ use Illuminate\Http\Request;
             Route::delete('delete',              'UserController@delete');
             Route::post('deal',              'UserController@deal');
             Route::get('levelList',              'UserController@levelList');
-            
+            Route::get('callAlipay',              'UserController@callAlipay');
         });
 
         Route::group(['prefix' => 'task'], function() {
             Route::get('list',              'TaskController@list');
-            Route::get('{id}/detail',      'TaskController@detail');
+            Route::get('user',      'TaskController@user');
+            Route::get('detail',      'TaskController@detail');
+            Route::delete('/',              'TaskController@delete');
+            Route::post('/',      'TaskController@create');
+            // Route::get('{id}/detail',      'TaskController@detail');
         });
 
         Route::group(['prefix' => 'news'], function() {
