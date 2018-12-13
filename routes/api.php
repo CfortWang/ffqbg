@@ -25,6 +25,8 @@ use Illuminate\Http\Request;
             Route::post('update',              'UserController@update');
             Route::delete('delete',              'UserController@delete');
             Route::post('deal',              'UserController@deal');
+            Route::get('levelList',              'UserController@levelList');
+            
         });
 
         Route::group(['prefix' => 'task'], function() {

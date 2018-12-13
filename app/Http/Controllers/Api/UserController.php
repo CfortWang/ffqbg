@@ -31,28 +31,30 @@ class UserController extends Controller
         $orderType = $request->order[0]['dir'];
 
         $columnArray = array('id','phone_number','user_register_time','user_register_ip','user_level_id','total_amount');
-
-        $items = User::where('id','>','0');
-
-        if($request->status){
-            // $items =  $items->where('Q35SalesItem.shipping_status', $request->status);
+        $where['user_delete'] = 0;
+        $id = $request->input('id');
+        $phone_number = $request->input('phone_number');
+        $user_level_id = $request->input('user_level_id');
+        $start_at = $request->input('start_at');
+        $end_at = $request->input('end_at');
+        if($id){
+            $where['id'] = $id;
+        }
+        if($phone_number){
+            $where['phone_number'] = $phone_number;
+        }
+        if($user_level_id){
+            $where['user_level_id'] = $user_level_id;
+        }
+        $items = User::where($where);
+        if($start_at && $end_at){
+            $start_at = strtotime($start_at);
+            $end_at = strtotime($end_at);
+            $items = User::where($where)->whereBetween('user_register_time',[$start_at,$end_at]);
         }
         
         $recordsTotal = $items->count();
-        
-        if (!empty($request->search['value'])) {
-            if(mb_strlen($searchValue)==11){
-                $items = $items->where(function ($query) use ($searchValue) {
-                    $query
-                    ->where('phone_number', $searchValue);
-                });
-            }else{
-                $items = $items->where(function ($query) use ($searchValue) {
-                    $query
-                    ->where('id', $searchValue);
-                });
-            }
-        }
+      
         $recordsFiltered = $items->count();
         $items = $items->select('id','phone_number','name','user_register_time','user_register_ip','user_level_id','total_amount')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
@@ -74,30 +76,17 @@ class UserController extends Controller
         $orderColumnsNo = $request->order[0]['column'];
         $orderType = $request->order[0]['dir'];
 
-        $columnArray = array('id','phone_number','user_register_time','user_register_ip','user_level_id','total_amount');
+        $columnArray = array('brokerage_id','user_id','from_user_id','amount','source_amount','remarks','type');
 
         $items = UserBrokerages::where('brokerage_id','>','0');
             
-
-        if($request->status){
-            // $items =  $items->where('Q35SalesItem.shipping_status', $request->status);
+        $id = $request->input('id');
+        if($id){
+            $items = UserBrokerages::where('brokerage_id','>','0')->where('id',$id);
         }
         
         $recordsTotal = $items->count();
         
-        if (!empty($request->search['value'])) {
-            if(mb_strlen($searchValue)==11){
-                $items = $items->where(function ($query) use ($searchValue) {
-                    $query
-                    ->where('phone_number', $searchValue);
-                });
-            }else{
-                $items = $items->where(function ($query) use ($searchValue) {
-                    $query
-                    ->where('id', $searchValue);
-                });
-            }
-        }
         $recordsFiltered = $items->count();
         $items = $items->select('brokerage_id','user_id','from_user_id','amount','source_amount','remarks','type')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
@@ -192,12 +181,14 @@ class UserController extends Controller
             }
         }
         $recordsFiltered = $items->count();
-        $items = $items->select('u.name','u.phone_number','amount','p_amount','n_amount','remarks','type')
+        $items = $items->select('u.name','u.phone_number','u.id','u.user_level_id','amount','p_amount','n_amount','remarks','type','users_wallet_record.time')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
             ->offset($offset)
             ->limit($limit)
             ->get();
-           
+        foreach ($items as $key => $value) {
+            $items[$key]['time'] = date('Y-m-d h:i:s',$value['time']);
+        }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 
@@ -235,12 +226,16 @@ class UserController extends Controller
             }
         }
         $recordsFiltered = $items->count();
-        $items = $items->select('users_cashout.id','u.name','u.phone_number','withdraw_type','withdraw_amount','withdraw_alipay_account','withdraw_alipay_realname','withdraw_status','withdraw_apply_time','withdraw_confirm_time','withdraw_complete_time','withdraw_reason')
+        $items = $items->select('users_cashout.id','u.id as user_id','u.user_level_id','u.name','u.phone_number','withdraw_type','withdraw_amount','withdraw_alipay_account','withdraw_alipay_realname','withdraw_status','withdraw_apply_time','withdraw_confirm_time','withdraw_complete_time','withdraw_reason','withdraw_wallet')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
             ->offset($offset)
             ->limit($limit)
             ->get();
-           
+        foreach ($items as $key => $value) {
+            $items[$key]['withdraw_apply_time'] = date('Y-m-d H:i:s',$value['withdraw_apply_time']);
+            $items[$key]['withdraw_confirm_time'] = $value['withdraw_confirm_time']?date('Y-m-d H:i:s',$value['withdraw_confirm_time']):'';
+            $items[$key]['withdraw_complete_time'] = $value['withdraw_complete_time']?date('Y-m-d H:i:s',$value['withdraw_complete_time']):'';
+        }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 
@@ -340,5 +335,11 @@ class UserController extends Controller
     protected function callAlipay($id)
     {
         // $
+    }
+
+    public function levelList()
+    {
+        $list = UserSetting::select('name','user_level')->get();
+        return $this->responseOk('',$list);
     }
 }
