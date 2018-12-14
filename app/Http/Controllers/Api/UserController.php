@@ -91,7 +91,7 @@ class UserController extends Controller
             
         $id = $request->input('id');
         if($id){
-            $items = UserBrokerages::where('brokerage_id','>','0')->where('id',$id);
+            $items = UserBrokerages::where('brokerage_id','>','0')->where('user_id',$id);
         }
         
         $recordsTotal = $items->count();

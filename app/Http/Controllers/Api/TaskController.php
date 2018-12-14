@@ -55,9 +55,11 @@ class TaskController extends Controller
 
         // $columnArray = array('id','title','user_id','user_level','create_time','status','task_limit','price');
         $id = $request->input('id');
+        $user_id = $request->input('user_id');
+        $where['task_id'] = $id;
+        $where['user_id'] = $user_id;
         $items = TaskRcord::leftjoin('user as u','u.id','=','tasks_record.user_id');
-        if($id){
-            $where['task_id'] = $id;
+        if($where){
             $items = TaskRcord::where($where)
                 ->leftjoin('user as u','u.id','=','tasks_record.user_id');
         }
