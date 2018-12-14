@@ -149,7 +149,7 @@ class UserController extends Controller
             }
         }
         $recordsFiltered = $items->count();
-        $items = $items->select('u.id as user_id','u.name','payment','user_levelup.id','status','amount','user_levelup.created_at','user_levelup.updated_at','remarks')
+        $items = $items->select('u.id as user_id','u.name','payment','order_id','user_levelup.id','status','amount','user_levelup.created_at','user_levelup.updated_at','remarks')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
             ->offset($offset)
             ->limit($limit)
@@ -404,10 +404,11 @@ class UserController extends Controller
             ->get();
         foreach ($items as $key => $value) {
             $from = User::where('id',$value['from_user_id'])->select('name','phone_number','user_level_id')->first();
-            $user = User::where('id',$value['user_id'])->select('name','phone_number','user_level_id','user_register_time','user_register_ip')->first();
+            $user = User::where('id',$value['uid'])->select('name','phone_number','user_level_id','user_register_time','user_register_ip')->first();
             $user['user_register_time'] = date('Y-m-d',$user['user_register_time']);
             $items[$key]['from'] = $from;
             $items[$key]['user'] = $user;
+            $items[$key]['user_register_ip'] = $user['user_register_ip']?$user['user_register_ip']:'';
             $items[$key]['time'] = date('Y-m-d',$value['time']);
         }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
