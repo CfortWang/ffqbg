@@ -44,7 +44,7 @@ class TaskController extends Controller
 
     public function edit()
     {
-        return view('web.contents.task.join', [
+        return view('web.contents.task.edit', [
             'title' => $this->title,
         ]);
     }

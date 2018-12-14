@@ -201,7 +201,7 @@ $(document).ready(function(){
                     if (row.phone_number == "" || row.phone_number == null) {
                         row.phone_number = "-"
                     }
-                    var details = row.name + '<br/>' + row.phone_number + '<br/>直销' + row.user_level_id + '个';
+                    var details = row.name + '<br/>' + row.phone_number + '<br/>直销' + row.direct + '个';
                     return details;
                 }
             },
@@ -267,6 +267,7 @@ $(document).ready(function(){
                 $("#nickname").val(res.data.name)
                 $("#superior_id").val(res.data.recommder_id)
                 $("#user_level").val(res.data.user_level_id)
+                $("#total_amount").val(res.data.total_amount)
                 $("#total_amount").attr("placeholder", "当前余额：" + res.data.total_amount)
             },
             error: function (ex) {
@@ -281,6 +282,10 @@ $(document).ready(function(){
         var userLevel = $("#user_level").val()
         var superiorID = $("#superior_id").val()
         var totalAmount = $("#total_amount").val()
+        if (totalAmount == '' || totalAmount == null) {
+            alert("账户余额不能为空")
+            return false
+        }
         $.ajax({
             url: '/api/user/update',
             type: 'post',
@@ -295,8 +300,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (res) {
                 alert(res.message)
-                $('#editUser').hide()
-                $('.modal-backdrop').hide()
+                $('#editUser').modal('hide')
                 table.ajax.reload()
             },
             error: function (ex) {
@@ -324,8 +328,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (res) {
                 alert(res.message)
-                $('#systemTips').hide()
-                $('.modal-backdrop').hide()
+                $('#systemTips').modal('hide')
                 table.ajax.reload()
             },
             error: function (ex) {

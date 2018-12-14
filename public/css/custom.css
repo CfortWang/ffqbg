@@ -224,6 +224,13 @@ div.dataTables_filter {
     vertical-align: middle;
 }
 
+.overflow{
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .float-e-margins .dataTables_filter{
     background: #fff;
     padding: 10px 20px;

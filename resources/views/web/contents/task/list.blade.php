@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <label for="task_onwer" class="control-label">发布者：</label>
-                            <input type="text" class="form-control" id="task_onwer">
+                            <input type="text" class="form-control" id="task_owner">
                         </div>
                         <div class="form-group">
                             <label for="task_type" class="control-label">类型：</label>
@@ -98,6 +98,10 @@
                         <div class="form-group">
                             <label for="task_count" class="control-label">限制人数：</label>
                             <input type="text" class="form-control" id="task_count">
+                        </div>
+                        <div class="form-group">
+                            <label for="task_count" class="control-label">任务图片：</label>
+                            <div class="task"></div>
                         </div>
                     </form>
                 </div>
@@ -164,7 +168,8 @@ $(document).ready(function(){
             },
             {
                 data:"title",
-                className:"text-center"
+                className:"text-center overflow",
+                orderable: false
             },
             {
                 data:"user_id",
@@ -190,11 +195,13 @@ $(document).ready(function(){
                         row.user_level = "高级"
                     }
                     return row.user_level
-                }
+                },
+                orderable: false
             },
             {
-                data:"created_at",
-                className:"text-center"
+                data:"create_time",
+                className:"text-center",
+                searchable: false
             },
             {
                 data:"status",
@@ -206,59 +213,78 @@ $(document).ready(function(){
                         row.status = "未支付"
                     }
                     return row.status
-                }
+                },
+                orderable: false,
+                searchable: false
             },
             {
                 data: null,
                 className:"text-center",
                 render: function (data, type, row) {
                     return "￥" + row.price * row.task_limit
-                }
+                },
+                searchable: false
             },
             {
                 data:"price",
                 className:"text-center",
                 render: function (data, type, row) {
                     return "￥" + row.price
-                }
+                },
+                searchable: false
             },
             {
                 data:"task_limit",
                 className:"text-center",
                 render: function (data, type, row) {
                     return row.task_limit + "人"
-                }
+                },
+                searchable: false
             },
             
             {
                 data: null,
                 className:"text-center",
                 render: function (data, type, row) {
-                    return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-info btn-sm detail-btn" data-toggle="modal" data-target="#task_details">详细信息</button><button type="button" class="btn btn-success btn-sm join-btn" data-toggle="" data-target="">参与信息</button></div><div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑任务</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除任务</button></div>'
-                }
+                    return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-info btn-sm detail-btn" data-toggle="modal" data-target="#task_details">详细信息</button><button type="button" class="btn btn-success btn-sm join-btn" data-toggle="" data-target="">参与信息</button></div><div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn">编辑任务</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除任务</button></div>'
+                },
+                searchable: false,
+                orderable: false
             },
         ],
     });
 
-    // $('.ibox-content').on("click", ".btn-group-vertical .detail-btn", function () {
-        $('.detail-btn').on("click", function () {
-        // var id = $(this).parent().attr("data-id")
+    $('.ibox-content').on("click", ".btn-group-vertical .detail-btn", function () {
+        var id = $(this).parent().attr("data-id")
         $.ajax({
             url: '/api/task/detail',
             type: 'get',
             data: {
-                id: "1"
+                id: id
             },
             dataType: 'json',
             success: function (res) {
                 console.log(res)
                 $("#task_title").val(res.data.title)
-                $("#task_owner").val(res.data.title)
-                $("#task_type").val(res.data.user_level)
-                $("#created_at").val(res.data.user_level)
-                $("#total_amount").val(res.data.price * res.data.task_limit + "元")
-                $("#task_price").val(res.data.price)
-                $("#task_count").val(res.data.task_limit)
+                $("#task_owner").val(res.data.user_id)
+                if (res.data.user_level == '0') {
+                    $("#task_type").val("普通")
+                } else if (res.data.user_level == '1') {
+                    $("#task_type").val("会员")
+                } else if (res.data.user_level == '2') {
+                    $("#task_type").val("中级")
+                } else {
+                    $("#task_type").val("高级")
+                }
+                $("#task_desc").val(res.data.content)
+                $("#created_at").val(res.data.create_time)
+                $("#total_amount").val("￥" + res.data.price * res.data.task_limit)
+                $("#task_price").val("￥" + res.data.price)
+                $("#task_count").val(res.data.task_limit + "人")
+                for (let i = 0; i < res.data.images.length; i++) {
+                    var $imgBox = '<div class="selected-image"><img class="image" alt="" src="' + res.data.images[i] + '"></div>'
+                    $('.task').append($imgBox)
+                }
             },
             error: function (ex) {
                 console.log(ex)
@@ -286,8 +312,8 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (res) {
                 alert(res.message)
-                $('#editUser').hide()
-                $('.modal-backdrop').hide()
+                $('#task_details').modal('hide')
+                
                 table.ajax.reload()
             },
             error: function (ex) {
@@ -295,10 +321,13 @@ $(document).ready(function(){
             }
         })
     })
-    // $('.ibox-content').on("click", ".btn-group-vertical .join-btn", function () {
-        $('.join-btn').on("click", function () {
+    $('.ibox-content').on("click", ".btn-group-vertical .join-btn", function () {
         var id = $(this).parent().attr("data-id")
         window.location.href = '/task/list/join?id=' + id
+    })
+    $('.ibox-content').on("click", ".btn-group-vertical .edit-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        window.location.href = '/task/list/edit?id=' + id
     })
     $('.ibox-content').on("click", ".btn-group-vertical .delete-btn", function () {
         var id = $(this).parent().attr("data-id")
@@ -308,7 +337,7 @@ $(document).ready(function(){
     $('#sure-delete').on("click", function () {
         var id = $(this).attr("data-id")
         $.ajax({
-            url: '/api/user/delete',
+            url: '/api/task',
             type: 'delete',
             data: {
                 id: id
@@ -316,8 +345,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (res) {
                 alert(res.message)
-                $('#systemTips').hide()
-                $('.modal-backdrop').hide()
+                $('#systemTips').modal('hide')
                 table.ajax.reload()
             },
             error: function (ex) {
@@ -325,6 +353,8 @@ $(document).ready(function(){
             }
         })
     })
+
+    $("#task_details input").attr("disabled", true)
 });
 </script>
 @endsection
