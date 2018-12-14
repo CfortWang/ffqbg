@@ -182,7 +182,7 @@ class TaskController extends Controller
         $data = Task::where('id',$id)->first();
         $data->title = $request->input('title');
         $data->content = $request->input('content');
-        $data->amount = $request->input('amount');
+        $data->price = $request->input('amount');
         $data->user_level = $request->input('user_level');
         $images = implode(',',$request->input('image'));
         $data->image = $images;
