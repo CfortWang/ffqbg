@@ -42,7 +42,11 @@ use Illuminate\Http\Request;
 
         Route::group(['prefix' => 'news'], function() {
             Route::get('list',              'NewsController@list');
-            Route::get('{id}/detail',      'NewsController@detail');
+            Route::get('detail',      'NewsController@detail');
+            Route::post('/',      'NewsController@create');
+            Route::post('modify',      'NewsController@modify');
+            Route::delete('/',      'NewsController@delete');
+
         });
 
         Route::group(['prefix' => 'banner'], function() {
