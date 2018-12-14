@@ -13,10 +13,11 @@ use App\Models\UserCashout;
 use App\Models\UserWalletRecord;
 use App\Models\UserSetting;
 use App\Models\Setting;
-
 use App\Models\UserLevel;
 use App\Models\UserBrokerages;
 use App\Models\UserLevelUp;
+use App\Models\UserMessage;
+
 use Yansongda\Pay\Pay;
 class UserController extends Controller
 {
@@ -410,5 +411,34 @@ class UserController extends Controller
             $items['time'] = date('Y-m-d',$value['time']);
         }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
+    }
+
+    public function addVirtualUser(Request $request)
+    {
+        $user_id = $request->input('id');
+        $level = $request->input('level');
+        $user_data['user_avatar'] = '';
+        $user_data['user_register_time'] = time();
+        $user_data['user_register_ip'] = $request->getClientIp();
+        $user_data['phone_number'] = '15'.rand(100000000,999999999);
+        // $new_user['user_nickname'] = $post['username'];
+        $user_data['password'] =  md5(rand(100000,999999));
+
+        $user_data['name'] = '';
+        // $user_data['phone_number']      =  $phoneNum;
+        // $user_data['password']          = 
+        $user_data['user_level_id']     =  $level;
+        $setting  = Setting::first();
+        $amount = $setting->register_award;
+        $user_data['total_amount']      =  $amount;
+        $user = User::create($user_data);
+        $this->updateRecommder($user->id,$user_id);
+        $user_setting = UserSetting::where('user_level',$level)->first();
+        $setting = Setting::first();
+        $amount = ($user_setting->price*$setting->finish_1_return)/100;
+        $message['user_id'] = $user_id;
+        $message['message'] = '由于你的下级等级比您高，错失'.$amount.'佣金';
+        UserMessage::create($message);
+        return $this->responseOK('操作成功', []);
     }
 }
