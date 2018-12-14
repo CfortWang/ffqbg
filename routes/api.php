@@ -35,6 +35,7 @@ use Illuminate\Http\Request;
             Route::get('detail',      'TaskController@detail');
             Route::delete('/',              'TaskController@delete');
             Route::post('/',      'TaskController@create');
+            Route::post('/modify',      'TaskController@create');
             // Route::get('{id}/detail',      'TaskController@detail');
         });
 

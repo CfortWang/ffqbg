@@ -102,7 +102,7 @@ class TaskController extends Controller
     {
         $id = $request->input('id');
         $data = Task::where('id',$id)->first();
-        $data->delete();
+        $data->delete(); = $request->input('delete');
         return $this->responseOK('删除成功',[]);
     }
 
@@ -143,10 +143,47 @@ class TaskController extends Controller
             'user_level' => $request->input('user_level'),
             'is_delete' => 0,
             'task_do' => 0,
-            'user_id' => $user_id
+            'user_id' => "SYSTEM"
         );
         $data['images'] = implode(',',$request->input('image'));
         $res = Task::create($data);
+        return $this->responseOk('创建成功',$res);
+    }
+
+    public function modify(Request $request)
+    {
+        $input = Input::only('id','title','content','amount','user_level','image');
+        $message = array(
+            "required" => "不能为空",
+            "string" => "数据类型错误",
+            'array' => '图片不能为空'
+        );
+        $validator = Validator::make($input, [
+            'id'    => 'required|integer',
+            'title'  =>'required|string',
+            'content'=>'required|string',
+            'amount'  =>'required|integer',
+            'user_level' => 'required|integer',
+            'image' => 'required|array'
+        ],$message);
+        
+        if ($validator->fails()) {
+            $message = $validator->errors()->first();
+            return $this->responseBadRequest($message);
+        }
+        $user_id = session('ffq_user_id');
+        $user_level = $request->input('user_level');
+        $list = TaskSetting::select('name','user_level','price')->where('user_level',$user_level)->first();
+        $price = $list['price'];
+        $id = $request->input('id');
+        $data = Task::where('id',$id)->first();
+        $data->title = $request->input('title');
+        $data->content = $request->input('content');
+        $data->amount = $request->input('amount');
+        $data->user_level = $request->input('user_level');
+        $images = implode(',',$request->input('image'));
+        $data->image = $images;
+        $res = $data->save();
         return $this->responseOk('创建成功',$res);
     }
 }

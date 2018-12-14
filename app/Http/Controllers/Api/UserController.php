@@ -379,12 +379,22 @@ class UserController extends Controller
         $orderType = $request->order[0]['dir'];
 
         $columnArray = array('phone_number','amount','p_amount','type');
-
+        $id = $request->input('id');
+        $type = $request->input('type');
+        if($id){
+            if($type=='from'){
+                $where['from_uid'] = $id;
+            }else{
+                $where['uid'] = $id;
+            }
+        }
         $items = UserLevel::where('id','>','0');
-
+        if(isset($where)){
+            $items->where($where);
+        }
         $recordsTotal = $items->count();
         
-        
+       
         $recordsFiltered = $items->count();
         $items = $items->select('id','uid','from_uid','layer','time')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
