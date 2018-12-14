@@ -58,9 +58,8 @@ class UserController extends Controller
         if($start_at && $end_at){
             $start_at = strtotime($start_at);
             $end_at = strtotime($end_at);
-            $items = User::where($where)->whereBetween('user_register_time',[$start_at,$end_at]);
+            $items = User::where($where)->where('user_register_time','>',$start_at)->where('user_register_time','<',$end_at);
         }
-        
         $recordsTotal = $items->count();
       
         $recordsFiltered = $items->count();
@@ -70,7 +69,7 @@ class UserController extends Controller
             ->limit($limit)
             ->get();
             foreach ($items as $key => $value) {
-                $items[$key]['user_register_time'] = date('Y-m-d h:i:s');
+                $items[$key]['user_register_time'] = date('Y-m-d h:i:s',$value['user_register_time']);
                 $items[$key]['direct'] = UserLevel::where('from_uid',$value['id'])->where('layer',1)->count();
             }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
@@ -103,12 +102,14 @@ class UserController extends Controller
             ->limit($limit)
             ->get();
             foreach ($items as $key => $value) {
-                $from = User::where('id',$value['from_user_id'])->select('name','phone_number')->first();
-                $user = User::where('id',$value['user_id'])->select('name','phone_number')->first();
+                $from = User::where('id',$value['from_user_id'])->select('name','phone_number','user_level_id')->first();
+                $user = User::where('id',$value['user_id'])->select('name','phone_number','user_level_id')->first();
                 $items[$key]['from_user_name'] = $from['name'];
                 $items[$key]['from_phone_number'] = $from['phone_number'];
+                $items[$key]['from_user_level_id'] = $from['user_level_id'];
                 $items[$key]['user_name'] = $user['name'];
                 $items[$key]['phone_number'] = $user['phone_number'];
+                $items[$key]['user_level_id'] = $user['user_level_id'];
             }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
@@ -166,18 +167,27 @@ class UserController extends Controller
         $orderType = $request->order[0]['dir'];
 
         $columnArray = array('phone_number','amount','p_amount','type');
-        // $type = 
-        // $type = 
-
+        $type = $request->input('type');
+        $inout = $request->input('inout');
         $items = UserWalletRecord::where('u.id','>','0')
             ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
+        $where['type'] = $type;
+        if($inout){
+            if($inout=='in'){
+                $items = UserWalletRecord::where('u.id','>','0')->where('users_wallet_record','>',0)
+                    ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
+            }else{
+                $items = UserWalletRecord::where('u.id','>','0')->where('users_wallet_record','<',0)
+                    ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
+            }
 
-        if($request->status){
-            // $items =  $items->where('Q35SalesItem.shipping_status', $request->status);
         }
+        if($type){
+            $items->where($where);
+        }
+
         
         $recordsTotal = $items->count();
-        
        
         $recordsFiltered = $items->count();
         $items = $items->select('u.name','u.phone_number','u.id','u.user_level_id','amount','p_amount','n_amount','remarks','type','users_wallet_record.time')
@@ -205,10 +215,18 @@ class UserController extends Controller
         $items = UserCashout::where('u.id','>','0')
             ->leftjoin('user as u','u.id','=','users_cashout.user_id');
 
-        if($request->status){
-            // $items =  $items->where('Q35SalesItem.shipping_status', $request->status);
+        $withdraw_status = $request->input('withdraw_status');
+        $id = $request->input('id');
+        $where['withdraw_status'] = $withdraw_status;
+        $where['user_id'] = $id;
+        if($start_at&&$end_at){
+            $items = UserCashout::where('u.id','>','0')
+                ->where('withdraw_apply_time','>',$start_at)->where('withdraw_apply_time','<',$end_at)
+                ->leftjoin('user as u','u.id','=','users_cashout.user_id');
         }
-        
+        if($where){
+            $items-where($where);
+        }
         $recordsTotal = $items->count();
         
         if (!empty($request->search['value'])) {
@@ -351,9 +369,36 @@ class UserController extends Controller
         exit;
     }
 
-    public function levelList()
+    public function levelList(Request $request)
     {
-        $list = UserSetting::select('name','user_level')->get();
-        return $this->responseOk('',$list);
+        $offset = $request->start;
+        $limit = $request->length;
+        $status=$request->status;
+        $searchValue = $request->search['value'];
+        $orderColumnsNo = $request->order[0]['column'];
+        $orderType = $request->order[0]['dir'];
+
+        $columnArray = array('phone_number','amount','p_amount','type');
+
+        $items = UserLevel::where('id','>','0');
+
+        $recordsTotal = $items->count();
+        
+        
+        $recordsFiltered = $items->count();
+        $items = $items->select('id','uid','from_uid','layer','time')
+            // ->orderBy($columnArray[$orderColumnsNo], $orderType)
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        foreach ($items as $key => $value) {
+            $from = User::where('id',$value['from_user_id'])->select('name','phone_number','user_level_id')->first();
+            $user = User::where('id',$value['user_id'])->select('name','phone_number','user_level_id','user_register_time','user_register_ip')->first();
+            $user['user_register_time'] = date('Y-m-d',$user['user_register_time']);
+            $items[$key]['from'] = $from;
+            $items[$key]['user'] = $user;
+            $items['time'] = date('Y-m-d',$value['time']);
+        }
+        return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 }
