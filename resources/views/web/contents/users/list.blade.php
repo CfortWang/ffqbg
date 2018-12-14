@@ -201,7 +201,7 @@ $(document).ready(function(){
                     if (row.phone_number == "" || row.phone_number == null) {
                         row.phone_number = "-"
                     }
-                    var details = row.name + '<br/>' + row.phone_number + '<br/>直销' + row.user_level_id + '个';
+                    var details = row.name + '<br/>' + row.phone_number + '<br/>直销' + row.direct + '个';
                     return details;
                 }
             },

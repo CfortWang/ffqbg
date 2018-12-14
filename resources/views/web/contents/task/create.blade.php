@@ -24,6 +24,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content clear-fix">
+                    <form id="submit" action="/api/task" method="post"  enctype="multipart/form-data">
                     <div class="form-container">
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">任务标题</label>
@@ -43,13 +44,13 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">人数限制</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="task_limit" name="" placeholder="设置领取该任务的最大人数">
+                                <input type="number" class="form-control" id="task_limit" name="amount" placeholder="设置领取该任务的最大人数">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">任务类型</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <select class="form-control" id="task_type">
+                                <select class="form-control" id="task_type" name="user_level">
                                     <option value="0">普通</option>
                                     <option value="1">会员</option>
                                     <option value="2">中级</option>
@@ -60,11 +61,12 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">任务详情</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="" id="task_desc" cols="" rows="" placeholder="填写任务的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
+                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="填写任务的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
                             </div>
                         </div>
                         <div class="create-task"><button type="button" class="btn btn-primary btn-lg create-btn">发布任务</button></div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -139,7 +141,25 @@ $(".task").on("click", ".selected-image .delete-image", function () {
     }
 })
 
-
+$(".create-btn").on("click", function () {
+    $.ajax({
+        type: "POST",
+        dataType: 'JSON',
+        url: $("#submit").attr('action'),
+        data: $("#submit").serialize(),
+        success: function(data, status, x) {
+            if(data.status == 200){
+                alert("发布任务成功")
+                setTimeout(() => {
+                    window.location.href = '/task/list'
+                }, 1500);
+            } else {
+                alert(data.message);
+            }
+            console.log(status);
+        }
+    });
+})
 
 </script>
 @endsection

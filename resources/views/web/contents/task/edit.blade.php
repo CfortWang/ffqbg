@@ -24,7 +24,8 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content clear-fix">
-                <div class="form-container">
+                <form id="submit" action="/api/task/modify" method="post"  enctype="multipart/form-data">
+                    <div class="form-container">
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">任务标题</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
@@ -43,13 +44,13 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">人数限制</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="task_limit" name="" placeholder="设置领取该任务的最大人数">
+                                <input type="number" class="form-control" id="task_limit" name="amount" placeholder="设置领取该任务的最大人数">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">任务类型</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <select class="form-control" id="task_type">
+                                <select class="form-control" id="task_type" name="user_level">
                                     <option value="0">普通</option>
                                     <option value="1">会员</option>
                                     <option value="2">中级</option>
@@ -60,11 +61,13 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">任务详情</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="" id="task_desc" cols="" rows="" placeholder="填写任务的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
+                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="填写任务的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
                             </div>
                         </div>
-                        <div class="create-task"><button type="button" class="btn btn-primary btn-lg create-btn">发布任务</button></div>
+                        <input type="text" class="" id="task_id" hidden name="id" placeholder="">
+                        <div class="create-task"><button type="button" class="btn btn-primary btn-lg modify-btn">保存修改</button></div>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -139,31 +142,32 @@ $(".task").on("click", ".selected-image .delete-image", function () {
     }
 })
 var args = getArgs()
+$("input#task_id").val(args['id'])
 var drawData = function () {
     $.ajax({
-        url: '/api/task/detail'
+        url: '/api/task/detail',
         type: 'get',
         data: {
             id: args['id']
-        }
+        },
         dataType: 'json',
         success: function (res) {
             let resData = res.data
+            console.log(resData)
             $("input#task_title").val(resData.title)
             $("input#task_price").val(resData.price)
-            $("input#task_type").val(resData.user_level)
             $("input#task_limit").val(resData.task_limit)
-            $("input#task_desc").val(resData.content)
+            $("select#task_type").val(resData.user_level)
+            $("select#task_type").find("option[value = '"+ resData.user_level +"']").attr("selected","selected")
+            $("#task_desc").val(resData.content)
 
             // 渲染任务图片
-            $("input#task_image").val(resData.group_size)
             $(".task .image-remark").hide()
-            for (let i = 0; i < resData.image.length; i++) {
-                var $imgBox = '<div class="selected-image"><div class="delete-image"><img src="/img/main/close.png" alt=""></div><img class="image" alt="" src="' + 'http://' + resData.image[i].image_url + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.image[i].image_url + '"></div>'
+            for (let i = 0; i < resData.images.length; i++) {
+                var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.images[i] + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.images[i] + '"></div>'
                 $('.task').append($imgBox)
             }
             
-            $(".rule-text").val(resData.rule)
         },
         error: function (ex) {
             console.log(ex)
@@ -171,6 +175,26 @@ var drawData = function () {
     })
 }
 drawData();
+
+$(".modify-btn").on("click", function () {
+    $.ajax({
+        type: "POST",
+        dataType: 'JSON',
+        url: $("#submit").attr('action'),
+        data: $("#submit").serialize(),
+        success: function(data, status, x) {
+            if(data.status == 200){
+                alert("修改成功")
+                setTimeout(() => {
+                    window.location.href = '/task/list'
+                }, 1500);
+            } else {
+                alert(data.message);
+            }
+            console.log(status);
+        }
+    });
+})
 
 </script>
 @endsection
