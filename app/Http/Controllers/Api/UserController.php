@@ -71,6 +71,7 @@ class UserController extends Controller
             ->get();
             foreach ($items as $key => $value) {
                 $items[$key]['user_register_time'] = date('Y-m-d h:i:s');
+                $items[$key]['direct'] = UserLevel::where('from_uid',$value['id'])->where('layer',1)->count();
             }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
@@ -165,6 +166,8 @@ class UserController extends Controller
         $orderType = $request->order[0]['dir'];
 
         $columnArray = array('phone_number','amount','p_amount','type');
+        // $type = 
+        // $type = 
 
         $items = UserWalletRecord::where('u.id','>','0')
             ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
@@ -175,19 +178,7 @@ class UserController extends Controller
         
         $recordsTotal = $items->count();
         
-        if (!empty($request->search['value'])) {
-            if(mb_strlen($searchValue)==11){
-                $items = $items->where(function ($query) use ($searchValue) {
-                    $query
-                    ->where('phone_number', $searchValue);
-                });
-            }else{
-                $items = $items->where(function ($query) use ($searchValue) {
-                    $query
-                    ->where('user_id', $searchValue);
-                });
-            }
-        }
+       
         $recordsFiltered = $items->count();
         $items = $items->select('u.name','u.phone_number','u.id','u.user_level_id','amount','p_amount','n_amount','remarks','type','users_wallet_record.time')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
@@ -285,12 +276,11 @@ class UserController extends Controller
         $data->total_amount = $request->input('total_amount');
         $data->save();
         $recommder_id = $request->input('recommder_id');
-        if($recommder_id){
-            $recommder = UserLevel::where('uid',$id)->first();
-            if($recommder){
-                return $this->responseBadRequest('已有推荐人');
+        $recommder = UserLevel::where('uid',$id)->where('layer',1)->first();
+        if(!$recommder){
+            if($recommder_id){
+                $this->updateRecommder($id,$recommder_id);
             }
-            $this->updateRecommder($id,$recommder_id);
         }
         return $this->responseOK('更新成功', []);
     }
