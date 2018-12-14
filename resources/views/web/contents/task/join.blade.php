@@ -41,15 +41,6 @@
                                 <label>搜索 :</label>
                                 <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
                             </div>
-                            <div class="form-group">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">上级会员<span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">上级会员</a></li>
-                                        <li><a href="#">下级会员</a></li>
-                                    </ul>
-                                </div>
-                            </div>
                             <div class="search-btn">
                                 <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
                             </div>
@@ -57,6 +48,7 @@
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
+                                    <th class="text-center">任务ID</th>
                                    <th class="text-center">用户信息</th>
                                    <th class="text-center">参与时间</th>
                                    <!-- <th class="text-center">失败时间</th> -->
@@ -78,7 +70,8 @@
 
 @section('scripts')
 <script>
-
+var args = getArgs()
+var id = args['id']
 $(document).ready(function(){
     var table = $('.user-list-table').DataTable({
         pageLength: 10,
@@ -99,12 +92,20 @@ $(document).ready(function(){
         serverSide:true,
         ajax: {
             url: "{{ url('/api/task/user')}}",
+            data: function (d) {
+                d.id = id,
+                d.user_id = $("#search_id").val()
+            },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
             }
         },
         columns:[
+            {
+                data:"task_id",
+                className:"text-center"
+            },
             {
                 data:"user_id",
                 className:"text-center",

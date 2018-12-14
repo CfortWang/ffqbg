@@ -323,7 +323,7 @@ $(document).ready(function(){
     })
     $('.ibox-content').on("click", ".btn-group-vertical .join-btn", function () {
         var id = $(this).parent().attr("data-id")
-        window.location.href = '/task/list/join?id=' + id
+        window.location.href = '/task/join?id=' + id
     })
     $('.ibox-content').on("click", ".btn-group-vertical .edit-btn", function () {
         var id = $(this).parent().attr("data-id")

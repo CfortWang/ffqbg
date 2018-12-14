@@ -154,7 +154,7 @@ $(document).ready(function(){
                 orderable: false
             },
             {
-                data:"payment",
+                data:"order_id",
                 className:"text-center",
                 searchable: false,
                 orderable: false

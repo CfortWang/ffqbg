@@ -43,9 +43,8 @@
                                 <select class="form-control" id="cashout_type">
                                     <option value="">不限制</option>
                                     <option value="ADMIN">管理员操作</option>
-                                    <option value="MEMBER-BUY-VIP-BROKERAGE">购买会员返佣</option>
-                                    <option value="WITHDRAW">提现</option>
-                                    <option value="TASK">任务</option>
+                                    <option value="BUY-VIP-BROKERAGE">购买会员返佣</option>
+                                    <option value="TASK-COMPLETE">任务</option>
                                 </select>
                             </div>
                             <div class="filter-box">

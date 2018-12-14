@@ -61,10 +61,10 @@
                                 <label>状态 :</label>
                                 <select class="form-control" id="cashout_status">
                                     <option value="">全部</option>
-                                    <option value="0">申请中</option>
-                                    <option value="1">已审核，待提现</option>
-                                    <option value="2">提现成功</option>
-                                    <option value="3">审核完毕</option>
+                                    <option value="APPLY">申请中</option>
+                                    <option value="CONFIRM">已审核，待提现</option>
+                                    <option value="SENDED">提现成功</option>
+                                    <option value="CANCEL">审核完毕</option>
                                 </select>
                             </div>
                             <div class="search-btn">
@@ -276,7 +276,7 @@ $(document).ready(function(){
                     } else if (row.withdraw_status == 2) {
                         details = "<span class='label label-danger'>已拒绝</span>";
                     } else {
-                        details = "<span class='label label-danger'>已拒绝</span>";
+                        details = "<span class='label label-info'>待提现</span>";
                     }
                     return details;
                 }

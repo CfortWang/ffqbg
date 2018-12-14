@@ -34,7 +34,7 @@ Route::group(['namespace' => 'Web'], function() {
             Route::get('list',              'TaskController@list')->name("web_task_list");
             Route::get('create',              'TaskController@create')->name("web_task_create");
             Route::get('list/edit',              'TaskController@edit')->name("web_task_edit");
-            Route::get('list/join',              'TaskController@join')->name("web_task_join");
+            Route::get('join',              'TaskController@join')->name("web_task_join");
             Route::get('{id}/detail',      'TaskController@detail')->name("web_task_detail");
         });
 

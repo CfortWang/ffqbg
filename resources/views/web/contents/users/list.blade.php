@@ -91,6 +91,8 @@
             </div>
         </div>
     </div>
+
+    <!-- 编辑用户信息 -->
     <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -134,6 +136,41 @@
             </div>
         </div>
     </div>
+
+    <!-- 添加用户下级 -->
+    <div class="modal fade" id="addSubordinate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加下级</h4>
+            </div>
+            <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label for="user_id" class="control-label">用户ID:</label>
+                    <input type="text" class="form-control" id="fake_user_id">
+                </div>
+                <div class="form-group">
+                    <label for="user_level" class="control-label">用户等级:</label>
+                    <select class="form-control" id="fake_user_level">
+                        <option value="0">游客</option>
+                        <option value="1">会员</option>
+                        <option value="2">中级会员</option>
+                        <option value="3">高级会员</option>
+                    </select>
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="sure-add">确定添加</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 删除用户提示 -->
     <div class="modal fade bs-example-modal-sm" id="systemTips" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -247,7 +284,7 @@ $(document).ready(function(){
                 data:null,
                 className:"text-center",
                 render:function(data,type,row) {
-                    return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm level-btn" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除用户</button></div>'
+                    return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-info btn-sm add-btn" data-toggle="modal" data-target="#addSubordinate">添加下级</button><button type="button" class="btn btn-success btn-sm level-btn" data-toggle="modal" data-target="#memberLevel">会员层级</button></div><div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除用户</button></div>'
                 },
                 searchable: false,
                 orderable: false
@@ -316,6 +353,36 @@ $(document).ready(function(){
             }
         })
     })
+    
+    $('#sure-add').on("click", function () {
+        var id = $(this).attr("data-id")
+        var fakeID = $("#fake_user_id").val()
+        var fakeLevel = $("#fake_user_level").val()
+        if (fakeID == '' || fakeID == null) {
+            alert("用户ID不能为空！")
+            return false
+        }
+
+        $.ajax({
+            url: '/api/user/addFaker',
+            type: 'POST',
+            data: {
+                id: id,
+                fake_id: fakeID,
+                level: fakeLevel
+            },
+            dataType: 'json',
+            success: function (res) {
+                alert(res.message)
+                $('#addSubordinate').modal('hide')
+                // table.ajax.reload()
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
+
     $('.ibox-content').on("click", ".btn-group-vertical .level-btn", function () {
         var id = $(this).parent().attr("data-id")
         window.location.href = '/user/list/level?id=' + id
@@ -344,6 +411,7 @@ $(document).ready(function(){
             }
         })
     })
+    
 });
 </script>
 @endsection

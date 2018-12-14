@@ -18,19 +18,22 @@
 				</a>
 				<ul class="nav nav-second-level collapse">
 					<li class="{{ isActiveRoute('wallet', 2) }}">
-							<a href="{{ url('/user/wallet') }}">账户钱包历史</a>
+						<a href="{{ url('/user/list') }}">用户列表</a>
+					</li>
+					<li class="{{ isActiveRoute('wallet', 2) }}">
+						<a href="{{ url('/user/wallet') }}">账户钱包历史</a>
 					</li>
 					<li class="{{ isActiveRoute('pay', 2) }}">
-							<a href="{{ url('/user/pay') }}">支付列表</a>
+						<a href="{{ url('/user/pay') }}">支付列表</a>
 					</li>
 					<li class="{{ isActiveRoute('cashout', 2) }}">
-							<a href="{{ url('/user/cashout') }}">提现列表</a>
+						<a href="{{ url('/user/cashout') }}">提现列表</a>
 					</li>
 					<li class="{{ isActiveRoute('brokerages', 2) }}">
-							<a href="{{ url('/user/brokerages') }}">佣金管理</a>
+						<a href="{{ url('/user/brokerages') }}">佣金管理</a>
 					</li>
 					<li class="{{ isActiveRoute('data', 2) }}">
-							<a href="{{ url('/user/data') }}">数据统计</a>
+						<a href="{{ url('/user/data') }}">数据统计</a>
 					</li>
 				</ul>
 			</li>
@@ -43,8 +46,8 @@
 					<li class="{{ isActiveRoute('list', 2) }}">
 						<a href="{{ url('/task/list') }}">任务列表</a>
 					</li>
-					<li class="{{ isActiveRoute('list', 2) }}">
-							<a href="{{ url('/task/list') }}">任务记录</a>
+					<li class="{{ isActiveRoute('join', 2) }}">
+							<a href="{{ url('/task/join') }}">任务记录</a>
 					</li>
 					<li class="{{ isActiveRoute('create', 2) }}">
 							<a href="{{ url('/task/create') }}">发布任务</a>
