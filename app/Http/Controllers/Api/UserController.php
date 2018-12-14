@@ -228,7 +228,7 @@ class UserController extends Controller
                 ->leftjoin('user as u','u.id','=','users_cashout.user_id');
         }
         if($where){
-            $items-where($where);
+            $items->where($where);
         }
         $recordsTotal = $items->count();
         
