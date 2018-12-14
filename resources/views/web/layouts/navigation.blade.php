@@ -39,6 +39,17 @@
 					<i class="fa fa-tasks"></i>
 					<span class="nav-label">任务管理</span>
 				</a>
+				<ul class="nav nav-second-level collapse">
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/task/list') }}">任务列表</a>
+					</li>
+					<li class="{{ isActiveRoute('list', 2) }}">
+							<a href="{{ url('/task/list') }}">任务记录</a>
+					</li>
+					<li class="{{ isActiveRoute('create', 2) }}">
+							<a href="{{ url('/task/create') }}">发布任务</a>
+					</li>
+				</ul>
 			</li>
 			<li class="{{ isActiveRoute('news', 1) }}">
 				<a href="{{ url('/news/list') }}">

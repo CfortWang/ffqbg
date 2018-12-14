@@ -28,6 +28,27 @@ class TaskController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('web.contents.task.create', [
+            'title' => $this->title,
+        ]);
+    }
+
+    public function join()
+    {
+        return view('web.contents.task.join', [
+            'title' => $this->title,
+        ]);
+    }
+
+    public function edit()
+    {
+        return view('web.contents.task.join', [
+            'title' => $this->title,
+        ]);
+    }
+
     public function detail($id)
     {
         return view('web.contents.task.detail', [

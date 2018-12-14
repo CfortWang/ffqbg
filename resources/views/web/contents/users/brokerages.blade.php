@@ -40,7 +40,7 @@
                             </div>
                             <div class="filter-box">
                                 <label>筛选 :</label>
-                                <select class="form-control" id="list-select">
+                                <select class="form-control" id="fileter">
                                     <option value="">全部</option>
                                     <option value="0">最新返佣</option>
                                     <option value="1">最早返佣</option>
@@ -75,67 +75,73 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    drawList()
-    function drawList () {
-        $('.user-list-table').DataTable({
-            pageLength: 10,
-            responsive: true,
-            dom: '<"row"t>p',
-            order: [[ 0, "desc" ]],
-            language: {
-                "zeroRecords": "@lang('user/list.table.no_data')",
-                "info": "_PAGE_ / _PAGES_ ",
-                "search": "@lang('user/list.table.search') :",
-                "paginate": {
-                    "next":       "@lang('user/list.table.pagination.next')",
-                    "previous":   "@lang('user/list.table.pagination.prev')"
-                },
+
+    var table = $('.user-list-table').DataTable({
+        pageLength: 10,
+        responsive: true,
+        dom: '<"row"t>p',
+        order: [[ 0, "desc" ]],
+        language: {
+            "zeroRecords": "@lang('user/list.table.no_data')",
+            "info": "_PAGE_ / _PAGES_ ",
+            "search": "@lang('user/list.table.search') :",
+            "paginate": {
+                "next":       "@lang('user/list.table.pagination.next')",
+                "previous":   "@lang('user/list.table.pagination.prev')"
             },
-            deferRender: true,
-            processing:true,
-            serverSide:true,
-            ajax: {
-                url: "{{ url('/api/user/brokerages')}}",
-                dataFilter: function(data){
-                    var json = jQuery.parseJSON( data );
-                    return JSON.stringify( json.data ); // return JSON string
-                }
+        },
+        deferRender: true,
+        processing:true,
+        serverSide:true,
+        ajax: {
+            url: "{{ url('/api/user/brokerages')}}",
+            data: function (d) {
+                d.id = $("#search_id").val()
+                d.fileter = $("#fileter").val()
             },
-            columns:[
-                {
-                    data: "",
-                    className:"text-center",
-                    render:function(data,type,row) {
-                        return 'ID：' + row.from_user_id + '<br/>手机号码：' + row.from_phone_number + '<br/>昵称：' + row.from_user_name
-                    }
-                },
-                {
-                    data: "",
-                    className:"text-center",
-                    render:function(data,type,row) {
-                        return 'ID：' + row.user_id + '<br/>手机号码：' + row.phone_number + '<br/>昵称：' + row.user_name
-                    }
-                },
-                {
-                    data: "",
-                    className:"text-center",
-                    render:function(data,type,row) {
-                        return "￥" + row.amount
-                    }
-                },
-                {
-                    data:"",
-                    className:"text-center",
-                    render:function(data,type,row) {
-                        return row.type + '<br/>' + row.remarks
-                    }
-                }
-            ],
-            drawCallback: function () {
-                appendSkipPage()
+            dataFilter: function(data){
+                var json = jQuery.parseJSON( data );
+                return JSON.stringify( json.data ); // return JSON string
             }
-        });
-    }
+        },
+        columns:[
+            {
+                data: "",
+                className:"text-center",
+                render:function(data,type,row) {
+                    return 'ID：' + row.from_user_id + '<br/>手机号码：' + row.from_phone_number + '<br/>昵称：' + row.from_user_name
+                }
+            },
+            {
+                data: "",
+                className:"text-center",
+                render:function(data,type,row) {
+                    return 'ID：' + row.user_id + '<br/>手机号码：' + row.phone_number + '<br/>昵称：' + row.user_name
+                }
+            },
+            {
+                data: "",
+                className:"text-center",
+                render:function(data,type,row) {
+                    return "￥" + row.amount
+                }
+            },
+            {
+                data:"",
+                className:"text-center",
+                render:function(data,type,row) {
+                    return row.type + '<br/>' + row.remarks
+                }
+            }
+        ],
+        drawCallback: function () {
+            appendSkipPage()
+        }
+    });
+
+    $('.search-btn').on("click", function () {
+        table.ajax.reload()
+    })
 });
 </script>
 @endsection

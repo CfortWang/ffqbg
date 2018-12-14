@@ -5,19 +5,19 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>会员层级</h2>
+        <h2>参与信息</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="/">主页</a>
             </li>
             <li>
-                <a href="{{ url('/user/list') }}">@lang('user/list.header.depth2')</a>
+                <a href="{{ url('/task/list') }}">任务管理</a>
             </li>
             <li>
-                <a href="{{ url('/user/list') }}">@lang('user/list.header.depth3')</a>
+                <a href="{{ url('/task/list') }}">任务列表</a>
             </li>
             <li class="active">
-                <strong>@lang('user/list.header.depth4')</strong>
+                <strong>参与信息</strong>
             </li>
         </ol>
     </div>
@@ -57,12 +57,12 @@
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
-                                   <th class="text-center">用户ID</th>
-                                   <th class="text-center">用户资料</th>
-                                   <th class="text-center">注册时间</th>
-                                   <th class="text-center">注册IP</th>
-                                   <th class="text-center">关系层级</th>
-                                   <th class="text-center">绑定时间</th>
+                                   <th class="text-center">用户信息</th>
+                                   <th class="text-center">参与时间</th>
+                                   <!-- <th class="text-center">失败时间</th> -->
+                                   <th class="text-center">完成时间</th>
+                                   <th class="text-center">获得赏金</th>
+                                   <th class="text-center">参与状态</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,7 +98,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/api/user/levelList')}}",
+            url: "{{ url('/api/task/user')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -106,34 +106,34 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"id",
+                data:"user_id",
                 className:"text-center",
-            },
-            {
-                data:"phone_number",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details = '<p>' + row.phone_number + '</p>'+ '<p>' + row.name + '</p>';
-                    return details;
+                render:function (data, type, row) {
+                    return row.user_id + '<br/>' + row.name
                 }
             },
             {
-                data:"user_register_time",
+                data:"apply_time",
+                className:"text-center"
+            },
+            {
+                data:"complete_time",
                 className:"text-center",
             },
             {
-                data:"user_register_ip",
+                data:"amount",
                 className:"text-center",
             },
             {
-                data:"user_level_id",
+                data:"status",
                 className:"text-center",
-            },
-            {
-                data:"total_amount",
-                className:"text-center",
-                render: function (data,type,row) {
-                    return '<p>￥' + data + '</p><a href="/user/wallet?id="' + row.id + '>资金历史</a>'
+                render:function (data, type, row) {
+                    if (row.status == 1) {
+                        row.status = "已完成"
+                    } else {
+                        row.status = "已申请"
+                    }
+                    return row.status
                 }
             }
         ],

@@ -158,107 +158,100 @@
 <script>
 
 $(document).ready(function(){
-    drawList()
-    function drawList(id, phoneNum, userLevel, start, end) {
-        $('.user-list-table').DataTable({
-            pageLength: 10,
-            responsive: true,
-            dom: '<"row"t>p',
-            order: [[ 0, "desc" ]],
-            language: {
-                "zeroRecords": "@lang('user/list.table.no_data')",
-                "info": "_PAGE_ / _PAGES_ ",
-                "search": "@lang('user/list.table.search') :",
-                "paginate": {
-                    "next":       "@lang('user/list.table.pagination.next')",
-                    "previous":   "@lang('user/list.table.pagination.prev')"
-                },
+    var table = $('.user-list-table').DataTable({
+        pageLength: 10,
+        responsive: true,
+        dom: '<"row"t>p',
+        order: [[ 0, "desc" ]],
+        language: {
+            "zeroRecords": "@lang('user/list.table.no_data')",
+            "info": "_PAGE_ / _PAGES_ ",
+            "search": "@lang('user/list.table.search') :",
+            "paginate": {
+                "next":       "@lang('user/list.table.pagination.next')",
+                "previous":   "@lang('user/list.table.pagination.prev')"
             },
-            deferRender: true,
-            processing:true,
-            serverSide:true,
-            ajax: {
-                url: "{{ url('/api/user/list')}}",
-                data: {
-                    "id": id,
-                    "phone_number": phoneNum,
-                    "user_level_id": userLevel,
-                    "start_at": start,
-                    "end_at": end
-                },
-                dataFilter: function(data){
-                    var json = jQuery.parseJSON( data );
-                    return JSON.stringify( json.data ); // return JSON string
+        },
+        deferRender: true,
+        processing:true,
+        serverSide:true,
+        ajax: {
+            url: "{{ url('/api/user/list')}}",
+            data: function (d) {
+                d.id = $("#search_id").val()
+                d.phone_number = ""
+                d.user_level_id = $("#choose_level").val()
+                d.start_at = $("#start-date").val()
+                d.end_at = $("#end-date").val()
+            },
+            dataFilter: function(data){
+                var json = jQuery.parseJSON( data );
+                return JSON.stringify( json.data ); // return JSON string
+            }
+        },
+        columns:[
+            {
+                data:"id",
+                className:"text-center",
+            },
+            {
+                data:"phone_number",
+                className:"text-center",
+                render:function(data,type,row) {
+                    if (row.phone_number == "" || row.phone_number == null) {
+                        row.phone_number = "-"
+                    }
+                    var details = row.name + '<br/>' + row.phone_number + '<br/>直销' + row.user_level_id + '个';
+                    return details;
                 }
             },
-            columns:[
-                {
-                    data:"id",
-                    className:"text-center",
-                },
-                {
-                    data:"phone_number",
-                    className:"text-center",
-                    render:function(data,type,row) {
-                        if (row.phone_number == "" || row.phone_number == null) {
-                            row.phone_number = "-"
-                        }
-                        var details = row.name + '<br/>' + row.phone_number + '<br/>直销' + row.user_level_id + '个';
-                        return details;
+            {
+                data:"user_register_time",
+                className:"text-center",
+            },
+            {
+                data:"user_register_ip",
+                className:"text-center",
+            },
+            {
+                data:"user_level_id",
+                className:"text-center",
+                render: function (data, type, row) {
+                    var userLevel = ""
+                    if (row.user_level_id == 1) {
+                        userLevel = "会员"
+                    } else if (row.user_level_id == 2) {
+                        userLevel = "中级会员"
+                    } else if (row.user_level_id == 3) {
+                        userLevel = "高级会员"
+                    } else {
+                        userLevel = "游客"
                     }
-                },
-                {
-                    data:"user_register_time",
-                    className:"text-center",
-                },
-                {
-                    data:"user_register_ip",
-                    className:"text-center",
-                },
-                {
-                    data:"user_level_id",
-                    className:"text-center",
-                    render: function (data, type, row) {
-                        var userLevel = ""
-                        if (row.user_level_id == 1) {
-                            userLevel = "会员"
-                        } else if (row.user_level_id == 2) {
-                            userLevel = "中级会员"
-                        } else if (row.user_level_id == 3) {
-                            userLevel = "高级会员"
-                        } else {
-                            userLevel = "游客"
-                        }
-                        return userLevel
-                    }
-                },
-                {
-                    data:"total_amount",
-                    className:"text-center",
-                    render: function (data,type,row) {
-                        return '<p>￥' + data + '</p><a href="/user/wallet?id=' + row.id + '">资金历史</a>'
-                    }
-                },
-                {
-                    data:null,
-                    className:"text-center",
-                    render:function(data,type,row) {
-                        return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm level-btn" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除用户</button></div>'
-                    }
-                },
-            ],
-            drawCallback: function () {
-                appendSkipPage()
-            }
-        });
-    }
+                    return userLevel
+                }
+            },
+            {
+                data:"total_amount",
+                className:"text-center",
+                render: function (data,type,row) {
+                    return '<p>￥' + data + '</p><a href="/user/wallet?id=' + row.id + '">资金历史</a>'
+                }
+            },
+            {
+                data:null,
+                className:"text-center",
+                render:function(data,type,row) {
+                    return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm level-btn" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除用户</button></div>'
+                }
+            },
+        ],
+        drawCallback: function () {
+            appendSkipPage()
+        }
+    });
 
     $('.search-btn').on("click", function () {
-        var userID = $("#search_id").val()
-        var userLevel = $("choose_level").val()
-        var startTime = $("start-date").val()
-        var endTime = $("end-date").val()
-        drawList(userID, "", userLevel, startTime, endTime)
+        table.ajax.reload()
     })
 
     $('.ibox-content').on("click", ".btn-group-vertical .edit-btn", function () {
@@ -301,9 +294,10 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                console.log(res)
-                alert("修改成功！")
+                alert(res.message)
                 $('#editUser').hide()
+                $('.modal-backdrop').hide()
+                table.ajax.reload()
             },
             error: function (ex) {
                 console.log(ex)
@@ -323,14 +317,16 @@ $(document).ready(function(){
         var id = $(this).attr("data-id")
         $.ajax({
             url: '/api/user/delete',
-            type: 'del',
+            type: 'delete',
             data: {
                 id: id
             },
             dataType: 'json',
             success: function (res) {
-                console.log(res)
+                alert(res.message)
                 $('#systemTips').hide()
+                $('.modal-backdrop').hide()
+                table.ajax.reload()
             },
             error: function (ex) {
                 console.log(ex)
