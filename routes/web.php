@@ -21,6 +21,7 @@ Route::group(['namespace' => 'Web'], function() {
 
         Route::group(['prefix' => 'user'], function() {
             Route::get('list',              'UserController@list')->name("web_user_list");
+            Route::get('list/level',              'UserController@level')->name("web_user_level");
             Route::get('{id}/detail',      'UserController@detail')->name("web_user_detail");
             Route::get('brokerages',              'UserController@brokerages')->name("web_user_brokerages");
             Route::get('wallet',              'UserController@wallet')->name("web_user_wallet");

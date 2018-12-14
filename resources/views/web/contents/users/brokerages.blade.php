@@ -55,8 +55,8 @@
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
-                                   <th class="text-center">返佣人</th>
-                                   <th class="text-center">受佣人</th>
+                                   <th class="text-center">返佣人信息</th>
+                                   <th class="text-center">受佣人信息</th>
                                    <th class="text-center">返佣金额</th>
                                    <th class="text-center">详情</th>
                                 </tr>
@@ -75,74 +75,67 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
-        pageLength: 10,
-        responsive: true,
-        dom: '<"row"t>p',
-        order: [[ 0, "desc" ]],
-        language: {
-            "zeroRecords": "@lang('user/list.table.no_data')",
-            "info": "_PAGE_ / _PAGES_ ",
-            "search": "@lang('user/list.table.search') :",
-            "paginate": {
-                "next":       "@lang('user/list.table.pagination.next')",
-                "previous":   "@lang('user/list.table.pagination.prev')"
+    drawList()
+    function drawList () {
+        $('.user-list-table').DataTable({
+            pageLength: 10,
+            responsive: true,
+            dom: '<"row"t>p',
+            order: [[ 0, "desc" ]],
+            language: {
+                "zeroRecords": "@lang('user/list.table.no_data')",
+                "info": "_PAGE_ / _PAGES_ ",
+                "search": "@lang('user/list.table.search') :",
+                "paginate": {
+                    "next":       "@lang('user/list.table.pagination.next')",
+                    "previous":   "@lang('user/list.table.pagination.prev')"
+                },
             },
-        },
-        deferRender: true,
-        processing:true,
-        serverSide:true,
-        ajax: {
-            url: "{{ url('/api/user/brokerages')}}",
-            dataFilter: function(data){
-                var json = jQuery.parseJSON( data );
-                return JSON.stringify( json.data ); // return JSON string
-            }
-        },
-        columns:[
-            {
-                data:"seq",
-                className:"text-center",
-            },
-            {
-                data:"phone_num",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
-                    return details;
+            deferRender: true,
+            processing:true,
+            serverSide:true,
+            ajax: {
+                url: "{{ url('/api/user/brokerages')}}",
+                dataFilter: function(data){
+                    var json = jQuery.parseJSON( data );
+                    return JSON.stringify( json.data ); // return JSON string
                 }
             },
-            {
-                data:"point",
-                className:"text-center",
-            },
-            {
-                data:"ticket_cnt",
-                className:"text-center",
-            },
-            {
-                data:"is_cert_email",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
-                    }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
+            columns:[
+                {
+                    data: "",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        return 'ID：' + row.from_user_id + '<br/>手机号码：' + row.from_phone_number + '<br/>昵称：' + row.from_user_name
                     }
-                    return details;
+                },
+                {
+                    data: "",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        return 'ID：' + row.user_id + '<br/>手机号码：' + row.phone_number + '<br/>昵称：' + row.user_name
+                    }
+                },
+                {
+                    data: "",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        return "￥" + row.amount
+                    }
+                },
+                {
+                    data:"",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        return row.type + '<br/>' + row.remarks
+                    }
                 }
-            },
-            {
-                data:"last_login_at",
-                className:"text-center",
-            },
-            {
-                data:"created_at",
-                className:"text-center",
-            },
-        ],
-    });
+            ],
+            drawCallback: function () {
+                appendSkipPage()
+            }
+        });
+    }
 });
 </script>
 @endsection

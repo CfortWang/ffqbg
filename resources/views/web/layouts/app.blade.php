@@ -88,6 +88,29 @@ $(".date").on("click", function () {
     setPickers()
 })
 
+function appendSkipPage () {
+    var table = $(".user-list-table").dataTable(); 
+    var template =
+        $("<li class='paginate_button active'>" +
+            "   <div class='input-group' style='margin-left:3px;'>" +
+            "       <span class='input-group-addon' style='padding:0px 8px;background-color:#fff;font-size: 12px;'>跳转页</span>" +
+            "       <input type='text' class='form-control' style='text-align:center;padding: 8px 2px;height:30px;width:40px;' />" +
+            "       <span class='input-group-addon active' style='padding:0px 8px;'><a href='javascript:void(0)'> Go </a></span>" +
+            "   </div>" +
+            "</li>");
+
+    template.find("a").click(function () {
+        var pn = template.find("input").val();
+        if (pn > 0) {
+            --pn;
+        } else {
+            pn = 0;
+        }
+        table.fnPageChange(pn);
+    });
+    $("ul.pagination").append(template)
+}
+
 $(document).ready(function(){
 
     $(".preparing").click(function(e){
@@ -108,9 +131,7 @@ $(document).ready(function(){
                 location.reload();
             },
             error: function(data) {
-                alert('잘못된 요청입니다.(중국어)');
-                alert('잘못된 요청입니다.(영어)');
-                alert('잘못된 요청입니다.(한국어)');
+                
             }
         });
     });

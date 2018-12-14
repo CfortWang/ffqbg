@@ -78,10 +78,11 @@
                                    <th class="text-center">会员资料</th>
                                    <th class="text-center">支付类型</th>
                                    <th class="text-center">钱包</th>
-                                   <th class="text-center">账号</th>
+                                   <th class="text-center">提现账号</th>
                                    <!-- 支付宝姓名和账号 -->
-                                   <th class="text-center">提现金额/状态/th>
-                                   <th class="text-center">时间</th>
+                                   <th class="text-center">提现金额</th>
+                                   <th class="text-center">提现状态</th>
+                                   <th class="text-center">提现时间</th>
                                    <!-- 申请时间 -->
                                    <!-- 审核时间 -->
                                    <!-- 到账时间 -->
@@ -101,74 +102,114 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
-        pageLength: 10,
-        responsive: true,
-        dom: '<"row"t>p',
-        order: [[ 0, "desc" ]],
-        language: {
-            "zeroRecords": "@lang('user/list.table.no_data')",
-            "info": "_PAGE_ / _PAGES_ ",
-            "search": "@lang('user/list.table.search') :",
-            "paginate": {
-                "next":       "@lang('user/list.table.pagination.next')",
-                "previous":   "@lang('user/list.table.pagination.prev')"
+    drawList()
+    function drawList () {
+        $('.user-list-table').DataTable({
+            pageLength: 10,
+            responsive: true,
+            dom: '<"row"t>p',
+            order: [[ 0, "desc" ]],
+            language: {
+                "zeroRecords": "@lang('user/list.table.no_data')",
+                "info": "_PAGE_ / _PAGES_ ",
+                "search": "@lang('user/list.table.search') :",
+                "paginate": {
+                    "next":       "@lang('user/list.table.pagination.next')",
+                    "previous":   "@lang('user/list.table.pagination.prev')"
+                },
             },
-        },
-        deferRender: true,
-        processing:true,
-        serverSide:true,
-        ajax: {
-            url: "{{ url('/api/user/cashout')}}",
-            dataFilter: function(data){
-                var json = jQuery.parseJSON( data );
-                return JSON.stringify( json.data ); // return JSON string
-            }
-        },
-        columns:[
-            {
-                data:"seq",
-                className:"text-center",
-            },
-            {
-                data:"phone_num",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
-                    return details;
+            deferRender: true,
+            processing:true,
+            serverSide:true,
+            ajax: {
+                url: "{{ url('/api/user/cashout')}}",
+                dataFilter: function(data){
+                    var json = jQuery.parseJSON( data );
+                    return JSON.stringify( json.data ); // return JSON string
                 }
             },
-            {
-                data:"point",
-                className:"text-center",
-            },
-            {
-                data:"ticket_cnt",
-                className:"text-center",
-            },
-            {
-                data:"is_cert_email",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
-                    }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
+            columns:[
+                {
+                    data:"id",
+                    className:"text-center",
+                },
+                {
+                    data:"phone_number",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        var userLevel = ""
+                        if (row.user_level_id == 1) {
+                            userLevel = "会员"
+                        } else if (row.user_level_id == 2) {
+                            userLevel = "中级会员"
+                        } else if (row.user_level_id == 3) {
+                            userLevel = "高级会员"
+                        } else {
+                            userLevel = "游客"
+                        }
+                        if (row.phone_number == "" || row.phone_number == null) {
+                            row.phone_number = "-"
+                        }
+                        var details = row.name + '[' + row.id + ']' + '<br>' + row.phone_number + '<br/>' + userLevel
+                        return details;
                     }
-                    return details;
-                }
-            },
-            {
-                data:"last_login_at",
-                className:"text-center",
-            },
-            {
-                data:"created_at",
-                className:"text-center",
-            },
-        ],
-    });
+                },
+                {
+                    data:"withdraw_type",
+                    className:"text-center",
+                },
+                {
+                    data:"withdraw_wallet",
+                    className:"text-center"
+                },
+                {
+                    data:"withdraw_alipay_account",
+                    className:"text-center",
+                    render: function (data, type, row) {
+                        return "真实姓名:" + row.withdraw_alipay_realname + "<br/>支付宝账号:" + row.withdraw_alipay_account
+                    }
+                },
+                {
+                    data:"withdraw_amount",
+                    className:"text-center",
+                },
+                {
+                    data:"withdraw_status",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        var details;
+                        if (row.withdraw_status == 0) {
+                            details = "<span class='label label-primary'>已申请</span>";
+                        } else if (row.withdraw_status == 1) {
+                            details = "<span class='label label-success'>已提现</span>";
+                        } else if (row.withdraw_status == 2) {
+                            details = "<span class='label label-danger'>已拒绝</span>";
+                        } else {
+                            details = "<span class='label label-danger'>已拒绝</span>";
+                        }
+                        return details;
+                    }
+                },
+                {
+                    data:"withdraw_apply_time",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        // return '<p>申请时间：' + row.withdraw_apply_time + '<p/><p>审核时间：' + row.withdraw_confirm_time + '<p/><p>提现时间：' + row.withdraw_complete_time + '<p/>'
+                        if (row.withdraw_confirm_time == "" || row.withdraw_confirm_time == null) {
+                            row.withdraw_confirm_time = "-"
+                        }
+                        if (row.withdraw_complete_time == "" || row.withdraw_complete_time == null) {
+                            row.withdraw_complete_time = "-"
+                        }
+                        return '申请时间：' + row.withdraw_apply_time + '<br/>审核时间：' + row.withdraw_confirm_time + '<br/>提现时间：' + row.withdraw_complete_time
+                    }
+                },
+            ],
+            drawCallback: function () {
+                appendSkipPage()
+            }
+        });
+    }
 });
 </script>
 @endsection

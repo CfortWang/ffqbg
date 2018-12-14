@@ -40,7 +40,7 @@
                             </div>
                             <div class="filter-box">
                                 <label>用户等级 :</label>
-                                <select class="form-control" id="list-select">
+                                <select class="form-control" id="choose_level">
                                     <option value="">全部</option>
                                     <option value="0">游客</option>
                                     <option value="1">会员</option>
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                             <div class="search-btn">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="" data-target="">查找</button>
+                                <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
                             </div>
                         </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
@@ -113,50 +113,40 @@
                     <input type="text" class="form-control" id="superior_id">
                 </div>
                 <div class="form-group">
-                    <label for="nickname" class="control-label">用户等级:</label>
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">游客<span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">游客</a></li>
-                            <li><a href="#">会员</a></li>
-                            <li><a href="#">中级会员</a></li>
-                            <li><a href="#">高级会员</a></li>
-                        </ul>
-                    </div>
+                    <label for="user_level" class="control-label">用户等级:</label>
+                    <select class="form-control" id="user_level">
+                        <option value="0">游客</option>
+                        <option value="1">会员</option>
+                        <option value="2">中级会员</option>
+                        <option value="3">高级会员</option>
+                    </select>
                 </div>
-                <label for="nickname" class="control-label">操作账户余额</label><span>当前余额35</span>
-                <div class="input-group" style="margin-bottom: 15px;">
-                    <input type="text" class="form-control" aria-label="...">
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">增加<span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">增加</a></li>
-                            <li><a href="#">减少</a></li>
-                        </ul>
-                    </div>
+                <div class="form-group">
+                    <label for="total_amount" class="control-label">操作账户余额:</label>
+                    <input type="text" class="form-control" id="total_amount">
                 </div>
             </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存修改</button>
+                <button type="button" class="btn btn-primary" id="sure-modify">保存修改</button>
             </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="memberLevel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade bs-example-modal-sm" id="systemTips" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">会员层级</h4>
+                <h4 class="modal-title" id="myModalLabel">系统提示</h4>
             </div>
             <div class="modal-body">
-                
+                用户删除之后不可恢复，请谨慎操作！
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存修改</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" id="sure-delete">确定删除</button>
             </div>
             </div>
         </div>
@@ -168,77 +158,179 @@
 <script>
 
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
-        pageLength: 10,
-        responsive: true,
-        dom: '<"row"t>p',
-        order: [[ 0, "desc" ]],
-        language: {
-            "zeroRecords": "@lang('user/list.table.no_data')",
-            "info": "_PAGE_ / _PAGES_ ",
-            "search": "@lang('user/list.table.search') :",
-            "paginate": {
-                "next":       "@lang('user/list.table.pagination.next')",
-                "previous":   "@lang('user/list.table.pagination.prev')"
+    drawList()
+    function drawList(id, phoneNum, userLevel, start, end) {
+        $('.user-list-table').DataTable({
+            pageLength: 10,
+            responsive: true,
+            dom: '<"row"t>p',
+            order: [[ 0, "desc" ]],
+            language: {
+                "zeroRecords": "@lang('user/list.table.no_data')",
+                "info": "_PAGE_ / _PAGES_ ",
+                "search": "@lang('user/list.table.search') :",
+                "paginate": {
+                    "next":       "@lang('user/list.table.pagination.next')",
+                    "previous":   "@lang('user/list.table.pagination.prev')"
+                },
             },
-        },
-        deferRender: true,
-        processing:true,
-        serverSide:true,
-        ajax: {
-            url: "{{ url('/api/user/list')}}",
-            dataFilter: function(data){
-                var json = jQuery.parseJSON( data );
-                return JSON.stringify( json.data ); // return JSON string
+            deferRender: true,
+            processing:true,
+            serverSide:true,
+            ajax: {
+                url: "{{ url('/api/user/list')}}",
+                data: {
+                    "id": id,
+                    "phone_number": phoneNum,
+                    "user_level_id": userLevel,
+                    "start_at": start,
+                    "end_at": end
+                },
+                dataFilter: function(data){
+                    var json = jQuery.parseJSON( data );
+                    return JSON.stringify( json.data ); // return JSON string
+                }
+            },
+            columns:[
+                {
+                    data:"id",
+                    className:"text-center",
+                },
+                {
+                    data:"phone_number",
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        if (row.phone_number == "" || row.phone_number == null) {
+                            row.phone_number = "-"
+                        }
+                        var details = row.name + '<br/>' + row.phone_number + '<br/>直销' + row.user_level_id + '个';
+                        return details;
+                    }
+                },
+                {
+                    data:"user_register_time",
+                    className:"text-center",
+                },
+                {
+                    data:"user_register_ip",
+                    className:"text-center",
+                },
+                {
+                    data:"user_level_id",
+                    className:"text-center",
+                    render: function (data, type, row) {
+                        var userLevel = ""
+                        if (row.user_level_id == 1) {
+                            userLevel = "会员"
+                        } else if (row.user_level_id == 2) {
+                            userLevel = "中级会员"
+                        } else if (row.user_level_id == 3) {
+                            userLevel = "高级会员"
+                        } else {
+                            userLevel = "游客"
+                        }
+                        return userLevel
+                    }
+                },
+                {
+                    data:"total_amount",
+                    className:"text-center",
+                    render: function (data,type,row) {
+                        return '<p>￥' + data + '</p><a href="/user/wallet?id=' + row.id + '">资金历史</a>'
+                    }
+                },
+                {
+                    data:null,
+                    className:"text-center",
+                    render:function(data,type,row) {
+                        return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm level-btn" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除用户</button></div>'
+                    }
+                },
+            ],
+            drawCallback: function () {
+                appendSkipPage()
             }
-        },
-        columns:[
-            {
-                data:"id",
-                className:"text-center",
-            },
-            {
-                data:"phone_number",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details = '<p>' + row.phone_number + '</p>'+ '<p>' + row.name + '</p>';
-                    return details;
-                }
-            },
-            {
-                data:"user_register_time",
-                className:"text-center",
-            },
-            {
-                data:"user_register_ip",
-                className:"text-center",
-            },
-            {
-                data:"user_level_id",
-                className:"text-center",
-            },
-            {
-                data:"total_amount",
-                className:"text-center",
-            },
-            {
-                data:null,
-                className:"text-center",
-                render:function(data,type,row) {
-                    return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#memberLevel">删除用户</button></div>'
-                }
-            },
-        ],
-    });
+        });
+    }
+
+    $('.search-btn').on("click", function () {
+        var userID = $("#search_id").val()
+        var userLevel = $("choose_level").val()
+        var startTime = $("start-date").val()
+        var endTime = $("end-date").val()
+        drawList(userID, "", userLevel, startTime, endTime)
+    })
 
     $('.ibox-content').on("click", ".btn-group-vertical .edit-btn", function () {
         var id = $(this).parent().attr("data-id")
+        $("#sure-modify").attr("data-id", id)
         $.ajax({
-            url: '/user/' + id + '/detail',
+            url: '/api/user/' + id + '/detail',
             type: 'get',
             dataType: 'json',
             success: function (res) {
                 console.log(res)
+                $("#phone_number").val(res.data.phone_number)
+                $("#nickname").val(res.data.name)
+                $("#superior_id").val(res.data.recommder_id)
+                $("#user_level").val(res.data.user_level_id)
+                $("#total_amount").attr("placeholder", "当前余额：" + res.data.total_amount)
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
+    $("#sure-modify").on("click", function () {
+        var id = $(this).attr("data-id")
+        var phoneNumber = $("#phone_number").val()
+        var nickname = $("#nickname").val()
+        var userLevel = $("#user_level").val()
+        var superiorID = $("#superior_id").val()
+        var totalAmount = $("#total_amount").val()
+        $.ajax({
+            url: '/api/user/update',
+            type: 'post',
+            data: {
+                id: id,
+                name: nickname,
+                phone_number: phoneNumber,
+                user_level_id: userLevel,
+                total_amount: totalAmount,
+                recommder_id: superiorID
+            },
+            dataType: 'json',
+            success: function (res) {
+                console.log(res)
+                alert("修改成功！")
+                $('#editUser').hide()
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
+    $('.ibox-content').on("click", ".btn-group-vertical .level-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        window.location.href = '/user/list/level?id=' + id
+    })
+    $('.ibox-content').on("click", ".btn-group-vertical .delete-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        $("#sure-delete").attr("data-id", id)
+    })
+
+    $('#sure-delete').on("click", function () {
+        var id = $(this).attr("data-id")
+        $.ajax({
+            url: '/api/user/delete',
+            type: 'del',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (res) {
+                console.log(res)
+                $('#systemTips').hide()
             },
             error: function (ex) {
                 console.log(ex)

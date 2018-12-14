@@ -7,7 +7,8 @@ return [
         'title' => '用户管理',
         'depth1' => '主页',
         'depth2' => '用户',
-        'depth3' => '用户列表'
+        'depth3' => '用户列表',
+        'depth4' => '会员层级'
     ],
     
     /*** Contents ***/
