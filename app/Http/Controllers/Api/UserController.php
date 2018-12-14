@@ -244,7 +244,7 @@ class UserController extends Controller
             }
         }
         $recordsFiltered = $items->count();
-        $items = $items->select('users_cashout.id','u.id as user_id','u.user_level_id','u.name','u.phone_number','withdraw_type','withdraw_amount','withdraw_alipay_account','withdraw_alipay_realname','withdraw_status','withdraw_apply_time','withdraw_confirm_time','withdraw_complete_time','withdraw_reason','withdraw_wallet')
+        $items = $items->select('users_cashout.id','u.id as user_id','u.user_level_id','u.name','u.phone_number','withdraw_long_id','withdraw_type','withdraw_amount','withdraw_alipay_account','withdraw_alipay_realname','withdraw_status','withdraw_apply_time','withdraw_confirm_time','withdraw_complete_time','withdraw_reason','withdraw_wallet')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
             ->offset($offset)
             ->limit($limit)
@@ -408,7 +408,7 @@ class UserController extends Controller
             $user['user_register_time'] = date('Y-m-d',$user['user_register_time']);
             $items[$key]['from'] = $from;
             $items[$key]['user'] = $user;
-            $items['time'] = date('Y-m-d',$value['time']);
+            $items[$key]['time'] = date('Y-m-d',$value['time']);
         }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }

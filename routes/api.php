@@ -51,7 +51,10 @@ use Illuminate\Http\Request;
 
         Route::group(['prefix' => 'banner'], function() {
             Route::get('list',              'BannerController@list');
-            Route::get('{id}/detail',      'BannerController@detail');
+            Route::get('detail',      'BannerController@detail');
+            Route::post('/',      'BannerController@create');
+            Route::post('/modify',      'BannerController@modify');
+            Route::delete('/',      'BannerController@delete');
         });
 
         Route::group(['prefix' => 'admin'], function() {
