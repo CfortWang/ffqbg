@@ -102,7 +102,7 @@ class TaskController extends Controller
     {
         $id = $request->input('id');
         $data = Task::where('id',$id)->first();
-        $data->delete(); = $request->input('delete');
+        $data->delete();
         return $this->responseOK('删除成功',[]);
     }
 
