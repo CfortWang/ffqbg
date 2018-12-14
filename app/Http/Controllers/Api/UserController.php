@@ -220,6 +220,8 @@ class UserController extends Controller
         $id = $request->input('id');
         $where['withdraw_status'] = $withdraw_status;
         $where['user_id'] = $id;
+        $start_at = $request->input('start_at');
+        $end_at = $request->input('end_at');
         if($start_at&&$end_at){
             $items = UserCashout::where('u.id','>','0')
                 ->where('withdraw_apply_time','>',$start_at)->where('withdraw_apply_time','<',$end_at)

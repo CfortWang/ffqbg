@@ -37,7 +37,7 @@ class BannerController extends Controller
     public function detail(Request $request)
     {
         $id = $request->input('id');
-        $data = SystemNews::where('id',$id)->first();
+        $data = AppAdvertisement::where('id',$id)->first();
         return $this->responseOK('', $data);
     }
 
@@ -51,8 +51,9 @@ class BannerController extends Controller
         );
         $validator = Validator::make($input, [
             'title'  =>'required|string',
-            'content'=>'required|string',
-            'url'  =>'nullable|string',
+            'description'=>'required|string',
+            'file'  =>'required|string',
+            'link'  =>'required|string',
             
         ],$message);
         
@@ -61,19 +62,23 @@ class BannerController extends Controller
             return $this->responseBadRequest($message);
         }
         $data['title'] = $request->input('title');
-        $data['content'] = $request->input('content');
-        $data['url'] = $request->input('url');
-        SystemNews::creat($data);
+        $data['description'] = $request->input('description');
+        $data['file'] = $request->input('file');
+        $data['link'] = $request->input('link');
+        $data['advertisement_position_id'] = 1;
+        $data['sort'] = 1;
+        AppAdvertisement::creat($data);
         return $this->responseOK('新建成功',[]);
     }
 
     public function modify(Request $request)
     {
         $id = $request->input('id');
-        $data = SystemNews::where('id',$id)->first();
+        $data = AppAdvertisement::where('id',$id)->first();
         $data->title = $request->input('title');
         $data->content = $request->input('content');
         $data->url = $request->input('url');
+        $data->link = $request->input('link');
         $data->save();
         return $this->responseOK('修改成功',[]);
     }
@@ -81,7 +86,7 @@ class BannerController extends Controller
     public function delete(Request $request)
     {
         $id = $request->input('id');
-        $data = SystemNews::where('id',$id)->first();
+        $data = AppAdvertisement::where('id',$id)->first();
         $data->delete();
         return $this->responseOK('删除成功',[]);
     }
