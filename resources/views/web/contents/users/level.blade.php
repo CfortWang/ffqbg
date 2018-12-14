@@ -79,6 +79,8 @@
 @section('scripts')
 <script>
 
+var args = getArgs()
+var id = args['id']
 $(document).ready(function(){
     var table = $('.user-list-table').DataTable({
         pageLength: 10,
@@ -99,6 +101,10 @@ $(document).ready(function(){
         serverSide:true,
         ajax: {
             url: "{{ url('/api/user/levelList')}}",
+            data: function (d) {
+                d.id = id
+                d.type = "from"
+            },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -106,35 +112,28 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"id",
+                data:"uid",
                 className:"text-center",
             },
             {
-                data:"phone_number",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details = '<p>' + row.phone_number + '</p>'+ '<p>' + row.name + '</p>';
-                    return details;
-                }
-            },
-            {
-                data:"user_register_time",
+                data:"uid",
                 className:"text-center",
             },
             {
-                data:"user_register_ip",
+                data:"time",
                 className:"text-center",
             },
             {
-                data:"user_level_id",
+                data:"time",
                 className:"text-center",
             },
             {
-                data:"total_amount",
+                data:"layer",
                 className:"text-center",
-                render: function (data,type,row) {
-                    return '<p>￥' + data + '</p><a href="/user/wallet?id="' + row.id + '>资金历史</a>'
-                }
+            },
+            {
+                data:"time",
+                className:"text-center",
             }
         ],
         drawCallback: function () {

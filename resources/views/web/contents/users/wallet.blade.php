@@ -42,17 +42,18 @@
                                 <label>类型 :</label>
                                 <select class="form-control" id="cashout_type">
                                     <option value="">不限制</option>
-                                    <option value="0">管理员操作</option>
-                                    <option value="1">购买会员返佣</option>
-                                    <option value="2">任务</option>
+                                    <option value="ADMIN">管理员操作</option>
+                                    <option value="MEMBER-BUY-VIP-BROKERAGE">购买会员返佣</option>
+                                    <option value="WITHDRAW">提现</option>
+                                    <option value="TASK">任务</option>
                                 </select>
                             </div>
                             <div class="filter-box">
                                 <label>收支 :</label>
                                 <select class="form-control" id="income_type">
                                     <option value="">不限制</option>
-                                    <option value="0">收入</option>
-                                    <option value="1">支出</option>
+                                    <option value="in">收入</option>
+                                    <option value="out">支出</option>
                                 </select>
                             </div>
                             <div class="search-btn">
@@ -111,8 +112,8 @@ $(document).ready(function(){
             url: "{{ url('/api/user/wallet')}}",
             data: function (d) {
                 d.id = $("#search_id").val()
-                d.start_at = $("#cashout_type").val()
-                d.end_at = $("#income_type").val()
+                d.type = $("#cashout_type").val()
+                d.inout = $("#income_type").val()
             },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );

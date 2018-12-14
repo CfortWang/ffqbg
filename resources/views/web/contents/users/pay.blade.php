@@ -130,7 +130,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/datatable/user/pay')}}",
+            url: "{{ url('/api/user/pay')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -138,49 +138,66 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"seq",
+                data:"user_id",
                 className:"text-center",
             },
             {
-                data:"phone_num",
+                data:"name",
                 className:"text-center",
-                render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
-                    return details;
-                }
+                searchable: false,
+                orderable: false
             },
             {
-                data:"point",
+                data:"payment",
                 className:"text-center",
+                searchable: false,
+                orderable: false
             },
             {
-                data:"ticket_cnt",
+                data:"payment",
                 className:"text-center",
+                searchable: false,
+                orderable: false
             },
             {
-                data:"is_cert_email",
+                data:"status",
                 className:"text-center",
                 render:function(data,type,row) {
                     var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
+                    if(row.status == 'PAIED'){
+                        details = "<span class='label label-success'>已支付</span>";
                     }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
+                        details = "<span class='label label-danger'>未支付</span>";
                     }
                     return details;
-                }
+                },
+                searchable: false,
+                orderable: false
             },
             {
-                data:"last_login_at",
+                data:"amount",
                 className:"text-center",
             },
             {
-                data:"created_at",
+                data: null,
                 className:"text-center",
+                render: function (data, type, row) {
+                    if (row.created_at == '' || row.created_at == null) {
+                        row.created_at = "-"
+                    }
+                    if (row.updated_at == '' || row.updated_at == null) {
+                        row.updated_at = "-"
+                    }
+                    return row.created_at + '<br/>' + row.updated_at
+                },
+                searchable: false,
+                orderable: false
             },
             {
-                data:"created_at",
+                data:"remarks",
                 className:"text-center",
+                searchable: false,
+                orderable: false
             },
         ],
     });

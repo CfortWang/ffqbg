@@ -109,14 +109,32 @@ $(document).ready(function(){
                 data: "",
                 className:"text-center",
                 render:function(data,type,row) {
-                    return 'ID：' + row.from_user_id + '<br/>手机号码：' + row.from_phone_number + '<br/>昵称：' + row.from_user_name
+                    if (row.from_user_level_id == 1) {
+                        row.from_user_level_id = "会员"
+                    } else if (row.from_user_level_id == 2) {
+                        row.from_user_level_id = "中级会员"
+                    } else if (row.from_user_level_id == 3) {
+                        row.from_user_level_id = "高级会员"
+                    } else {
+                        row.from_user_level_id = "游客"
+                    }
+                    return row.from_user_name + '[' + row.from_user_id + ']<br/>' + row.from_phone_number + '<br/>' + row.from_user_level_id
                 }
             },
             {
                 data: "",
                 className:"text-center",
                 render:function(data,type,row) {
-                    return 'ID：' + row.user_id + '<br/>手机号码：' + row.phone_number + '<br/>昵称：' + row.user_name
+                    if (row.user_level_id == 1) {
+                        row.user_level_id = "会员"
+                    } else if (row.user_level_id == 2) {
+                        row.user_level_id = "中级会员"
+                    } else if (row.user_level_id == 3) {
+                        row.user_level_id = "高级会员"
+                    } else {
+                        row.user_level_id = "游客"
+                    }
+                    return row.user_name + '[' + row.user_id + ']<br/>' + row.phone_number + '<br/>' + row.user_level_id
                 }
             },
             {

@@ -203,15 +203,20 @@ $(document).ready(function(){
                     }
                     var details = row.name + '<br/>' + row.phone_number + '<br/>直销' + row.direct + '个';
                     return details;
-                }
+                },
+                searchable: false,
+                orderable: false
             },
             {
                 data:"user_register_time",
                 className:"text-center",
+                
             },
             {
                 data:"user_register_ip",
                 className:"text-center",
+                searchable: false,
+                orderable: false
             },
             {
                 data:"user_level_id",
@@ -228,7 +233,8 @@ $(document).ready(function(){
                         userLevel = "游客"
                     }
                     return userLevel
-                }
+                },
+                orderable: false
             },
             {
                 data:"total_amount",
@@ -242,7 +248,9 @@ $(document).ready(function(){
                 className:"text-center",
                 render:function(data,type,row) {
                     return '<div class="btn-group-vertical" role="group" aria-label="" data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editUser">编辑用户</button><button type="button" class="btn btn-info btn-sm level-btn" data-toggle="modal" data-target="#memberLevel">会员层级</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除用户</button></div>'
-                }
+                },
+                searchable: false,
+                orderable: false
             },
         ],
         drawCallback: function () {
