@@ -81,6 +81,9 @@ class TaskController extends Controller
     {
         $id = $request->input('id');
         $info = Task::where('id',$id)->select('id','title','user_id','create_time','price','content','user_level','images','task_limit')->first();
+        if(!$info){
+            return $this->responseBadRequest('没有数据', []);
+        }
         $images = explode(',',$info['images']);
         $image = [];
         foreach ($images as $key => $value) {
