@@ -80,7 +80,7 @@ class TaskController extends Controller
     public function detail(Request $request)
     {
         $id = $request->input('id');
-        $info = Task::where('id',$id)->select('id','title','price','content','user_level','images','task_limit')->first();
+        $info = Task::where('id',$id)->select('id','title','user_id','create_time','price','content','user_level','images','task_limit')->first();
         $images = explode(',',$info['images']);
         $image = [];
         foreach ($images as $key => $value) {
@@ -94,6 +94,7 @@ class TaskController extends Controller
             }
         }
         $info['images'] = $image;
+        $info['create_time'] = date('Y-m-d H:i:s',$info['create_time']);
         return $this->responseOK('', $info);
     }
 
