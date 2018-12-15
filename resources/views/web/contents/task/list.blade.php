@@ -120,26 +120,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 删除任务提示 -->
-    <div class="modal fade bs-example-modal-sm" id="systemTips" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">系统提示</h4>
-            </div>
-            <div class="modal-body">
-                任务删除之后不可恢复，请谨慎操作！
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-danger" id="sure-delete">确定删除</button>
-            </div>
-            </div>
-        </div>
-    </div>
-    
 </div>
 @endsection
 

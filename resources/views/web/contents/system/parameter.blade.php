@@ -219,16 +219,31 @@
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">新闻公告开关</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9 news-switch">
-                                <label for="switch1" class="label-radio">
-                                    <input type="radio" checked="" hidden="" id="switch1" name="continued_time" value="1">
-                                    <label for="switch1" class="time-radio"></label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">提现开关</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9 cashout-switch">
+                                <label for="cashout_switch1" class="label-radio">
+                                    <input type="radio" checked="" hidden="" id="cashout_switch1" name="continued_time" value="1">
+                                    <label for="cashout_switch1" class="time-radio"></label>
                                     <span>开</span>
                                 </label>
-                                <label for="switch2" class="label-radio">
-                                    <input type="radio" hidden="" id="switch2" name="continued_time" value="0">
-                                    <label for="switch2" class="time-radio"></label>
+                                <label for="cashout_switch2" class="label-radio">
+                                    <input type="radio" hidden="" id="cashout_switch2" name="continued_time" value="0">
+                                    <label for="cashout_switch2" class="time-radio"></label>
+                                    <span>关</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">新闻公告开关</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9 news-switch">
+                                <label for="news_switch1" class="label-radio">
+                                    <input type="radio" checked="" hidden="" id="news_switch1" name="continued_time" value="1">
+                                    <label for="news_switch1" class="time-radio"></label>
+                                    <span>开</span>
+                                </label>
+                                <label for="news_switch2" class="label-radio">
+                                    <input type="radio" hidden="" id="news_switch2" name="continued_time" value="0">
+                                    <label for="news_switch2" class="time-radio"></label>
                                     <span>关</span>
                                 </label>
                             </div>

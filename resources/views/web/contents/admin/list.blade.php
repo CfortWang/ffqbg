@@ -5,16 +5,16 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>主页</h2>
+        <h2>管理员列表</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="/">主页</a>
             </li>
             <li>
-                <a href="{{ url('/user/list') }}">@lang('user/list.header.depth2')</a>
+                <a href="{{ url('/admin/list') }}">管理员</a>
             </li>
             <li class="active">
-                <strong>@lang('user/list.header.depth3')</strong>
+                <strong>管理员列表</strong>
             </li>
         </ol>
     </div>
@@ -24,7 +24,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>@lang('user/list.contents.title')</h5>
+                    <h5>管理员列表</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -36,12 +36,10 @@
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
-                                   <th class="text-center">用户ID</th>
-                                   <th class="text-center">用户资料</th>
-                                   <th class="text-center">注册时间</th>
-                                   <th class="text-center">注册IP</th>
-                                   <th class="text-center">等级</th>
-                                   <th class="text-center">钱包余额</th>
+                                   <th class="text-center">管理员账号</th>
+                                   <th class="text-center">管理员昵称</th>
+                                   <th class="text-center">最后登录时间</th>
+                                   <th class="text-center">最后登录IP</th>
                                    <th class="text-center">操作</th>
                                 </tr>
                             </thead>
@@ -59,10 +57,10 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
+    var table = $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",
@@ -77,7 +75,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/datatable/user/list')}}",
+            url: "{{ url('/api/admin/list')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -85,48 +83,55 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"seq",
+                data:"username",
                 className:"text-center",
             },
             {
-                data:"phone_num",
+                data:"nickname",
                 className:"text-center",
-                render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
-                    return details;
+            },
+            {
+                data:"last_login_time",
+                className:"text-center",
+            },
+            {
+                data:"last_login_ip",
+                className:"text-center",
+            },
+            {
+                data:null,
+                className:"text-center",
+                render: function (data, type, row) {
+                    return '<div data-id="' + row.id + '"><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除</button></div>'
                 }
-            },
-            {
-                data:"point",
-                className:"text-center",
-            },
-            {
-                data:"ticket_cnt",
-                className:"text-center",
-            },
-            {
-                data:"is_cert_email",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
-                    }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
-                    }
-                    return details;
-                }
-            },
-            {
-                data:"last_login_at",
-                className:"text-center",
-            },
-            {
-                data:"created_at",
-                className:"text-center",
             },
         ],
     });
+
+    $('.ibox-content').on("click", ".delete-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        $("#sure-delete").attr("data-id", id)
+    })
+
+    $('#sure-delete').on("click", function () {
+        var id = $(this).attr("data-id")
+        $.ajax({
+            url: '/api/admin',
+            type: 'delete',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (res) {
+                toastr.success(res.message)
+                $('#systemTips').modal('hide')
+                table.ajax.reload()
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
 });
 </script>
 @endsection

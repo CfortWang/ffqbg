@@ -52,7 +52,9 @@ Route::group(['namespace' => 'Web'], function() {
 
         Route::group(['prefix' => 'admin'], function() {
             Route::get('list',              'AdminController@list')->name("web_admin_list");
-            Route::get('{id}/detail',      'AdminController@detail')->name("web_admin_detail");
+            Route::get('role',              'AdminController@role')->name("web_admin_role");
+            Route::get('role_create',              'AdminController@createRole')->name("web_admin_createRole");
+            Route::get('create',              'AdminController@create')->name("web_admin_create");
         });
 
         Route::group(['prefix' => 'system'], function() {
