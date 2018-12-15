@@ -82,12 +82,12 @@ class AdminController extends Controller
             return $this->responseBadRequest($message);
         }
         $data['name'] = $request->input('name');
-        $role_id = Role::save($data);
+        $role_id = Role::create($data);
         $menu_id = $request->input('menu_id');
         foreach ($menu_id as $key => $value) {
             $m_data['menu_id'] = $value;
             $m_data['role_id'] = $role_id;
-            Role2Menu::save($m_data);
+            Role2Menu::create($m_data);
         }
         return $this->responseOK('新建成功', $data);
 

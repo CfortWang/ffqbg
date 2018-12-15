@@ -53,7 +53,24 @@ return [
             'root' => storage_path('app/public'),
             'visibility' => 'public',
         ],
-
+        'image1' => [
+            'driver' => 'local',
+            'root' => env('file_env_root_1'),
+            'host'     =>  env('file_env_host_1'), //本地电脑绑定的IP地址：
+            'username' => env('file_env_username_1'),//ftp账号：
+            'password' => env('file_env_password_1'),//ftp密码：
+            'url' => env('APP_URL').'/public/image',
+            'visibility' => 'public', 
+        ],
+        'image2' => [
+            'driver' => 'local',
+            'root' => env('file_env_root_2'),
+            'host'     =>  env('file_env_host_2'), //本地电脑绑定的IP地址：
+            'username' => env('file_env_username_2'),//ftp账号：
+            'password' => env('file_env_password_2'),//ftp密码：
+            'url' => env('APP_URL').'/public/image',
+            'visibility' => 'public', 
+        ],
         's3' => [
             'driver' => 's3',
             'key' => 'your-key',
