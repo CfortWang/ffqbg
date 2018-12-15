@@ -59,7 +59,16 @@ use Illuminate\Http\Request;
 
         Route::group(['prefix' => 'admin'], function() {
             Route::get('list',              'AdminController@list');
-            Route::get('{id}/detail',      'AdminController@detail');
+            Route::get('detail',      'BannerController@detail');
+            Route::get('menu',              'AdminController@menu');
+            Route::get('role',              'AdminController@role');
+            Route::post('addRole',              'AdminController@addRole');
+            Route::post('addAdmin',              'AdminController@addAdmin');
+            Route::post('delRole',      'AdminController@delRole');
+            Route::post('delAdmin',      'AdminController@delAdmin');
+            Route::post('update',      'AdminController@updateAdmin');
+            Route::post('updateRole',      'AdminController@updateRole');
+
         });
 
         Route::group(['prefix' => 'system'], function() {
