@@ -95,7 +95,7 @@ class AdminController extends Controller
 
     public function addAdmin(Request $request)
     {
-        $input = Input::only('nickname','username','password','role_id');
+        $input = Input::only('name','username','password','role_id');
         $message = array(
             "required" => "不能为空",
             "string" => "数据类型错误",
