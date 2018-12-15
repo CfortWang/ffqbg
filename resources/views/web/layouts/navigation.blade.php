@@ -87,6 +87,19 @@
 					<i class="fa fa-users"></i>
 					<span class="nav-label">管理员</span>
 				</a>
+				<ul class="nav nav-second-level collapse">
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/admin/list') }}">管理员列表</a>
+					</li>
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/admin/role') }}">角色列表</a>
+					</li>
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/admin/role_create') }}">创建角色</a>
+					</li><li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/admin/create') }}">创建管理员</a>
+					</li>
+				</ul>
 			</li>
 			<li class="{{ isActiveRoute('system', 1) }}">
 				<a href="{{ url('/system/basis') }}">

@@ -391,7 +391,7 @@ div.dataTables_filter {
     top: 50%;
     transform: translateY(55%);
 }
-.news-switch > .label-radio {
+.news-switch > .label-radio, .cashout-switch > .label-radio {
     margin-right: 40px;
     height: 40px;
     line-height: 33px;
@@ -399,7 +399,7 @@ div.dataTables_filter {
 
 .label-radio {
     font-family: "PingFangSC-Light";
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
     margin: 0px;
     cursor: pointer;
@@ -416,4 +416,26 @@ input[type="radio"]:checked + .time-radio {
     background: url(../img/unselected.png) no-repeat center;
     vertical-align: middle;
     margin: 0px;
+}
+
+.menu {
+    /* display: inline-block; */
+    margin-bottom: 10px;
+}
+.menu-title{
+    font-weight: 600;
+    margin: 13px 0px 10px
+}
+.menu-checkbox {
+    height: 26px;
+    width: 26px;
+    display: inline-block;
+    background: url(../img/checkbox-unselected.png) no-repeat center;
+    background-size: 100% 100%;
+    vertical-align: middle;
+    margin: 0px;
+}
+input[type="checkbox"]:checked + .menu-checkbox {
+    background: url(../img/checkbox-selected.png) no-repeat center;
+    background-size: 100% 100%;
 }

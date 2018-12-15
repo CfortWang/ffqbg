@@ -26,6 +26,27 @@ class AdminController extends Controller
         ]);
     }
 
+    public function role()
+    {
+        return view('web.contents.admin.role', [
+            'title' => $this->title,
+        ]);
+    }
+
+    public function createRole()
+    {
+        return view('web.contents.admin.createRole', [
+            'title' => $this->title,
+        ]);
+    }
+
+    public function create()
+    {
+        return view('web.contents.admin.create', [
+            'title' => $this->title,
+        ]);
+    }
+
     public function detail($id)
     {
         return view('web.contents.admin.detail', [
