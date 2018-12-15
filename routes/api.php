@@ -72,8 +72,12 @@ use Illuminate\Http\Request;
         });
 
         Route::group(['prefix' => 'system'], function() {
-            Route::get('list',              'SystemController@list');
-            Route::get('{id}/detail',      'SystemController@detail');
+            Route::get('system',              'SystemController@system');
+            Route::get('user',              'SystemController@user');
+            Route::get('task',              'SystemController@task');
+            Route::post('system',              'SystemController@systemUpdate');
+            Route::post('user',              'SystemController@userUpdate');
+            Route::post('task',              'SystemController@taskUpdate');
         });
 
     }); 
