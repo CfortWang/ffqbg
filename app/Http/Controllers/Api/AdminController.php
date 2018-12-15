@@ -105,7 +105,6 @@ class AdminController extends Controller
             'name'  => 'required|string',
             'username' => 'required|string',
             'role_id'  =>'required|integer',
-            'email' => 'required|email',
             'password' => 'required|string',
         ],$message);
         

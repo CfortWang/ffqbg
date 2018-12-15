@@ -121,12 +121,6 @@
 					</li>
 				</ul>
 			</li>
-			<!-- <li class="{{ isActiveRoute('staff', 1) }}">
-				<a href="{{ url('/staff/list') }}">
-					<i class="fa fa-wrench"></i>
-					<span class="nav-label">系统设置</span>
-				</a>
-			</li> -->
 		</ul>
 	</div>
 </nav>
