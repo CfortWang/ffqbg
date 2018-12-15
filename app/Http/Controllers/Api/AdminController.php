@@ -27,7 +27,7 @@ class AdminController extends Controller
         $recordsTotal = $items->count();
         
         $recordsFiltered = $items->count();
-        $items = $items->select('id','title','content','url','created_at')
+        $items = $items->select('id','name','username','email','created_at')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
             ->offset($offset)
             ->limit($limit)
