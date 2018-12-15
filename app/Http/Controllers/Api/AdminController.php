@@ -102,6 +102,11 @@ class AdminController extends Controller
         $data['role_id'] = $request->input('role_id');
         $data['password'] = md5($request->input('password'));
 
+        $data['permission'] = '';
+        $data['login_ip'] = $request->getClientIp();
+        $data['login_time'] = time();
+        $data['last_login_ip'] = $request->getClientIp();
+        $data['last_login_time'] = time();
         $user_id = Admin::save($data);
         
         return $this->responseOK('新建成功', $user_id);
