@@ -86,7 +86,7 @@ class AdminController extends Controller
         $menu_id = $request->input('menu_id');
         foreach ($menu_id as $key => $value) {
             $m_data['menu_id'] = $value;
-            $m_data['role_id'] = $role_id;
+            $m_data['role_id'] = $role_id->id;
             Role2Menu::create($m_data);
         }
         return $this->responseOK('新建成功', $data);
