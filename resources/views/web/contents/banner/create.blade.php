@@ -5,16 +5,16 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>任务信息</h2>
+        <h2>广告管理</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="/">主页</a>
             </li>
             <li>
-                <a href="{{ url('/task/list') }}">任务管理</a>
+                <a href="{{ url('/banner/list') }}">轮播列表</a>
             </li>
             <li class="active">
-                <strong>任务信息</strong>
+                <strong>新建轮播</strong>
             </li>
         </ol>
     </div>
@@ -24,16 +24,16 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content clear-fix">
-                <form id="submit" action="/api/task/modify" method="post"  enctype="multipart/form-data">
+                    <form id="submit" action="/api/banner" method="post"  enctype="multipart/form-data">
                     <div class="form-container">
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">任务标题</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">轮播标题</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_title" name="title" placeholder="最多可输入20个字符" maxlength="20">
+                                <input type="text" class="form-control" id="banner_title" name="title" placeholder="最多可输入20个字符" maxlength="20">
                             </div>
                         </div>
                         <div class="form-group image-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">任务图片</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">轮播图片</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 task">
                                 <a href="javascript:;" class="file">+添加图片
                                     <input type="file" class="" id="task_image" name="file" onchange="selectImage(this, '.task')">
@@ -42,32 +42,39 @@
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">人数限制</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">跳转链接</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="task_limit" name="amount" placeholder="设置领取该任务的最大人数">
+                                <input type="number" class="form-control" id="link" name="link" placeholder="为空则不跳转">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">任务类型</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">显示位置</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <select class="form-control" id="task_type" name="user_level">
-                                    <option value="0">普通</option>
-                                    <option value="1">会员</option>
-                                    <option value="2">中级</option>
-                                    <option value="3">高级</option>
+                                <select class="form-control" id="show_place" name="user_level">
+                                    <option value="0">全部</option>
+                                    <option value="1">主页</option>
+                                    <option value="2">商城</option>
                                 </select>
                             </div>
                         </div>
+                        <!-- <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">显示状态</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <select class="form-control" id="show_type" name="user_level">
+                                    <option value="0">隐藏</option>
+                                    <option value="1">显示</option>
+                                </select>
+                            </div>
+                        </div> -->
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">任务详情</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">轮播描述</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="填写任务的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
+                                <textarea class="rule-text" name="description" id="task_desc" cols="" rows="" placeholder="轮播的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
                             </div>
                         </div>
-                        <input type="text" class="" id="task_id" hidden name="id" placeholder="">
-                        <div class="create-task"><button type="button" class="btn btn-primary btn-lg modify-btn">保存修改</button></div>
+                        <div class="create-task"><button type="button" class="btn btn-primary btn-lg create-btn">创建轮播</button></div>
                     </div>
-                </form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -104,6 +111,25 @@ function upLoadImage (file, kind) {
         data: file,
         processData: false,
         contentType: false,
+        // xhr: function(){
+        //     myXhr = $.ajaxSettings.xhr();
+        //     if(myXhr.upload){
+        //         myXhr.upload.addEventListener('progress',function(e) {
+        //             if (e.lengthComputable) {
+        //                 var percent = Math.floor(e.loaded/e.total*100);
+        //                 if(percent <= 100) {
+        //                     // $("#J_progress_bar").progress('set progress', percent);
+        //                     $("#percentage").text('已上传：'+percent+'%');
+        //                 }
+        //                 if(percent >= 100) {
+        //                     $("#percentage").text('文件上传完毕，请等待...');
+        //                     // $("#percentage").addClass('success');
+        //                 }
+        //             }
+        //         }, false);
+        //     }
+        //     return myXhr;
+        // },
         success: function (res) {
             let url = res.data.url
             let selector = kind + ' .selected-image:last-child .img-value'
@@ -122,42 +148,8 @@ $(".task").on("click", ".selected-image .delete-image", function () {
         $(".task .image-remark").show()
     }
 })
-var args = getArgs()
-$("input#task_id").val(args['id'])
-var drawData = function () {
-    $.ajax({
-        url: '/api/task/detail',
-        type: 'get',
-        data: {
-            id: args['id']
-        },
-        dataType: 'json',
-        success: function (res) {
-            let resData = res.data
-            console.log(resData)
-            $("input#task_title").val(resData.title)
-            $("input#task_price").val(resData.price)
-            $("input#task_limit").val(resData.task_limit)
-            $("select#task_type").val(resData.user_level)
-            $("select#task_type").find("option[value = '"+ resData.user_level +"']").attr("selected","selected")
-            $("#task_desc").val(resData.content)
 
-            // 渲染任务图片
-            $(".task .image-remark").hide()
-            for (let i = 0; i < resData.images.length; i++) {
-                var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.images[i] + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.images[i] + '"></div>'
-                $('.task').append($imgBox)
-            }
-            
-        },
-        error: function (ex) {
-            console.log(ex)
-        }
-    })
-}
-drawData();
-
-$(".modify-btn").on("click", function () {
+$(".create-btn").on("click", function () {
     $.ajax({
         type: "POST",
         dataType: 'JSON',
@@ -165,7 +157,7 @@ $(".modify-btn").on("click", function () {
         data: $("#submit").serialize(),
         success: function(data, status, x) {
             if(data.status == 200){
-                toastr.success("修改成功")
+                toastr.success("发布任务成功")
                 setTimeout(() => {
                     window.location.href = '/task/list'
                 }, 1500);

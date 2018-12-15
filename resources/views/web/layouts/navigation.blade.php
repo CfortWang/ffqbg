@@ -73,6 +73,14 @@
 					<i class="fa fa-wpexplorer"></i>
 					<span class="nav-label">广告管理</span>
 				</a>
+				<ul class="nav nav-second-level collapse">
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/banner/list') }}">轮播列表</a>
+					</li>
+					<li class="{{ isActiveRoute('create', 2) }}">
+							<a href="{{ url('/banner/create') }}">新建</a>
+					</li>
+				</ul>
 			</li>
 			<li class="{{ isActiveRoute('admin', 1) }}">
 				<a href="{{ url('/admin/list') }}">
@@ -81,10 +89,24 @@
 				</a>
 			</li>
 			<li class="{{ isActiveRoute('system', 1) }}">
-				<a href="{{ url('/system/list') }}">
+				<a href="{{ url('/system/basis') }}">
 					<i class="fa fa-wrench"></i>
 					<span class="nav-label">系统设置</span>
 				</a>
+				<ul class="nav nav-second-level collapse">
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/system/basis') }}">基础设置</a>
+					</li>
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/system/parameter') }}">参数设置</a>
+					</li>
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/system/code') }}">验证码列表</a>
+					</li>
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/system/protocol') }}">用户协议</a>
+					</li>
+				</ul>
 			</li>
 			<!-- <li class="{{ isActiveRoute('staff', 1) }}">
 				<a href="{{ url('/staff/list') }}">

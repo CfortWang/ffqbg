@@ -21,9 +21,30 @@ class SystemController extends Controller
         $this->title = '系统设置';
     }
 
-    public function list()
+    public function basis()
     {
-        return view('web.contents.system.list', [
+        return view('web.contents.system.basis', [
+            'title' => $this->title,
+        ]);
+    }
+
+    public function parameter()
+    {
+        return view('web.contents.system.parameter', [
+            'title' => $this->title,
+        ]);
+    }
+
+    public function code()
+    {
+        return view('web.contents.system.code', [
+            'title' => $this->title,
+        ]);
+    }
+
+    public function protocol()
+    {
+        return view('web.contents.system.protocol', [
             'title' => $this->title,
         ]);
     }

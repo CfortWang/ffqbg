@@ -137,8 +137,11 @@ $(document).ready(function(){
                 },
                 searchable: false,
                 orderable: false
-            }
+            },
         ],
+        drawCallback: function () {
+            appendSkipPage()
+        }
     });
 
     $('.search-btn').on("click", function () {

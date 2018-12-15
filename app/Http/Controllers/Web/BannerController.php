@@ -26,6 +26,13 @@ class BannerController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('web.contents.banner.create', [
+            'title' => $this->title,
+        ]);
+    }
+
     public function detail($id)
     {
         return view('web.contents.banner.detail', [

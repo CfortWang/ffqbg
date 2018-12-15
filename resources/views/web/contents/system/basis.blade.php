@@ -5,16 +5,16 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>任务信息</h2>
+        <h2>基础设置</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="/">主页</a>
             </li>
             <li>
-                <a href="{{ url('/task/list') }}">任务管理</a>
+                <a href="{{ url('/system/list') }}">系统设置</a>
             </li>
             <li class="active">
-                <strong>任务信息</strong>
+                <strong>基础设置</strong>
             </li>
         </ol>
     </div>
@@ -24,47 +24,75 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content clear-fix">
-                <form id="submit" action="/api/task/modify" method="post"  enctype="multipart/form-data">
+                <form id="submit" action="/api/system/modify" method="post"  enctype="multipart/form-data">
                     <div class="form-container">
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">任务标题</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">站点名称</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_title" name="title" placeholder="最多可输入20个字符" maxlength="20">
-                            </div>
-                        </div>
-                        <div class="form-group image-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">任务图片</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9 task">
-                                <a href="javascript:;" class="file">+添加图片
-                                    <input type="file" class="" id="task_image" name="file" onchange="selectImage(this, '.task')">
-                                </a>
-                                <span class="image-remark">建议尺寸:200×200像素，请上传gif,jpeg,png,bmp格式的图片</span>
+                                <input type="text" class="form-control" id="task_title" name="title" placeholder="最多可输入10个字符" maxlength="10">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">人数限制</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">站点网址</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="task_limit" name="amount" placeholder="设置领取该任务的最大人数">
+                                <input type="text" class="form-control" id="task_title" name="title" placeholder="" maxlength="20">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">任务类型</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">网站域名</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <select class="form-control" id="task_type" name="user_level">
-                                    <option value="0">普通</option>
-                                    <option value="1">会员</option>
-                                    <option value="2">中级</option>
-                                    <option value="3">高级</option>
-                                </select>
+                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">任务详情</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">备案号</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">客服微信</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">客服QQ</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">客服电话</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">网站标题</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">网站关键词</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="填写任务的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
+                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="" maxlength="300"></textarea>
                             </div>
                         </div>
-                        <input type="text" class="" id="task_id" hidden name="id" placeholder="">
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">网站描述</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
+                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="支持换行（不超过300字符）" maxlength="300"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">公司简介</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
+                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="支持换行（不超过300字符）" maxlength="300"></textarea>
+                            </div>
+                        </div>
                         <div class="create-task"><button type="button" class="btn btn-primary btn-lg modify-btn">保存修改</button></div>
                     </div>
                 </form>

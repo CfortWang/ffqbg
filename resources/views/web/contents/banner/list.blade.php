@@ -40,7 +40,8 @@
                                    <th class="text-center">缩略图</th>
                                    <th class="text-center">文字提示</th>
                                    <th class="text-center">链接</th>
-                                   <th class="text-center">位置</th>
+                                   <th class="text-center">显示位置</th>
+                                   <th class="text-center">状态</th>
                                    <th class="text-center">操作</th>
                                 </tr>
                             </thead>
@@ -52,13 +53,32 @@
             </div>
         </div>
     </div>
+
+    <!-- 删除提示 -->
+    <div class="modal fade bs-example-modal-sm" id="systemTips" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">系统提示</h4>
+            </div>
+            <div class="modal-body">
+                轮播删除之后不可恢复，请谨慎操作！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" id="sure-delete">确定删除</button>
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
+    var table = $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
         dom: 'f<"row"t>p',
@@ -76,7 +96,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/datatable/user/list')}}",
+            url: "{{ url('/api/banner/list')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -84,48 +104,87 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"seq",
+                data:"name",
                 className:"text-center",
             },
             {
-                data:"phone_num",
+                data:"image",
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
-                    return details;
-                }
+                    return '<div><img src="' + row.image + '" /></div>';
+                },
+                searchable: false,
+                orderable: false
             },
             {
-                data:"point",
+                data:"name",
                 className:"text-center",
+                searchable: false,
+                orderable: false
             },
             {
-                data:"ticket_cnt",
+                data:"link",
                 className:"text-center",
+                searchable: false,
+                orderable: false
             },
             {
-                data:"is_cert_email",
+                data:"name",
+                className:"text-center",
+                searchable: false,
+                orderable: false
+                
+            },
+            {
+                data:"name",
+                className:"text-center",
+                searchable: false,
+                orderable: false
+            },
+            {
+                data: null,
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
-                    }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
-                    }
-                    return details;
-                }
-            },
-            {
-                data:"last_login_at",
-                className:"text-center",
-            },
-            {
-                data:"created_at",
-                className:"text-center",
+                    return '<div data-id="' + row.name + '"><button type="button" class="btn btn-primary btn-sm edit-btn" style="margin-right: 10px;" data-toggle="modal" data-target="#editNews">编辑</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除</button></div>'
+                },
+                searchable: false,
+                orderable: false
             },
         ],
+        drawCallback: function () {
+            appendSkipPage()
+        }
     });
+
+    $('.ibox-content').on("click", ".edit-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        window.location.href = '/banner/' + id + '/detail'
+    })
+
+    $('.ibox-content').on("click", ".delete-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        $("#sure-delete").attr("data-id", id)
+    })
+
+    $('#sure-delete').on("click", function () {
+        var id = $(this).attr("data-id")
+        $.ajax({
+            url: '/api/banner',
+            type: 'delete',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (res) {
+                toastr.success(res.message)
+                $('#systemTips').modal('hide')
+                table.ajax.reload()
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
 });
 </script>
 @endsection

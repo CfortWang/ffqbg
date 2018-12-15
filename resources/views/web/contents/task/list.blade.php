@@ -264,6 +264,9 @@ $(document).ready(function(){
                 orderable: false
             },
         ],
+        drawCallback: function () {
+            appendSkipPage()
+        }
     });
 
     $('.ibox-content').on("click", ".btn-group-vertical .detail-btn", function () {

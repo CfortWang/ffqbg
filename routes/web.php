@@ -46,6 +46,7 @@ Route::group(['namespace' => 'Web'], function() {
 
         Route::group(['prefix' => 'banner'], function() {
             Route::get('list',              'BannerController@list')->name("web_banner_list");
+            Route::get('create',              'BannerController@create')->name("web_banner_create");
             Route::get('{id}/detail',      'BannerController@detail')->name("web_banner_detail");
         });
 
@@ -55,7 +56,10 @@ Route::group(['namespace' => 'Web'], function() {
         });
 
         Route::group(['prefix' => 'system'], function() {
-            Route::get('list',              'SystemController@list')->name("web_admin_list");
+            Route::get('basis',              'SystemController@basis')->name("web_admin_list");
+            Route::get('parameter',              'SystemController@parameter')->name("web_admin_parameter");
+            Route::get('code',              'SystemController@code')->name("web_admin_code");
+            Route::get('protocol',              'SystemController@protocol')->name("web_admin_protocol");
             Route::get('{id}/detail',      'SystemController@detail')->name("web_admin_detail");
         });
     });
