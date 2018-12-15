@@ -31,20 +31,22 @@ class UploadController extends Controller
             return $this->responseBadRequest($message);
         }
         $file = $request->file('file');
+        $type = $request->input('type');
+
         $clientName = $file->getClientOriginalName();
         $name       = md5($clientName.microtime());
         $extension  = $file->getClientOriginalExtension();
-        // $data = Storage::disk('image1')->put('/'.date('Y-m-d',time()),$file);
-        // $data = Storage::disk('image2')->put('/'.date('Y-m-d',time()),$file);
+        // $data = Storage::disk('image1')->put('/'.$type,$file);
+        // $data = Storage::disk('image2')->put('/'.$type,$file);
         $file1 = Config::get('filesystems.disks.image1');
         $filesystem = new Filesystem(new SftpAdapter($file1));
-        $path = '/'.$name.'.'.$extension;
+        $path = $type.'/'.$name.'.'.$extension;
         $stream = fopen($file->getRealPath(), 'r+');
         $filesystem->put($path, $stream);
         $file2 = Config::get('filesystems.disks.image2');
         $filesystem = new Filesystem(new SftpAdapter($file2));
-        // $path = '/'.$name.'.'.$extension;
-        $path = '/'.$name.'.'.$extension;
+        // $path = $type.'/'.$name.'.'.$extension;
+        $path = $type.'/'.$name.'.'.$extension;
         $stream = fopen($file->getRealPath(), 'r+');
         $filesystem->put($path, $stream);
         $url = env('APP_URL').'/image/'.$path;
