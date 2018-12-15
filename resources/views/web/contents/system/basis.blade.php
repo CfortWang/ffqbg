@@ -106,50 +106,6 @@
 @section('scripts')
 <script>
 
-function selectImage(file, selector) {
-    if (!file.files || !file.files[0]) {
-        return;
-    }
-    var reader = new FileReader();
-    reader.onload = function (evt) {
-        var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' +evt.target.result + '"><input class="img-value" type="text" name="image[]" hidden></div>'
-        $(selector).append($imgBox)
-        image = evt.target.result;
-        let remark = selector + ' .image-remark'
-        $(remark).hide()
-    }
-    reader.readAsDataURL(file.files[0]);
-    var fd = new FormData()
-    fd.append('file', file.files[0])
-    upLoadImage(fd, selector);
-}
-
-function upLoadImage (file, kind) {
-    $.ajax({
-        url: '/api/upload',
-        type: 'post',
-        dataType: 'json',
-        data: file,
-        processData: false,
-        contentType: false,
-        success: function (res) {
-            let url = res.data.url
-            let selector = kind + ' .selected-image:last-child .img-value'
-            $(selector).val(url)
-        },
-        error: function (ex) {
-            console.log(ex)
-        }
-    })
-}
-
-$(".task").on("click", ".selected-image .delete-image", function () {
-    $(this).parent().remove()
-    var sonNum = $(".task").children().length
-    if (sonNum == 2) {
-        $(".task .image-remark").show()
-    }
-})
 var args = getArgs()
 $("input#task_id").val(args['id'])
 var drawData = function () {

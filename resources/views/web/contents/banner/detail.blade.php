@@ -103,6 +103,7 @@ function selectImage(file, selector) {
     reader.readAsDataURL(file.files[0]);
     var fd = new FormData()
     fd.append('file', file.files[0])
+    fd.append('type', 'banner')
     upLoadImage(fd, selector);
 }
 

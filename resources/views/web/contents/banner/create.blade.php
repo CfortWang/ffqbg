@@ -98,8 +98,9 @@ function selectImage(file, selector) {
         $(remark).hide()
     }
     reader.readAsDataURL(file.files[0]);
-    var fd = new FormData()
+    fd = new FormData()
     fd.append('file', file.files[0])
+    fd.append('type', 'banner')
     upLoadImage(fd, selector);
 }
 
@@ -111,25 +112,6 @@ function upLoadImage (file, kind) {
         data: file,
         processData: false,
         contentType: false,
-        // xhr: function(){
-        //     myXhr = $.ajaxSettings.xhr();
-        //     if(myXhr.upload){
-        //         myXhr.upload.addEventListener('progress',function(e) {
-        //             if (e.lengthComputable) {
-        //                 var percent = Math.floor(e.loaded/e.total*100);
-        //                 if(percent <= 100) {
-        //                     // $("#J_progress_bar").progress('set progress', percent);
-        //                     $("#percentage").text('已上传：'+percent+'%');
-        //                 }
-        //                 if(percent >= 100) {
-        //                     $("#percentage").text('文件上传完毕，请等待...');
-        //                     // $("#percentage").addClass('success');
-        //                 }
-        //             }
-        //         }, false);
-        //     }
-        //     return myXhr;
-        // },
         success: function (res) {
             let url = res.data.url
             let selector = kind + ' .selected-image:last-child .img-value'
@@ -150,21 +132,45 @@ $(".task").on("click", ".selected-image .delete-image", function () {
 })
 
 $(".create-btn").on("click", function () {
+    let title = $("#banner_title").val()
+    let link = $("#link").val()
+    let showPlace = $("#show_place").val()
+    let desc = $("#task_desc").val()
+    if (title == '' || title == null) {
+        toastr.error("轮播标题不能为空！")
+        return false
+    }
+    if (desc == '' || desc == null) {
+        toastr.error("轮播描述不能为空！")
+        return false
+    }
+    fd.append("title", title)
+    fd.append("description", desc)
+    fd.append("place", showPlace)
+    fd.append("link", link)
+
     $.ajax({
         type: "POST",
         dataType: 'JSON',
-        url: $("#submit").attr('action'),
-        data: $("#submit").serialize(),
-        success: function(data, status, x) {
-            if(data.status == 200){
-                toastr.success("发布任务成功")
-                setTimeout(() => {
-                    window.location.href = '/task/list'
-                }, 1500);
-            } else {
-                toastr.error(data.message);
-            }
-            console.log(status);
+        url: '/api/banner',
+        // data: $("#submit").serialize(),
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function(res) {
+            console.log(res)
+            // if(data.status == 200){
+            //     toastr.success("发布任务成功")
+            //     setTimeout(() => {
+            //         window.location.href = '/task/list'
+            //     }, 1500);
+            // } else {
+            //     toastr.error(data.message);
+            // }
+            // console.log(status);
+        },
+        error: function (ex) {
+            console.log(ex)
         }
     });
 })
