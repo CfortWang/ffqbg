@@ -64,8 +64,8 @@ use Illuminate\Http\Request;
             Route::get('role',              'AdminController@role');
             Route::post('addRole',              'AdminController@addRole');
             Route::post('addAdmin',              'AdminController@addAdmin');
-            Route::post('delRole',      'AdminController@delRole');
-            Route::post('delAdmin',      'AdminController@delAdmin');
+            Route::delete('role',      'AdminController@delRole');
+            Route::delete('/',      'AdminController@delAdmin');
             Route::post('update',      'AdminController@updateAdmin');
             Route::post('updateRole',      'AdminController@updateRole');
 

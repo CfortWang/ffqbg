@@ -114,12 +114,18 @@ class AdminController extends Controller
 
     public function delRole(Request $request)
     {
-        
+        $id = $request->input('id');
+        $data = Role::where('id',$id)->first();
+        $data->delete();
+        return $this->responseOK('删除成功',[]);
     }
 
     public function delAdmin(Request $request)
     {
-        
+        $id = $request->input('id');
+        $data = Admin::where('id',$id)->first();
+        $data->delete();
+        return $this->responseOK('删除成功',[]);
     }
 
     public function updateAdmin(Request $request)
