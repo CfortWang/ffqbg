@@ -43,8 +43,24 @@ class AdminController extends Controller
 
     public function role(Request $request)
     {
-        $data = Role::get();
-        return $this->responseOK('', $data);
+        $offset = $request->start;
+        $limit = $request->length;
+        $status=$request->status;
+        $searchValue = $request->search['value'];
+        $orderColumnsNo = $request->order[0]['column'];
+        $orderType = $request->order[0]['dir'];
+
+        $columnArray = array('id','username','nickname','last_login_ip','last_login_time');
+        $items = Role::where('id','>',0);
+        $recordsTotal = $items->count();
+        
+        $recordsFiltered = $items->count();
+        $items = $items->select('*')
+            // ->orderBy($columnArray[$orderColumnsNo], $orderType)
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 
     public function addRole(Request $request)
