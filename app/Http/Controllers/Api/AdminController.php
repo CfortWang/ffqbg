@@ -6,7 +6,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use App\Models\Users;
+use App\Models\Admin;
 use App\Models\Role;
 use App\Models\Menu;
 use App\Models\Role2Menu;
@@ -22,12 +22,12 @@ class AdminController extends Controller
         $orderColumnsNo = $request->order[0]['column'];
         $orderType = $request->order[0]['dir'];
 
-        $columnArray = array('id','name','username','email','created_at');
-        $items = Users::where('id','>',0);
+        $columnArray = array('id','username','nickname','last_login_ip','last_login_time');
+        $items = Admin::where('id','>',0);
         $recordsTotal = $items->count();
         
         $recordsFiltered = $items->count();
-        $items = $items->select('id','name','username','email','created_at')
+        $items = $items->select('id','username','nickname','last_login_ip','last_login_time')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
             ->offset($offset)
             ->limit($limit)
@@ -79,7 +79,7 @@ class AdminController extends Controller
 
     public function addAdmin(Request $request)
     {
-        $input = Input::only('name','username','email','password','role_id');
+        $input = Input::only('nickname','username','password','role_id');
         $message = array(
             "required" => "不能为空",
             "string" => "数据类型错误",
@@ -100,10 +100,9 @@ class AdminController extends Controller
         $data['name'] = $request->input('name');
         $data['username'] = $request->input('username');
         $data['role_id'] = $request->input('role_id');
-        $data['email'] = $request->input('email');
-        $data['password'] = $request->input('password');
+        $data['password'] = md5($request->input('password'));
 
-        $user_id = Users::save($data);
+        $user_id = Admin::save($data);
         
         return $this->responseOK('新建成功', $user_id);
     }
@@ -131,7 +130,7 @@ class AdminController extends Controller
     public function detail(Request $request)
     {
         $id = $request->input('id');
-        $data = Users::where('id',$id)->first();
+        $data = Admin::where('id',$id)->first();
         if($data){
             return $this->responseOK('', $data);
         }else{
