@@ -38,12 +38,13 @@ class UploadController extends Controller
         // $data = Storage::disk('image2')->put('/'.date('Y-m-d',time()),$file);
         $file1 = Config::get('filesystems.disks.image1');
         $filesystem = new Filesystem(new SftpAdapter($file1));
-        $path = date('Y-m-d',time()).'/'.$name.'.'.$extension;
+        $path = '/'.$name.'.'.$extension;
         $stream = fopen($file->getRealPath(), 'r+');
         $filesystem->put($path, $stream);
         $file2 = Config::get('filesystems.disks.image2');
         $filesystem = new Filesystem(new SftpAdapter($file2));
-        $path = date('Y-m-d',time()).'/'.$name.'.'.$extension;
+        // $path = '/'.$name.'.'.$extension;
+        $path = '/'.$name.'.'.$extension;
         $stream = fopen($file->getRealPath(), 'r+');
         $filesystem->put($path, $stream);
         $url = env('APP_URL').'/image/'.$path;
