@@ -29,66 +29,212 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-12">推广满十人奖励</label>
                             <div class="col-lg-10 col-md-10 col-sm-12">
-                                <input type="text" class="form-control" id="task_title" name="title" placeholder="最多可输入10个字符" maxlength="10">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">会员</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">中级</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">高级</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">站点网址</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">完成任务返佣</label>
+                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">1级</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">2级</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">3级</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">推广会员返佣</label>
+                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">1级</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">2级</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">3级</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-12">账户钱包提现</label>
+                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">最高</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">最低</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">手续费</div>
+                                    <div class="col-lg-8 col-md-7 col-sm-8">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-12">限制操作金额</label>
+                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                <input type="number" class="form-control" id="task_title" name="title" placeholder="" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">新用户赠送金额</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_title" name="title" placeholder="" maxlength="20">
+                                <input type="number" class="form-control" id="task_limit" name="amount" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">网站域名</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">首次发布任务返回</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="number" class="form-control" id="task_limit" name="amount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">关注提示语</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
                                 <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">备案号</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            <label class="col-lg-2 col-md-2 col-sm-12">大厅名称</label>
+                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                <div>
+                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">单价</div>
+                                        <div class="col-lg-8 col-md-7 col-sm-8">
+                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">单价</div>
+                                        <div class="col-lg-8 col-md-7 col-sm-8">
+                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">单价</div>
+                                        <div class="col-lg-8 col-md-7 col-sm-8">
+                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">客服微信</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            <label class="col-lg-2 col-md-2 col-sm-3">会员名称及价格</label>
+                            <div class="col-lg-10 col-md-10 col-sm-12">
+                                <div>
+                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="一级会员名称">
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">价格</div>
+                                        <div class="col-lg-8 col-md-7 col-sm-8">
+                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="二级会员名称">
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">价格</div>
+                                        <div class="col-lg-8 col-md-7 col-sm-8">
+                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
+                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="三级会员名称">
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">价格</div>
+                                        <div class="col-lg-8 col-md-7 col-sm-8">
+                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">客服QQ</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            <label class="col-lg-2 col-md-2 col-sm-3">新闻公告开关</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9 news-switch">
+                                <label for="switch1" class="label-radio">
+                                    <input type="radio" checked="" hidden="" id="switch1" name="continued_time" value="1">
+                                    <label for="switch1" class="time-radio"></label>
+                                    <span>开</span>
+                                </label>
+                                <label for="switch2" class="label-radio">
+                                    <input type="radio" hidden="" id="switch2" name="continued_time" value="0">
+                                    <label for="switch2" class="time-radio"></label>
+                                    <span>关</span>
+                                </label>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">客服电话</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">网站标题</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">网站关键词</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="" maxlength="300"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">网站描述</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="支持换行（不超过300字符）" maxlength="300"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">公司简介</label>
+                            <label class="col-lg-2 col-md-2 col-sm-3">新闻公告</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
                                 <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="支持换行（不超过300字符）" maxlength="300"></textarea>
                             </div>

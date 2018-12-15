@@ -295,6 +295,10 @@ div.dataTables_filter {
     width: 40%;
 }
 
+.form-container .form-group .full-width {
+    width: 100%;
+}
+
 @media (max-width: 768px) {
     .form-container .form-group .form-control {
         width: 100%;
@@ -379,4 +383,37 @@ div.dataTables_filter {
 
 .create-task{
     text-align: center;
+}
+
+.data-title{
+    text-align: right;
+    position: relative;
+    top: 50%;
+    transform: translateY(55%);
+}
+.news-switch > .label-radio {
+    margin-right: 40px;
+    height: 40px;
+    line-height: 33px;
+}
+
+.label-radio {
+    font-family: "PingFangSC-Light";
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0px;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked + .time-radio {
+    background: url(../img/selected.png);
+}
+
+.time-radio {
+    height: 26px;
+    width: 26px;
+    display: inline-block;
+    background: url(../img/unselected.png) no-repeat center;
+    vertical-align: middle;
+    margin: 0px;
 }
