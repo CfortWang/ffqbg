@@ -79,5 +79,7 @@ use Illuminate\Http\Request;
             Route::post('user',              'SystemController@userUpdate');
             Route::post('task',              'SystemController@taskUpdate');
         });
-
+        Route::group(['prefix' => 'upload'], function() {
+            Route::post('/',              'UploadController@image');
+        });
     }); 

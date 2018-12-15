@@ -8,8 +8,10 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Config;
+// use Illuminate\Support\Facades\Storage;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Sftp\SftpAdapter;
 use Validator;
 class UploadController extends Controller
 {
@@ -32,10 +34,19 @@ class UploadController extends Controller
         $clientName = $file->getClientOriginalName();
         $name       = md5($clientName.microtime());
         $extension  = $file->getClientOriginalExtension();
-        $data = Storage::disk('image1')->put('/'.date('Y-m-d',time()),$file);
-        $data = Storage::disk('image2')->put('/'.date('Y-m-d',time()),$file);
-        $url = env('APP_URL').'/image/'.$data;
-        $return['data'] = $data;
+        // $data = Storage::disk('image1')->put('/'.date('Y-m-d',time()),$file);
+        // $data = Storage::disk('image2')->put('/'.date('Y-m-d',time()),$file);
+        $file1 = Config::get('filesystems.disks.image1');
+        $filesystem = new Filesystem(new SftpAdapter($file1));
+        $path = date('Y-m-d',time()).'/'.$name.'.'.$extension;
+        $stream = fopen($file->getRealPath(), 'r+');
+        $filesystem->put($path, $stream);
+        $file2 = Config::get('filesystems.disks.image2');
+        $filesystem = new Filesystem(new SftpAdapter($file2));
+        $path = date('Y-m-d',time()).'/'.$name.'.'.$extension;
+        $stream = fopen($file->getRealPath(), 'r+');
+        $filesystem->put($path, $stream);
+        $url = env('APP_URL').'/image/'.$path;
         $return['url'] = $url;
     	return  $this->responseOK('',$return);
     }
