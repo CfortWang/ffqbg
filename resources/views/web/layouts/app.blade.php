@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{!! asset('css/plugins/clockpicker.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/plugins/bootstrap-duallistbox.min.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/plugins/chosen/bootstrap-chosen.css') !!}" />
+    <link rel="stylesheet" href="{!! asset('css/toastr.min.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/custom.css') !!}" />
     @yield('stylesheet')
     @yield('css')
@@ -42,6 +43,8 @@
     <!-- End wrapper-->
 
 <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
+<script src="{!! asset('js/toastr.min.js') !!}" type="text/javascript"></script>
+<script src="{!! asset('js/public.js') !!}" type="text/javascript"></script>
 <!-- session -->
 <!-- <script src="{!! asset('js/session.js') !!}" type="text/javascript"></script> -->
 <!-- DataTables -->

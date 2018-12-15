@@ -40,6 +40,7 @@ Route::group(['namespace' => 'Web'], function() {
 
         Route::group(['prefix' => 'news'], function() {
             Route::get('list',              'NewsController@list')->name("web_news_list");
+            Route::get('create',              'NewsController@create')->name("web_news_create");
             Route::get('{id}/detail',      'NewsController@detail')->name("web_news_detail");
         });
 

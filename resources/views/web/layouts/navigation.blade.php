@@ -59,6 +59,14 @@
 					<i class="fa fa-bandcamp"></i>
 					<span class="nav-label">新闻管理</span>
 				</a>
+				<ul class="nav nav-second-level collapse">
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/news/list') }}">新闻列表</a>
+					</li>
+					<li class="{{ isActiveRoute('create', 2) }}">
+							<a href="{{ url('/news/create') }}">发布新闻</a>
+					</li>
+				</ul>
 			</li>
 			<li class="{{ isActiveRoute('banner', 1) }}">
 				<a href="{{ url('/banner/list') }}">

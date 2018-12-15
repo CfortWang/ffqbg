@@ -33,6 +33,23 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                    <div id="" class="dataTables_filter">
+                            <div class="search-box">
+                                <label>搜索 :</label>
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                            </div>
+                            <div class="filter-box">
+                                <label>状态 :</label>
+                                <select class="form-control" id="choose_level">
+                                    <option value="">全部</option>
+                                    <option value="0">已显示</option>
+                                    <option value="1">已隐藏</option>
+                                </select>
+                            </div>
+                            <div class="search-btn">
+                                <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
+                            </div>
+                        </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -50,16 +67,35 @@
             </div>
         </div>
     </div>
+
+    <!-- 删除新闻提示 -->
+    <div class="modal fade bs-example-modal-sm" id="systemTips" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">系统提示</h4>
+            </div>
+            <div class="modal-body">
+                新闻删除之后不可恢复，请谨慎操作！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" id="sure-delete">确定删除</button>
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
+    var table = $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",
@@ -74,7 +110,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/datatable/user/list')}}",
+            url: "{{ url('/api/news/list')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -82,41 +118,62 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"seq",
+                data:"id",
                 className:"text-center",
             },
             {
-                data:"phone_num",
+                data:"title",
+                className:"text-center overflow big-td"
+            },
+            {
+                data:"created_at",
+                className:"text-center",
+            },
+            {
+                data:null,
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
-                    return details;
-                }
-            },
-            {
-                data:"point",
-                className:"text-center",
-            },
-            {
-                data:"ticket_cnt",
-                className:"text-center",
-            },
-            {
-                data:"is_cert_email",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
-                    }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
-                    }
-                    return details;
-                }
-            },
-            
+                    return '<div data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" style="margin-right: 10px;" data-toggle="modal" data-target="#editNews">编辑</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除</button></div>'
+                },
+                searchable: false,
+                orderable: false
+            }
         ],
     });
+
+    $('.search-btn').on("click", function () {
+        table.ajax.reload()
+    })
+
+    $('.ibox-content').on("click", ".edit-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        window.location.href = '/news/' + id + '/detail'
+    })
+
+    $('.ibox-content').on("click", ".delete-btn", function () {
+        var id = $(this).parent().attr("data-id")
+        $("#sure-delete").attr("data-id", id)
+    })
+
+    $('#sure-delete').on("click", function () {
+        var id = $(this).attr("data-id")
+        $.ajax({
+            url: '/api/news',
+            type: 'delete',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (res) {
+                toastr.success(res.message)
+                $('#systemTips').modal('hide')
+                table.ajax.reload()
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
 });
 </script>
 @endsection

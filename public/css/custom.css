@@ -231,6 +231,10 @@ div.dataTables_filter {
     white-space: nowrap;
 }
 
+.big-td{
+    min-width: 200px;
+}
+
 .float-e-margins .dataTables_filter{
     background: #fff;
     padding: 10px 20px;

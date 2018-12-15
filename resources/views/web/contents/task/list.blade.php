@@ -33,6 +33,15 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                    <div id="" class="dataTables_filter">
+                            <div class="search-box">
+                                <label>搜索 :</label>
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                            </div>
+                            <div class="search-btn">
+                                <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
+                            </div>
+                        </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -137,10 +146,10 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
+    var table = $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",
@@ -156,6 +165,9 @@ $(document).ready(function(){
         serverSide:true,
         ajax: {
             url: "{{ url('/api/task/list')}}",
+            data: function (d) {
+                d.id = $("#search_id").val()
+            },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -311,7 +323,7 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                alert(res.message)
+                toastr.success(res.message)
                 $('#task_details').modal('hide')
                 
                 table.ajax.reload()
@@ -344,7 +356,7 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                alert(res.message)
+                toastr.success(res.message)
                 $('#systemTips').modal('hide')
                 table.ajax.reload()
             },
@@ -352,6 +364,10 @@ $(document).ready(function(){
                 console.log(ex)
             }
         })
+    })
+
+    $('.search-btn').on("click", function () {
+        table.ajax.reload()
     })
 
     $("#task_details input").attr("disabled", true)

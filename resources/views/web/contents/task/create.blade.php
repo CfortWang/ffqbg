@@ -149,12 +149,12 @@ $(".create-btn").on("click", function () {
         data: $("#submit").serialize(),
         success: function(data, status, x) {
             if(data.status == 200){
-                alert("发布任务成功")
+                toastr.success("发布任务成功")
                 setTimeout(() => {
                     window.location.href = '/task/list'
                 }, 1500);
             } else {
-                alert(data.message);
+                toastr.error(data.message);
             }
             console.log(status);
         }

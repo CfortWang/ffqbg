@@ -27,6 +27,13 @@ class NewsController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('web.contents.news.create', [
+            'title' => $this->title,
+        ]);
+    }
+
     public function detail($id)
     {
         return view('web.contents.news.detail', [

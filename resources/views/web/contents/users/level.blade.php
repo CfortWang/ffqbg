@@ -43,12 +43,13 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">上级会员<span class="caret"></span></button>
+                                    <button type="button" id="level_btn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">上级会员<span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#">上级会员</a></li>
-                                        <li><a href="#">下级会员</a></li>
+                                        <li><a data-type="to">上级会员</a></li>
+                                        <li><a data-type="from">下级会员</a></li>
                                     </ul>
                                 </div>
+                                <input type="text" id="level_type" hidden>
                             </div>
                             <div class="search-btn">
                                 <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
@@ -57,12 +58,12 @@
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
-                                   <th class="text-center">用户ID</th>
-                                   <th class="text-center">用户资料</th>
-                                   <th class="text-center">注册时间</th>
-                                   <th class="text-center">注册IP</th>
-                                   <th class="text-center">关系层级</th>
-                                   <th class="text-center">绑定时间</th>
+                                    <th class="text-center">用户ID</th>
+                                    <th class="text-center">用户资料</th>
+                                    <th class="text-center">注册时间</th>
+                                    <th class="text-center">注册IP</th>
+                                    <th class="text-center">关系层级</th>
+                                    <th class="text-center">绑定时间</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,6 +82,7 @@
 
 var args = getArgs()
 var id = args['id']
+$(".ibox-title h5").text("会员" + id + "的层级关系")
 $(document).ready(function(){
     var table = $('.user-list-table').DataTable({
         pageLength: 10,
@@ -103,7 +105,7 @@ $(document).ready(function(){
             url: "{{ url('/api/user/levelList')}}",
             data: function (d) {
                 d.id = id
-                d.type = "from"
+                d.type = $("#level_type").val()
             },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
@@ -112,24 +114,47 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"uid",
+                data:"from_uid",
                 className:"text-center",
             },
             {
-                data:"uid",
+                data:"user.phone_number",
+                className:"text-center",
+                render: function (data, type, row) {
+                    let userLevel = ""
+                    if (row.user.user_level_id == 3) {
+                        userLevel = "高级会员"
+                    } else if (row.user.user_level_id == 2) {
+                        userLevel = "中级会员"
+                    } else if (row.user.user_level_id == 1) {
+                        userLevel = "会员"
+                    } else {
+                        userLevel = "游客"
+                    }
+                    if (row.user.phone_number == '' || row.user.phone_number == null) {
+                        row.user.phone_number = '-'
+                    }
+                    return row.user.name + '<br/>' + row.user.phone_number + '<br/>' + userLevel
+                },
+                searchable: false,
+                orderable: false
+            },
+            {
+                data:"user.user_register_time",
                 className:"text-center",
             },
             {
-                data:"time",
+                data:"user.user_register_ip",
                 className:"text-center",
-            },
-            {
-                data:"time",
-                className:"text-center",
+                searchable: false,
+                orderable: false
             },
             {
                 data:"layer",
                 className:"text-center",
+                render: function (data, type, row) {
+                    return "第" + data + "级"
+                }
             },
             {
                 data:"time",
@@ -142,6 +167,12 @@ $(document).ready(function(){
     });
 
     $('.search-btn').on("click", function () {
+        table.ajax.reload()
+    })
+
+    $(".dropdown-menu a").on("click", function () {
+        $("#level_btn").text($(this).text())
+        $("#level_type").val($(this).attr("data-type"))
         table.ajax.reload()
     })
 });

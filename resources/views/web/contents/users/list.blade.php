@@ -149,7 +149,7 @@
             <form>
                 <div class="form-group">
                     <label for="user_id" class="control-label">用户ID:</label>
-                    <input type="text" class="form-control" id="fake_user_id">
+                    <input type="text" class="form-control" id="user_id" placeholder="当前用户ID" disabled>
                 </div>
                 <div class="form-group">
                     <label for="user_level" class="control-label">用户等级:</label>
@@ -328,7 +328,7 @@ $(document).ready(function(){
         var superiorID = $("#superior_id").val()
         var totalAmount = $("#total_amount").val()
         if (totalAmount == '' || totalAmount == null) {
-            alert("账户余额不能为空")
+            toastr.error("账户余额不能为空！")
             return false
         }
         $.ajax({
@@ -344,7 +344,7 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                alert(res.message)
+                toastr.success(res.message)
                 $('#editUser').modal('hide')
                 table.ajax.reload()
             },
@@ -354,28 +354,26 @@ $(document).ready(function(){
         })
     })
     
+    $('.ibox-content').on("click", ".btn-group-vertical .add-btn", function () {
+        let id = $(this).parent().attr("data-id")
+        $("#user_id").val(id)
+    })
+    
     $('#sure-add').on("click", function () {
-        var id = $(this).attr("data-id")
-        var fakeID = $("#fake_user_id").val()
+        var userID = $("#user_id").val()
         var fakeLevel = $("#fake_user_level").val()
-        if (fakeID == '' || fakeID == null) {
-            alert("用户ID不能为空！")
-            return false
-        }
-
         $.ajax({
             url: '/api/user/addFaker',
             type: 'POST',
             data: {
-                id: id,
-                fake_id: fakeID,
+                id: userID,
                 level: fakeLevel
             },
             dataType: 'json',
             success: function (res) {
-                alert(res.message)
+                toastr.success(res.message)
                 $('#addSubordinate').modal('hide')
-                // table.ajax.reload()
+                table.ajax.reload()
             },
             error: function (ex) {
                 console.log(ex)
@@ -402,7 +400,7 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                alert(res.message)
+                toastr.success(res.message)
                 $('#systemTips').modal('hide')
                 table.ajax.reload()
             },
