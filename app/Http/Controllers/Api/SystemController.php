@@ -10,6 +10,7 @@ use App\Models\UserSetting;
 use App\Models\Setting;
 use App\Models\TaskSetting;
 use App\Models\PhoneVerificationCode;
+use App\Models\User;
 
 class SystemController extends Controller
 {
@@ -118,4 +119,14 @@ class SystemController extends Controller
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 
+    public function limit(Request $request)
+    {
+        $min = $request->input('min');
+        $max = $request->input('max');
+        $start_at = $request->input('start_at');
+        $end_at = $request->input('end_at');
+        $count = User::where('total_amount','>',$min)->where('total_amount','<',$max)->count();
+        return $this->responseOK('查询成功',$count);
+    }
+     
 }
