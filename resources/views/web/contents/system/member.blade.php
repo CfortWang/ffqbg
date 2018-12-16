@@ -24,7 +24,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content clear-fix">
-                <form id="submit" action="/api/system/modify" method="post"  enctype="multipart/form-data">
+                <form id="submit" action="/api/system/user" method="post"  enctype="multipart/form-data">
                     <div class="form-container">
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">会员名称及价格</label>

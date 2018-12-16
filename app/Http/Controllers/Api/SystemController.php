@@ -59,8 +59,16 @@ class SystemController extends Controller
 
     public function userUpdate(Request $request)
     {
-        $data = UserSetting::get();
-        return $this->responseOK('', $data);
+        $id = $request->input('id');
+        $level = $request->input('level');
+        $price = $request->input('price');
+        foreach ($id as $key => $value) {
+            $data = UserSetting::where('id',$value)->first();
+            $data->name = $level[$key];
+            $data->price = $price[$key];
+            $data->save();
+        }
+        return $this->responseOK('修改成功',[]);
 
     }
 
@@ -73,14 +81,38 @@ class SystemController extends Controller
 
     public function taskUpdate(Request $request)
     {
-        $data = UserSetting::get();
-        return $this->responseOK('', $data);
+        $id = $request->input('id');
+        $name = $request->input('name');
+        $price = $request->input('price');
+        foreach ($id as $key => $value) {
+            $data = TaskSetting::where('id',$value)->first();
+            $data->name = $name[$key];
+            $data->price = $price[$key];
+            $data->save();
+        }
+        return $this->responseOK('修改成功',[]);
 
     }
 
     public function code(Request $request)
     {
+        $offset = $request->start;
+        $limit = $request->length;
+        $status=$request->status;
+        $searchValue = $request->search['value'];
+        $orderColumnsNo = $request->order[0]['column'];
+        $orderType = $request->order[0]['dir'];
 
+        $columnArray = array('id','title','content','url','create_at');
+        $items = PhoneVerificationCode::where('id','>',0);
+        $recordsTotal = $items->count();
+      
+        $recordsFiltered = $items->count();
+        $items = $items->select('id','phone_number','code','msg_type','created_at')
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 
 }
