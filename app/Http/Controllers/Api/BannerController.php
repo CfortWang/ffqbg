@@ -43,7 +43,7 @@ class BannerController extends Controller
 
     public function create(Request $request)
     {
-        $input = Input::only('title','description','file','link');
+        $input = Input::only('title','description','file','link','advertisement_position_id');
         $message = array(
             "required" => "不能为空",
             "string" => "数据类型错误",
@@ -54,7 +54,7 @@ class BannerController extends Controller
             'description'=>'required|string',
             'file'  =>'required|string',
             'link'  =>'required|string',
-            
+            'advertisement_position_id' => 'required|integer',
         ],$message);
         
         if ($validator->fails()) {
@@ -65,7 +65,7 @@ class BannerController extends Controller
         $data['description'] = $request->input('description');
         $data['file'] = $request->input('file');
         $data['link'] = $request->input('link');
-        $data['advertisement_position_id'] = 1;
+        $data['advertisement_position_id'] = $request->input('advertisement_position_id');
         $data['sort'] = 1;
         AppAdvertisement::create($data);
         return $this->responseOK('新建成功',[]);
