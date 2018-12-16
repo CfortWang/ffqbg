@@ -36,7 +36,7 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">轮播图片</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 task">
                                 <a href="javascript:;" class="file">+添加图片
-                                    <input type="file" class="" id="task_image" name="file" onchange="selectImage(this, '.task')">
+                                    <input type="file" class="" id="task_image" name="" onchange="selectImage(this, '.task')">
                                 </a>
                                 <span class="image-remark">建议尺寸:200×200像素，请上传gif,jpeg,png,bmp格式的图片</span>
                             </div>
@@ -44,13 +44,13 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">跳转链接</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="link" name="link" placeholder="为空则不跳转">
+                                <input type="text" class="form-control" id="link" name="link" placeholder="为空则不跳转">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">显示位置</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <select class="form-control" id="show_place" name="user_level">
+                                <select class="form-control" id="show_place" name="advertisement_position_id">
                                     <option value="0">全部</option>
                                     <option value="1">主页</option>
                                     <option value="2">商城</option>
@@ -91,11 +91,12 @@ function selectImage(file, selector) {
     }
     var reader = new FileReader();
     reader.onload = function (evt) {
-        var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' +evt.target.result + '"><input class="img-value" type="text" name="image[]" hidden></div>'
+        var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' +evt.target.result + '"><input class="img-value" type="text" name="file" hidden></div>'
         $(selector).append($imgBox)
         image = evt.target.result;
         let remark = selector + ' .image-remark'
         $(remark).hide()
+        $(".file").hide()
     }
     reader.readAsDataURL(file.files[0]);
     fd = new FormData()
@@ -129,6 +130,7 @@ $(".task").on("click", ".selected-image .delete-image", function () {
     if (sonNum == 2) {
         $(".task .image-remark").show()
     }
+    $(".file").show()
 })
 
 $(".create-btn").on("click", function () {
@@ -144,30 +146,24 @@ $(".create-btn").on("click", function () {
         toastr.error("轮播描述不能为空！")
         return false
     }
-    fd.append("title", title)
-    fd.append("description", desc)
-    fd.append("place", showPlace)
-    fd.append("link", link)
 
     $.ajax({
         type: "POST",
         dataType: 'JSON',
-        url: '/api/banner',
-        // data: $("#submit").serialize(),
-        data: fd,
+        url: $("#submit").attr('action'),
+        data: $("#submit").serialize(),
         processData: false,
         contentType: false,
         success: function(res) {
-            console.log(res)
-            // if(data.status == 200){
-            //     toastr.success("发布任务成功")
-            //     setTimeout(() => {
-            //         window.location.href = '/task/list'
-            //     }, 1500);
-            // } else {
-            //     toastr.error(data.message);
-            // }
-            // console.log(status);
+            if(res.status == 200){
+                toastr.success("新建轮播成功")
+                setTimeout(() => {
+                    window.location.href = '/banner/list'
+                }, 1500);
+            } else {
+                toastr.error(res.message);
+            }
+            console.log(status);
         },
         error: function (ex) {
             console.log(ex)

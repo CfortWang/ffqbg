@@ -114,8 +114,10 @@ $(document).ready(function(){
                 render: function (data, type, row) {
                     if (row.advertisement_position_id == 1) {
                         var place = "主页"
-                    } else {
+                    } else if (row.advertisement_position_id == 2) {
                         var place = "商城"
+                    } else {
+                        var place = "全部"
                     }
                     return place
                 },

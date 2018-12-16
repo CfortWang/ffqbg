@@ -50,7 +50,7 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">显示位置</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <select class="form-control" id="show_place" name="user_level">
+                                <select class="form-control" id="show_place" name="advertisement_position_id">
                                     <option value="0">全部</option>
                                     <option value="1">主页</option>
                                     <option value="2">商城</option>
@@ -72,6 +72,7 @@
                                 <textarea class="rule-text" name="description" id="desc" cols="" rows="" placeholder="轮播的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
                             </div>
                         </div>
+                        <input type="text" name="id" hidden id="banner_id">
                         <div class="create-task"><button type="button" class="btn btn-primary btn-lg modify-btn">保存修改</button></div>
                     </div>
                     </form>
@@ -133,6 +134,7 @@ $(".banner").on("click", ".selected-image .delete-image", function () {
 })
 
 var id = window.location.pathname.split("/")[2]
+$("#banner_id").val(id)
 var drawData = function () {
     $.ajax({
         url: '/api/banner/detail',
@@ -179,18 +181,18 @@ $(".modify-btn").on("click", function () {
     $.ajax({
         type: "POST",
         dataType: 'JSON',
+        url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
         success: function(res) {
-            console.log(res)
-            // if(data.status == 200){
-            //     toastr.success("新建轮播成功")
-            //     setTimeout(() => {
-            //         window.location.href = '/banner/list'
-            //     }, 1500);
-            // } else {
-            //     toastr.error(data.message);
-            // }
-            // console.log(status);
+            if(res.status == 200){
+                toastr.success("修改成功")
+                setTimeout(() => {
+                    window.location.href = '/banner/list'
+                }, 1500);
+            } else {
+                toastr.error(res.message);
+            }
+            console.log(status);
         },
         error: function (ex) {
             console.log(ex)
