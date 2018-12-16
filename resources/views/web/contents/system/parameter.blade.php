@@ -32,19 +32,19 @@
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">会员</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="register_1_return" name="title" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">中级</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="register_2_return" name="title" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">高级</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="register_3_return" name="title" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -55,19 +55,19 @@
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">1级</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="finish_1_return" name="title" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">2级</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="finish_2_return" name="title" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">3级</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="finish_3_return" name="title" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -101,19 +101,19 @@
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">最高</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="cashout_max" name="title" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">最低</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="cashout_min" name="title" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="col-lg-4 col-md-5 col-sm-4 data-title">手续费</div>
                                     <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
+                                        <input type="number" class="form-control full-width" id="cashout_fee" name="title" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -127,95 +127,19 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">新用户赠送金额</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="task_limit" name="amount" placeholder="">
+                                <input type="number" class="form-control" id="register_award" name="amount" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">首次发布任务返回</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="task_limit" name="amount" placeholder="">
+                                <input type="number" class="form-control" id="first_publish_award" name="amount" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">关注提示语</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
                                 <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-12">大厅名称</label>
-                            <div class="col-lg-10 col-md-10 col-sm-12">
-                                <div>
-                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">单价</div>
-                                        <div class="col-lg-8 col-md-7 col-sm-8">
-                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">单价</div>
-                                        <div class="col-lg-8 col-md-7 col-sm-8">
-                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">单价</div>
-                                        <div class="col-lg-8 col-md-7 col-sm-8">
-                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">会员名称及价格</label>
-                            <div class="col-lg-10 col-md-10 col-sm-12">
-                                <div>
-                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="一级会员名称">
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">价格</div>
-                                        <div class="col-lg-8 col-md-7 col-sm-8">
-                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="二级会员名称">
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">价格</div>
-                                        <div class="col-lg-8 col-md-7 col-sm-8">
-                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="col-lg-5 col-md-6 col-sm-12" style="padding: 0px">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="三级会员名称">
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="col-lg-4 col-md-5 col-sm-4 data-title">价格</div>
-                                        <div class="col-lg-8 col-md-7 col-sm-8">
-                                            <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
@@ -267,32 +191,37 @@
 @section('scripts')
 <script>
 
-var args = getArgs()
-$("input#task_id").val(args['id'])
 var drawData = function () {
     $.ajax({
-        url: '/api/task/detail',
+        url: '/api/system/system',
         type: 'get',
-        data: {
-            id: args['id']
-        },
         dataType: 'json',
         success: function (res) {
             let resData = res.data
             console.log(resData)
-            $("input#task_title").val(resData.title)
-            $("input#task_price").val(resData.price)
-            $("input#task_limit").val(resData.task_limit)
-            $("select#task_type").val(resData.user_level)
-            $("select#task_type").find("option[value = '"+ resData.user_level +"']").attr("selected","selected")
-            $("#task_desc").val(resData.content)
+            $("input#cashout_max").val(resData.cashout_max)
+            $("input#cashout_min").val(resData.cashout_min)
+            $("input#cashout_fee").val(resData.cashout_rate)
+            $("input#finish_1_return").val(resData.finish_1_return)
+            $("input#finish_2_return").val(resData.finish_2_return)
+            $("input#finish_3_return").val(resData.finish_3_return)
+            $("input#register_1_return").val(resData.register_1_return)
+            $("input#register_2_return").val(resData.register_2_return)
+            $("input#register_3_return").val(resData.register_3_return)
 
-            // 渲染任务图片
-            $(".task .image-remark").hide()
-            for (let i = 0; i < resData.images.length; i++) {
-                var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.images[i] + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.images[i] + '"></div>'
-                $('.task').append($imgBox)
-            }
+            // $("input#cashout_max").val(resData.cashout_max)
+            $("input#register_award").val(resData.register_award)
+            $("input#first_publish_award").val(resData.first_publish_award)
+            // $("select#task_type").val(resData.user_level)
+            // $("select#task_type").find("option[value = '"+ resData.user_level +"']").attr("selected","selected")
+            // $("#task_desc").val(resData.content)
+
+            // // 渲染任务图片
+            // $(".task .image-remark").hide()
+            // for (let i = 0; i < resData.images.length; i++) {
+            //     var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.images[i] + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.images[i] + '"></div>'
+            //     $('.task').append($imgBox)
+            // }
             
         },
         error: function (ex) {

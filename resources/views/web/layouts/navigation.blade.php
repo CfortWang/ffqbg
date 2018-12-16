@@ -102,16 +102,22 @@
 				</ul>
 			</li>
 			<li class="{{ isActiveRoute('system', 1) }}">
-				<a href="{{ url('/system/basis') }}">
+				<a href="{{ url('/system/parameter') }}">
 					<i class="fa fa-wrench"></i>
 					<span class="nav-label">系统设置</span>
 				</a>
 				<ul class="nav nav-second-level collapse">
-					<li class="{{ isActiveRoute('list', 2) }}">
+					<!-- <li class="{{ isActiveRoute('list', 2) }}">
 						<a href="{{ url('/system/basis') }}">基础设置</a>
-					</li>
+					</li> -->
 					<li class="{{ isActiveRoute('list', 2) }}">
 						<a href="{{ url('/system/parameter') }}">参数设置</a>
+					</li>
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/system/member') }}">会员设置</a>
+					</li>
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/system/task') }}">任务设置</a>
 					</li>
 					<li class="{{ isActiveRoute('list', 2) }}">
 						<a href="{{ url('/system/code') }}">验证码列表</a>

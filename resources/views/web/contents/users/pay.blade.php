@@ -59,26 +59,26 @@
                             </div>
                             <div class="filter-box">
                                 <label>状态 :</label>
-                                <select class="form-control" id="list-select">
+                                <select class="form-control" id="pay_status">
                                     <option value="">全部</option>
-                                    <option value="0">已支付</option>
-                                    <option value="1">未支付</option>
+                                    <option value="PAIED">已支付</option>
+                                    <option value="NOTPAY">未支付</option>
                                 </select>
                             </div>
                             <div class="filter-box">
                                 <label>支付方式 :</label>
-                                <select class="form-control" id="list-select">
+                                <select class="form-control" id="pay_method">
                                     <option value="">全部</option>
-                                    <option value="0">微信</option>
-                                    <option value="1">支付宝</option>
+                                    <option value="WEIXINPAY">微信</option>
+                                    <option value="ALIPAY">支付宝</option>
                                 </select>
                             </div>
                             <div class="filter-box">
                                 <label>类型 :</label>
-                                <select class="form-control" id="list-select">
+                                <select class="form-control" id="pay_type">
                                     <option value="">全部</option>
-                                    <option value="0">购买会员</option>
-                                    <option value="1">发布广告</option>
+                                    <option value="MEMBER-BUY-VIP">购买会员</option>
+                                    <option value="CREATE-TASK">发布广告</option>
                                 </select>
                             </div>
                             <div class="search-btn">
@@ -112,7 +112,7 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
+    var table = $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
         dom: '<"row"t>p',
@@ -131,6 +131,14 @@ $(document).ready(function(){
         serverSide:true,
         ajax: {
             url: "{{ url('/api/user/pay')}}",
+            data: function (d) {
+                d.id = $("#search_id").val()
+                d.start_at = $("#start-date").val()
+                d.end_at = $("#end-date").val()
+                d.status = $("#pay_status").val()
+                d.pay_method = $("#pay_method").val()
+                d.type = $("#pay_type").val()
+            },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -200,7 +208,15 @@ $(document).ready(function(){
                 orderable: false
             },
         ],
+        drawCallback: function () {
+            appendSkipPage()
+        }
     });
+
+    $('.search-btn').on("click", function () {
+        table.ajax.reload()
+    })
+
 });
 </script>
 @endsection

@@ -60,6 +60,8 @@ Route::group(['namespace' => 'Web'], function() {
         Route::group(['prefix' => 'system'], function() {
             Route::get('basis',              'SystemController@basis')->name("web_admin_list");
             Route::get('parameter',              'SystemController@parameter')->name("web_admin_parameter");
+            Route::get('member',              'SystemController@member')->name("web_admin_member");
+            Route::get('task',              'SystemController@task')->name("web_admin_task");
             Route::get('code',              'SystemController@code')->name("web_admin_code");
             Route::get('protocol',              'SystemController@protocol')->name("web_admin_protocol");
             Route::get('{id}/detail',      'SystemController@detail')->name("web_admin_detail");

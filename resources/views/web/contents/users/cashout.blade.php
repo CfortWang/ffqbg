@@ -177,7 +177,7 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
+    var table = $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
         dom: '<"row"t>p',
@@ -200,7 +200,7 @@ $(document).ready(function(){
                 d.id = $("#search_id").val()
                 d.start_at = $("#start-date").val()
                 d.end_at = $("#end-date").val()
-                d.status = $("#cashout_status").val()
+                d.withdraw_status = $("#cashout_status").val()
             },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );

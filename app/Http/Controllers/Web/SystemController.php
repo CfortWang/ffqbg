@@ -35,6 +35,20 @@ class SystemController extends Controller
         ]);
     }
 
+    public function task()
+    {
+        return view('web.contents.system.task', [
+            'title' => $this->title,
+        ]);
+    }
+
+    public function member()
+    {
+        return view('web.contents.system.member', [
+            'title' => $this->title,
+        ]);
+    }
+
     public function code()
     {
         return view('web.contents.system.code', [
