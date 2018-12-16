@@ -64,12 +64,12 @@
                             <div class="limit-switch">
                                 <label>限制 :</label>
                                 <label for="limit_switch1" class="label-radio">
-                                    <input type="radio" checked hidden id="limit_switch1" name="is_model_close" value="1">
+                                    <input type="radio" checked hidden id="limit_switch1" name="limit_switch" value="1">
                                     <label for="limit_switch1" class="time-radio"></label>
                                     <span>开</span>
                                 </label>
                                 <label for="limit_switch2" class="label-radio">
-                                    <input type="radio" hidden="" id="limit_switch2" name="is_model_close" value="0">
+                                    <input type="radio" hidden="" id="limit_switch2" name="limit_switch" value="0">
                                     <label for="limit_switch2" class="time-radio"></label>
                                     <span>关</span>
                                 </label>
@@ -81,7 +81,7 @@
                         <span class="filter-data"></span>
                         <span>人</span>
                         <div class="limit-info">
-                            <span>目前系统限制人数：</span>
+                            <span class="limit-desc">目前系统限制人数：</span>
                             <span class="limit-number"></span>
                             <button type="button" class="btn btn-success btn-sm" id="add-limit" data-toggle="modal" data-target="#addLimit">添加限制</button>
                         </div>
@@ -127,6 +127,7 @@ $(document).ready(function(){
         var maxAmount = $("#max_amount").val()
         var startDate = $("#start-date").val()
         var endDate = $("#end-date").val()
+        $(".info-box").show()
         $.ajax({
             url: '/api/system/limit',
             type: 'get',
@@ -140,7 +141,15 @@ $(document).ready(function(){
             success: function (res) {
                 if (res.status == 200) {
                     toastr.success(res.message)
-                    $(".filter-data").text(res.data)
+                    $(".filter-data").text(res.data.count)
+                    if (res.data.limit) {
+                        $(".limit-desc").text("目前系统限制人数：")
+                        $("#add-limit").text("修改限制")
+                        $(".limit-number").text(res.data.limit)
+                    } else {
+                        $(".limit-desc").text("目前系统没有设置限制")
+                        $("#add-limit").text("添加限制")
+                    }
                 } else {
                     toastr.error(res.message)
                 }
@@ -153,21 +162,53 @@ $(document).ready(function(){
 
     $('#sure-add').on("click", function () {
         var userNumber = $("#user_number").val()
+        var minAmount = $("#min_amount").val()
+        var maxAmount = $("#max_amount").val()
+        var startDate = $("#start-date").val()
+        var endDate = $("#end-date").val()
         $.ajax({
             url: '/api/system/addLimit',
             type: 'POST',
             data: {
-                total: userNumber
+                total: userNumber,
+                min: minAmount,
+                max: maxAmount,
+                start_at: startDate,
+                end_at: endDate
             },
             dataType: 'json',
             success: function (res) {
-                console.log(res)
-                // if (res.status == 200) {
-                //     toastr.success(res.message)
-                //     $(".filter-data").text(res.data)
-                // } else {
-                //     toastr.error(res.message)
-                // }
+                $('#addLimit').modal('hide')
+                if (res.status == 200) {
+                    $("input[type=radio][name=limit_switch]").find("option[value = '"+res.is_login_limit_close+"']").attr("checked", true)
+                    toastr.success(res.message)
+                    $(".limit-desc").text("目前系统限制人数：")
+                    $("#add-limit").text("修改限制")
+                    $(".limit-number").text(userNumber)
+                } else {
+                    toastr.error(res.message)
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
+
+    $('input[type=radio][name=limit_switch]').change(function() {
+        $.ajax({
+            url: '/api/system/switchLoginLimit',
+            type: 'POST',
+            data: {
+                is_login_limit_close: this.value
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
