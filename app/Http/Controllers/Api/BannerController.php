@@ -76,8 +76,8 @@ class BannerController extends Controller
         $id = $request->input('id');
         $data = AppAdvertisement::where('id',$id)->first();
         $data->name = $request->input('title');
-        $data->content = $request->input('content');
-        $data->url = $request->input('url');
+        $data->description = $request->input('description');
+        $data->file = $request->input('file');
         $data->link = $request->input('link');
         $data->advertisement_position_id = $request->input('advertisement_position_id');
         $data->save();
