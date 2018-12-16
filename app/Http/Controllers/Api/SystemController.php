@@ -128,7 +128,8 @@ class SystemController extends Controller
         $end_at = $request->input('end_at');
         $count = User::where('total_amount','>',$min)->where('total_amount','<',$max)->count();
         $limit = UserLimit::count();
-
+        $setting = Setting::first();
+        $data['is_login_limit_close'] = $setting->is_login_limit_close;
         $data['count'] = $count;
         $data['limit'] = $limit;
         return $this->responseOK('查询成功',$data);
