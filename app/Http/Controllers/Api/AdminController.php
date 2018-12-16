@@ -112,7 +112,7 @@ class AdminController extends Controller
             $message = $validator->errors()->first();
             return $this->responseBadRequest($message);
         }
-        $data['name'] = $request->input('name');
+        $data['nickname'] = $request->input('name');
         $data['username'] = $request->input('username');
         $data['role_id'] = $request->input('role_id');
         $data['password'] = md5($request->input('password'));
@@ -122,7 +122,7 @@ class AdminController extends Controller
         $data['login_time'] = time();
         $data['last_login_ip'] = $request->getClientIp();
         $data['last_login_time'] = time();
-        $user_id = Admin::save($data);
+        $user_id = Admin::create($data);
         
         return $this->responseOK('新建成功', $user_id);
     }
