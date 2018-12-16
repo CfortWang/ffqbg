@@ -16,9 +16,8 @@ Route::group(['namespace' => 'Web'], function() {
     Route::post('/login/access', 'LoginController@access')->name("login_access");
     Route::get('/logout', 'LoginController@logout')->name("logout");
 
-    Route::group([], function() {
-        Route::get('/', 'DashBoardController@index')->name("web_dashboard");
-
+    Route::group(['middleware' => 'loginCheck'], function() {
+        Route::get('/', 'UserController@list');
         Route::group(['prefix' => 'user'], function() {
             Route::get('list',              'UserController@list')->name("web_user_list");
             Route::get('list/level',              'UserController@level')->name("web_user_level");
@@ -58,13 +57,13 @@ Route::group(['namespace' => 'Web'], function() {
         });
 
         Route::group(['prefix' => 'system'], function() {
-            Route::get('basis',              'SystemController@basis')->name("web_admin_list");
-            Route::get('parameter',              'SystemController@parameter')->name("web_admin_parameter");
-            Route::get('member',              'SystemController@member')->name("web_admin_member");
-            Route::get('task',              'SystemController@task')->name("web_admin_task");
-            Route::get('code',              'SystemController@code')->name("web_admin_code");
-            Route::get('protocol',              'SystemController@protocol')->name("web_admin_protocol");
-            Route::get('{id}/detail',      'SystemController@detail')->name("web_admin_detail");
+            Route::get('basis',              'SystemController@basis')->name("web_system_list");
+            Route::get('parameter',              'SystemController@parameter')->name("web_system_parameter");
+            Route::get('member',              'SystemController@member')->name("web_system_member");
+            Route::get('task',              'SystemController@task')->name("web_system_task");
+            Route::get('code',              'SystemController@code')->name("web_system_code");
+            Route::get('protocol',              'SystemController@protocol')->name("web_system_protocol");
+            Route::get('{id}/detail',      'SystemController@detail')->name("web_system_detail");
         });
     });
 });

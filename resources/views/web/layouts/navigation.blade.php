@@ -91,12 +91,12 @@
 					<li class="{{ isActiveRoute('list', 2) }}">
 						<a href="{{ url('/admin/list') }}">管理员列表</a>
 					</li>
-					<li class="{{ isActiveRoute('list', 2) }}">
+					<li class="{{ isActiveRoute('role', 2) }}">
 						<a href="{{ url('/admin/role') }}">角色列表</a>
 					</li>
-					<li class="{{ isActiveRoute('list', 2) }}">
+					<li class="{{ isActiveRoute('role_create', 2) }}">
 						<a href="{{ url('/admin/role_create') }}">创建角色</a>
-					</li><li class="{{ isActiveRoute('list', 2) }}">
+					</li><li class="{{ isActiveRoute('create', 2) }}">
 						<a href="{{ url('/admin/create') }}">创建管理员</a>
 					</li>
 				</ul>
@@ -110,19 +110,19 @@
 					<!-- <li class="{{ isActiveRoute('list', 2) }}">
 						<a href="{{ url('/system/basis') }}">基础设置</a>
 					</li> -->
-					<li class="{{ isActiveRoute('list', 2) }}">
+					<li class="{{ isActiveRoute('parameter', 2) }}">
 						<a href="{{ url('/system/parameter') }}">参数设置</a>
 					</li>
-					<li class="{{ isActiveRoute('list', 2) }}">
+					<li class="{{ isActiveRoute('member', 2) }}">
 						<a href="{{ url('/system/member') }}">会员设置</a>
 					</li>
-					<li class="{{ isActiveRoute('list', 2) }}">
+					<li class="{{ isActiveRoute('task', 2) }}">
 						<a href="{{ url('/system/task') }}">任务设置</a>
 					</li>
-					<li class="{{ isActiveRoute('list', 2) }}">
+					<li class="{{ isActiveRoute('code', 2) }}">
 						<a href="{{ url('/system/code') }}">验证码列表</a>
 					</li>
-					<li class="{{ isActiveRoute('list', 2) }}">
+					<li class="{{ isActiveRoute('protocol', 2) }}">
 						<a href="{{ url('/system/protocol') }}">用户协议</a>
 					</li>
 				</ul>

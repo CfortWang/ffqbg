@@ -73,18 +73,20 @@
       dataType: 'json',
       type: 'POST',
       success: function(data){
-        bootbox.alert(loginSuccess, function(){
-          location.href ='/';
-        });
-      },
-      error: function(data) {
-        if (data.responseJSON.status === 101) {
+        console.log(data);
+        if (data.status === 101) {
           bootbox.alert(checkID);
-        } else if (data.responseJSON.status === 102) {
+        } else if (data.status === 102) {
           bootbox.alert(checkPW);
-        } else {
+        } else if (data.status === 200) {
+          bootbox.alert(loginSuccess);
+          location.href ='/';
+        } else{
           bootbox.alert(serverError);
         }
+      },
+      error: function(data) {
+        
       }
     });
   }
