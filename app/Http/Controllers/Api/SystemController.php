@@ -126,7 +126,10 @@ class SystemController extends Controller
         $start_at = $request->input('start_at');
         $end_at = $request->input('end_at');
         $count = User::where('total_amount','>',$min)->where('total_amount','<',$max)->count();
-        return $this->responseOK('查询成功',$count);
+        $limit = User::where('login_limit',1)->count();
+        $data['count'] = $count;
+        $data['limit'] = $limit;
+        return $this->responseOK('查询成功',$data);
     }
      
 }
