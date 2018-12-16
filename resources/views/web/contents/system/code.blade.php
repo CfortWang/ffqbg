@@ -33,6 +33,15 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                    <div id="" class="dataTables_filter">
+                            <div class="search-box">
+                                <label>搜索 :</label>
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="手机号码" aria-controls="">
+                            </div>
+                            <div class="search-btn">
+                                <button type="button" class="btn btn-primary btn-sm" id="search-btn" data-toggle="" data-target="">查找</button>
+                            </div>
+                        </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -58,7 +67,7 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-    $('.user-list-table').DataTable({
+    var table = $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
         dom: '<"row"t>p',
@@ -77,6 +86,9 @@ $(document).ready(function(){
         serverSide:true,
         ajax: {
             url: "{{ url('/api/system/code')}}",
+            data: function (d) {
+                d.phone = $("#search_id").val()
+            },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -111,6 +123,10 @@ $(document).ready(function(){
             appendSkipPage()
         }
     });
+
+    $('#search-btn').on("click", function () {
+        table.ajax.reload()
+    })
 });
 </script>
 @endsection
