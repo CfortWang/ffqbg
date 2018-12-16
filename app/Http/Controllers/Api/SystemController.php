@@ -154,6 +154,9 @@ class SystemController extends Controller
             $count = User::where('total_amount','>',$min)->where('total_amount','<',$max)->count();
         }
         $limit = UserLimit::count();
+        if($limit==0&&!($mix&&$amx)){
+            return $this->responseNotFound('请输入范围',[]);
+        }
         if($limit&&$limit<$amount){
             return $this->responseNotFound('已有限制登录用户',[]);
         }
