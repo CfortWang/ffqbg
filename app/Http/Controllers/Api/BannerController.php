@@ -79,6 +79,7 @@ class BannerController extends Controller
         $data->content = $request->input('content');
         $data->url = $request->input('url');
         $data->link = $request->input('link');
+        $data->advertisement_position_id = $request->input('advertisement_position_id');
         $data->save();
         return $this->responseOK('修改成功',[]);
     }
