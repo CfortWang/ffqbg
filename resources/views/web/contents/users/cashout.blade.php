@@ -152,7 +152,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-info" data-type="confirm" id="pass-btn">通过申请</button>
                     <button type="button" class="btn btn-danger" data-type="refuse" id="refuse-btn">拒绝申请</button>
-                    <button type="button" class="btn btn-success" id="update-btn">拒绝申请</button>
+                    <button type="button" class="btn btn-success" id="update-btn">提交更改</button>
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@ $(document).ready(function(){
             },
             {
                 data:"phone_number",
-                className:"text-center",
+                className:"text-center overflow",
                 render:function(data,type,row) {
                     var userLevel = ""
                     if (row.user_level_id == 1) {
@@ -241,7 +241,7 @@ $(document).ready(function(){
             },
             {
                 data:"withdraw_alipay_account",
-                className:"text-center",
+                className:"text-center overflow",
                 render: function (data, type, row) {
                     return "真实姓名:" + row.withdraw_alipay_realname + "<br/>支付宝账号:" + row.withdraw_alipay_account
                 }

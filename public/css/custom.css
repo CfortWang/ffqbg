@@ -417,10 +417,16 @@ input[type="radio"]:checked + .time-radio {
     vertical-align: middle;
     margin: 0px;
 }
-
+.menu-box, .checked-all{
+    padding-top: 20px;
+}
 .menu {
     /* display: inline-block; */
     margin-bottom: 10px;
+}
+.menu span{
+    vertical-align: middle;
+    margin-left: 5px;
 }
 .menu-title{
     font-weight: 600;
