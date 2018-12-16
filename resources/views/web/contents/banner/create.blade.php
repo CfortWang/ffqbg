@@ -152,8 +152,6 @@ $(".create-btn").on("click", function () {
         dataType: 'JSON',
         url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
-        processData: false,
-        contentType: false,
         success: function(res) {
             if(res.status == 200){
                 toastr.success("新建轮播成功")
