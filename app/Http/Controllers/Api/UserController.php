@@ -381,7 +381,7 @@ class UserController extends Controller
         }
         $data->withdraw_confirm_time = time();
         if($type =='refuse'){
-            $data->refuse_msg = $request->input('withdraw_reason');
+            $data->withdraw_reason = $request->input('reason');
             $data->withdraw_status = 2;
             // ($user_id,-$amount,'WITHDRAW','申请提现款项冻结',0)
             $this->userAmountChange($data->user_id,$data->withdraw_amount,'WITHDRAW','提现失败返还',0);
@@ -394,6 +394,7 @@ class UserController extends Controller
             }else{
                 $data->withdraw_status = 2;
                 $data->withdraw_reason = $alireturn['msg'];
+                $this->userAmountChange($data->user_id,$data->withdraw_amount,'WITHDRAW','提现失败返还',0);
             }
         }
         $data->save();
