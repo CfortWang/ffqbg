@@ -382,17 +382,17 @@ class UserController extends Controller
         $data->withdraw_confirm_time = time();
         if($type =='refuse'){
             $data->refuse_msg = $request->input('withdraw_reason');
-            $data->status = 3;
+            $data->status = 2;
             // ($user_id,-$amount,'WITHDRAW','申请提现款项冻结',0)
             $this->userAmountChange($data->user_id,$data->withdraw_amount,'WITHDRAW','提现失败返还',0);
         }else{
             $alireturn = $this->callAlipay($id);
             if($alireturn['code']==10000){
-                $data->status = 2;
+                $data->status = 1;
                 $data->withdraw_complete_time = time();
                 $data->withdraw_reason = $alireturn['code'];
             }else{
-                $data->status = 3;
+                $data->status = 2;
                 $data->withdraw_reason = $alireturn['sub_msg'];
             }
         }
