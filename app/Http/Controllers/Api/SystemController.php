@@ -11,6 +11,7 @@ use App\Models\Setting;
 use App\Models\TaskSetting;
 use App\Models\PhoneVerificationCode;
 use App\Models\User;
+use App\Models\UserLimit;
 
 class SystemController extends Controller
 {
@@ -126,10 +127,58 @@ class SystemController extends Controller
         $start_at = $request->input('start_at');
         $end_at = $request->input('end_at');
         $count = User::where('total_amount','>',$min)->where('total_amount','<',$max)->count();
-        $limit = User::where('login_limit',1)->count();
+        $limit = UserLimit::count();
+
         $data['count'] = $count;
         $data['limit'] = $limit;
         return $this->responseOK('查询成功',$data);
+    }
+
+    public function switchLoginLimit(Request $request)
+    {
+        $data = Setting::first();
+        $data->is_login_limit_close = $request->input('is_login_limit_close');
+        $data->save();
+        return $this->responseOK('保存成功',[]);
+    }
+
+    public function setlimit(Request $request)
+    {
+        $amount = $request->input('total');
+        $min = $request->input('min');
+        $max = $request->input('max');
+        $start_at = $request->input('start_at');
+        $end_at = $request->input('end_at');
+        $count = 0;
+        if($min||$max||$start_at||$end_at){
+            $count = User::where('total_amount','>',$min)->where('total_amount','<',$max)->count();
+        }
+        $limit = UserLimit::count();
+        if($limit&&$limit<$amount){
+            return $this->responseNotFound('已有限制登录用户',[]);
+        }
+        if($limit&&$amount<=$limit){
+            $left = $limit-$amount;
+            $data = UserLimit::limit($amount)->get();
+            foreach ($data as $key => $value) {
+                UserLimit::where('id',$value['id'])->delete();
+            }
+            return $this->responseOK('修改成功',[]);
+        }
+        if($limit==0&&$count!=0){
+            $data = User::where('total_amount','>',$min)->where('total_amount','<',$max)->get();
+            if($data){
+                foreach ($data as $key => $value) {
+                    $d['user_id'] = $value['id'];
+                    $insert[]=$d;
+                }
+                UserLimit::insert($insert);
+                return $this->responseOK('设置成功',[]);
+            }else{
+                return $this->responseBadRequest('没有足够的用户',[]);
+            }
+        }
+        return $this->responseOK('修1改成功',[]);
     }
      
 }

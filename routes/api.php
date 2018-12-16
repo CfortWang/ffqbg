@@ -81,6 +81,9 @@ use Illuminate\Http\Request;
             Route::post('task',              'SystemController@taskUpdate');
             Route::get('code',              'SystemController@code');
             Route::get('limit',              'SystemController@limit');
+            Route::post('switchLoginLimit',              'SystemController@switchLoginLimit');
+            Route::post('addLimit',              'SystemController@setlimit');
+            
         });
         Route::group(['prefix' => 'upload'], function() {
             Route::post('/',              'UploadController@image');

@@ -17,6 +17,7 @@ use App\Models\UserLevel;
 use App\Models\UserBrokerages;
 use App\Models\UserLevelUp;
 use App\Models\UserMessage;
+use App\Models\UserLimit;
 
 use Yansongda\Pay\Pay;
 class UserController extends Controller
