@@ -328,7 +328,7 @@ $(document).ready(function(){
 
     })
 
-    $(".pass-btn, .refuse-btn").on("click", function () {
+    $("#pass-btn, #refuse-btn").on("click", function () {
         var type = $(this).attr("data-type")
         var reason = $("#reason").val()
         var id = $(this).parent().attr("data-id")

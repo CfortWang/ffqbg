@@ -466,6 +466,6 @@ input[type="checkbox"]:checked + .menu-checkbox {
     font-weight: 600;
 }
 
-.pass-btn, .refuse-btn, .reason{
+#pass-btn, #refuse-btn, .reason{
     display: none;
 }
