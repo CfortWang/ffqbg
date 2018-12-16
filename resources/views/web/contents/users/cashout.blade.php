@@ -307,6 +307,7 @@ $(document).ready(function(){
         $("#cashout_type").val(data.attr("data-type"))
         $("#cashout_method").val(data.attr("data-method"))
         var cashoutStatus = data.attr("data-status")
+        $("#cashout_status").val(cashoutStatus)
         if (cashoutStatus == 0) {
             $("#pass-btn").show()
             $("#refuse-btn").show()
@@ -323,8 +324,6 @@ $(document).ready(function(){
             $("#refuse-btn").hide()
             $(".reason").hide()
         }
-
-        $("#cashout_status").val("1")
 
     })
 
