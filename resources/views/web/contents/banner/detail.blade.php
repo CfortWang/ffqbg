@@ -183,9 +183,9 @@ $(".modify-btn").on("click", function () {
         success: function(res) {
             console.log(res)
             // if(data.status == 200){
-            //     toastr.success("发布任务成功")
+            //     toastr.success("新建轮播成功")
             //     setTimeout(() => {
-            //         window.location.href = '/task/list'
+            //         window.location.href = '/banner/list'
             //     }, 1500);
             // } else {
             //     toastr.error(data.message);
