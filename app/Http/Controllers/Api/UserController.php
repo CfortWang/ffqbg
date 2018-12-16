@@ -376,12 +376,24 @@ class UserController extends Controller
         $type = $request->input('type');
         $id = $request->input('id');
         $data = UserCashout::where('id',$id)->where('withdraw_status',0)->first();
+        if(!$data){
+            return $this->responseNotFound('数据不存在或已删除', []);
+        }
         $data->withdraw_confirm_time = time();
         if($type =='refuse'){
             $data->refuse_msg = $request->input('withdraw_reason');
-            $data->status = 2;
+            $data->status = 3;
+            // ($user_id,-$amount,'WITHDRAW','申请提现款项冻结',0)
+            $this->userAmountChange($data->user_id,$data->withdraw_amount,'WITHDRAW','提现失败返还',0);
         }else{
-            $this->callAlipay($id);
+            $alireturn = $this->callAlipay($id);
+            if($alireturn['code']==10000){
+                $data->status = 2;
+                $data->withdraw_complete_time = time();
+            }else{
+                $data->status = 3;
+                $data->withdraw_reason = $alireturn['sub_msg'];
+            }
         }
         $data->save();
         return $this->responseOK('操作成功', []);
@@ -404,8 +416,13 @@ class UserController extends Controller
         // "out_biz_no" => "1544710615"
         // "pay_date" => "2018-12-13 22:16:51"
         $result = $alipay->transfer($order);
-        dd($result);
-        exit;
+        $data['code'] = $result->code;
+        if($result->code==10000){
+            return $data;
+        }else{
+            $data['msg'] = $result->sub_msg;
+            return $data;
+        }
     }
 
     public function levelList(Request $request)
@@ -479,5 +496,25 @@ class UserController extends Controller
         $message['message'] = '由于你的下级等级比您高，错失'.$amount.'佣金';
         UserMessage::create($message);
         return $this->responseOK('操作成功', []);
+    }
+
+    public function userAmountChange($user_id,$amount,$type,$remark,$fid)
+    {
+        $user = User::where('id',$user_id)->first();
+        $p_amount = $user->total_amount;
+        $user->total_amount = $user->total_amount+$amount;
+        $user->save();
+        $data = array(
+            'user_id' => $user_id,
+            'time' => time(),
+            'amount' => $amount,
+            'p_amount' => $p_amount,
+            'n_amount' => $user->total_amount,
+            'remarks' => $remark,
+            'fid' => $fid,
+            'type' => $type,
+        );
+        UserWalletRecord::create($data);
+        return 1;
     }
 }
