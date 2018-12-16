@@ -166,7 +166,7 @@ class SystemController extends Controller
             return $this->responseOK('修改成功',[]);
         }
         if($limit==0&&$count!=0){
-            $data = User::where('total_amount','>',$min)->where('total_amount','<',$max)->get();
+            $data = User::where('total_amount','>',$min)->where('total_amount','<',$max)->limit($amount)->get();
             if($data){
                 foreach ($data as $key => $value) {
                     $d['user_id'] = $value['id'];
