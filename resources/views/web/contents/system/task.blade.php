@@ -31,18 +31,22 @@
                             <div class="col-lg-10 col-md-10 col-sm-12">
                                 <div class="col-lg-4 col-md-6 col-sm-8 col-xs-8 info">
                                     <div class="title">名称</div>
-                                    <input type="text" class="form-control full-width" id="taskhall0_name" name="title" placeholder="">
-                                    <input type="text" class="form-control full-width" id="taskhall1_name" name="title" placeholder="">
-                                    <input type="text" class="form-control full-width" id="taskhall2_name" name="title" placeholder="">
-                                    <input type="text" class="form-control full-width" id="taskhall3_name" name="title" placeholder="">
+                                    <input type="text" class="form-control full-width" id="taskhall0_name" name="name[]" placeholder="">
+                                    <input type="text" class="form-control full-width" id="taskhall1_name" name="name[]" placeholder="">
+                                    <input type="text" class="form-control full-width" id="taskhall2_name" name="name[]" placeholder="">
+                                    <input type="text" class="form-control full-width" id="taskhall3_name" name="name[]" placeholder="">
                                 </div>
                                 <div class="col-lg-3 col-md-6 col-sm-4 col-xs-4 info" style="padding: 0px;">
                                     <div class="title">单价（元）</div>
-                                    <input type="number" class="form-control full-width" id="taskhall0_price" name="title" placeholder="">
-                                    <input type="number" class="form-control full-width" id="taskhall1_price" name="title" placeholder="">
-                                    <input type="number" class="form-control full-width" id="taskhall2_price" name="title" placeholder="">
-                                    <input type="number" class="form-control full-width" id="taskhall3_price" name="title" placeholder="">
+                                    <input type="number" class="form-control full-width" id="taskhall0_price" name="price[]" placeholder="">
+                                    <input type="number" class="form-control full-width" id="taskhall1_price" name="price[]" placeholder="">
+                                    <input type="number" class="form-control full-width" id="taskhall2_price" name="price[]" placeholder="">
+                                    <input type="number" class="form-control full-width" id="taskhall3_price" name="price[]" placeholder="">
                                 </div>
+                                <input type="text" name="id[]" id="id0" hidden>
+                                <input type="text" name="id[]" id="id1" hidden>
+                                <input type="text" name="id[]" id="id2" hidden>
+                                <input type="text" name="id[]" id="id3" hidden>
                             </div>
                         </div>
                         
@@ -66,6 +70,10 @@ var drawData = function () {
         dataType: 'json',
         success: function (res) {
             let resData = res.data
+            $("input#id0").val(resData[0].id)
+            $("input#id1").val(resData[1].id)
+            $("input#id2").val(resData[2].id)
+            $("input#id3").val(resData[3].id)
             $("input#taskhall0_name").val(resData[0].name)
             $("input#taskhall1_name").val(resData[1].name)
             $("input#taskhall2_name").val(resData[2].name)
@@ -92,7 +100,7 @@ $(".modify-btn").on("click", function () {
             if(data.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
-                    window.location.href = '/task/list'
+                    window.location.href = window.location.href
                 }, 1500);
             } else {
                 toastr.error(data.message);

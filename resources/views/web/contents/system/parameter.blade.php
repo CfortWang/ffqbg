@@ -27,94 +27,76 @@
                 <form id="submit" action="/api/system/modify" method="post"  enctype="multipart/form-data">
                     <div class="form-container">
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-12">推广满十人奖励</label>
+                            <label class="col-lg-2 col-md-2 col-sm-12">推广奖励</label>
                             <div class="col-lg-10 col-md-10 col-sm-12">
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">会员</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="register_1_return" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 info">
+                                    <div class="title">会员等级</div>
+                                    <input type="text" class="form-control full-width" id="user_level1" name="" value="会员" disabled>
+                                    <input type="text" class="form-control full-width" id="user_level2" name="" value="中级会员" disabled>
+                                    <input type="text" class="form-control full-width" id="user_level3" name="" value="高级会员" disabled>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">中级</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="register_2_return" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 info">
+                                    <div class="title">推广人数（人）</div>
+                                    <input type="number" class="form-control full-width" id="limit_1_number" name="limit_1_number" placeholder="">
+                                    <input type="number" class="form-control full-width" id="limit_2_number" name="limit_2_number" placeholder="">
+                                    <input type="number" class="form-control full-width" id="limit_3_number" name="limit_3_number" placeholder="">
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">高级</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="register_3_return" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 info">
+                                    <div class="title">奖励金额（元）</div>
+                                    <input type="number" class="form-control full-width" id="limit_1_return" name="limit_1_return" placeholder="">
+                                    <input type="number" class="form-control full-width" id="limit_2_return" name="limit_2_return" placeholder="">
+                                    <input type="number" class="form-control full-width" id="limit_3_return" name="limit_3_return" placeholder="">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">完成任务返佣</label>
                             <div class="col-lg-10 col-md-10 col-sm-12">
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">1级</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="finish_1_return" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">1级（百分比）</div>
+                                    <input type="number" class="form-control full-width" id="finish_1_return" name="finish_1_return" placeholder="">
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">2级</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="finish_2_return" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">2级（百分比）</div>
+                                    <input type="number" class="form-control full-width" id="finish_2_return" name="finish_2_return" placeholder="">
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">3级</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="finish_3_return" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">3级（百分比）</div>
+                                    <input type="number" class="form-control full-width" id="finish_3_return" name="finish_3_return" placeholder="">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">推广会员返佣</label>
                             <div class="col-lg-10 col-md-10 col-sm-12">
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">1级</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">1级（百分比）</div>
+                                    <input type="number" class="form-control full-width" id="register_1_return" name="register_1_return" placeholder="">
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">2级</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">2级（百分比）</div>
+                                    <input type="number" class="form-control full-width" id="register_2_return" name="register_2_return" placeholder="">
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">3级</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="task_title" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">3级（百分比）</div>
+                                    <input type="number" class="form-control full-width" id="register_3_return" name="register_3_return" placeholder="">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-12">账户钱包提现</label>
                             <div class="col-lg-10 col-md-10 col-sm-12">
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">最高</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="cashout_max" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">最高（元）</div>
+                                    <input type="number" class="form-control full-width" id="cashout_max" name="cashout_max" placeholder="">
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">最低</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="cashout_min" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">最低（元）</div>
+                                    <input type="number" class="form-control full-width" id="cashout_min" name="cashout_min" placeholder="">
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="col-lg-4 col-md-5 col-sm-4 data-title">手续费</div>
-                                    <div class="col-lg-8 col-md-7 col-sm-8">
-                                        <input type="number" class="form-control full-width" id="cashout_fee" name="title" placeholder="">
-                                    </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="title">手续费（百分比）</div>
+                                    <input type="number" class="form-control full-width" id="cashout_fee" name="cashout_fee" placeholder="">
                                 </div>
                             </div>
                         </div>
@@ -127,31 +109,40 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">新用户赠送金额</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="register_award" name="amount" placeholder="">
+                                <input type="number" class="form-control" id="register_award" name="register_award" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">首次发布任务返回</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="first_publish_award" name="amount" placeholder="">
+                                <input type="number" class="form-control" id="first_publish_award" name="first_publish_award" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">关注提示语</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="task_limit" name="amount" placeholder="">
+                            <label class="col-lg-2 col-md-2 col-sm-3">推广奖励开关</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9 reward-switch">
+                                <label for="reward_switch1" class="label-radio">
+                                    <input type="radio" checked hidden id="reward_switch1" name="is_limit_close" value="1">
+                                    <label for="reward_switch1" class="time-radio"></label>
+                                    <span>开</span>
+                                </label>
+                                <label for="reward_switch2" class="label-radio">
+                                    <input type="radio" hidden id="reward_switch2" name="is_limit_close" value="0">
+                                    <label for="reward_switch2" class="time-radio"></label>
+                                    <span>关</span>
+                                </label>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">提现开关</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 cashout-switch">
                                 <label for="cashout_switch1" class="label-radio">
-                                    <input type="radio" checked="" hidden="" id="cashout_switch1" name="continued_time" value="1">
+                                    <input type="radio" checked hidden id="cashout_switch1" name="is_callout_close" value="1">
                                     <label for="cashout_switch1" class="time-radio"></label>
                                     <span>开</span>
                                 </label>
                                 <label for="cashout_switch2" class="label-radio">
-                                    <input type="radio" hidden="" id="cashout_switch2" name="continued_time" value="0">
+                                    <input type="radio" hidden id="cashout_switch2" name="is_callout_close" value="0">
                                     <label for="cashout_switch2" class="time-radio"></label>
                                     <span>关</span>
                                 </label>
@@ -161,12 +152,12 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">新闻公告开关</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 news-switch">
                                 <label for="news_switch1" class="label-radio">
-                                    <input type="radio" checked="" hidden="" id="news_switch1" name="continued_time" value="1">
+                                    <input type="radio" checked hidden id="news_switch1" name="is_model_close" value="1">
                                     <label for="news_switch1" class="time-radio"></label>
                                     <span>开</span>
                                 </label>
                                 <label for="news_switch2" class="label-radio">
-                                    <input type="radio" hidden="" id="news_switch2" name="continued_time" value="0">
+                                    <input type="radio" hidden="" id="news_switch2" name="is_model_close" value="0">
                                     <label for="news_switch2" class="time-radio"></label>
                                     <span>关</span>
                                 </label>
@@ -175,7 +166,7 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">新闻公告</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="支持换行（不超过300字符）" maxlength="300"></textarea>
+                                <textarea class="rule-text" name="model_text" id="model_text" cols="" rows="" placeholder="支持换行（不超过300字符）" maxlength="300"></textarea>
                             </div>
                         </div>
                         <div class="create-task"><button type="button" class="btn btn-primary btn-lg modify-btn">保存修改</button></div>
@@ -199,29 +190,30 @@ var drawData = function () {
         success: function (res) {
             let resData = res.data
             console.log(resData)
+            $("input#limit_1_number").val(resData.limit_1_number)
+            $("input#limit_2_number").val(resData.limit_2_number)
+            $("input#limit_3_number").val(resData.limit_3_number)
+            
+            $("input#limit_1_return").val(resData.limit_1_return)
+            $("input#limit_2_return").val(resData.limit_2_return)
+            $("input#limit_3_return").val(resData.limit_3_return)
+
             $("input#cashout_max").val(resData.cashout_max)
             $("input#cashout_min").val(resData.cashout_min)
             $("input#cashout_fee").val(resData.cashout_rate)
+
             $("input#finish_1_return").val(resData.finish_1_return)
             $("input#finish_2_return").val(resData.finish_2_return)
             $("input#finish_3_return").val(resData.finish_3_return)
+
             $("input#register_1_return").val(resData.register_1_return)
             $("input#register_2_return").val(resData.register_2_return)
             $("input#register_3_return").val(resData.register_3_return)
 
-            // $("input#cashout_max").val(resData.cashout_max)
             $("input#register_award").val(resData.register_award)
             $("input#first_publish_award").val(resData.first_publish_award)
-            // $("select#task_type").val(resData.user_level)
-            // $("select#task_type").find("option[value = '"+ resData.user_level +"']").attr("selected","selected")
-            // $("#task_desc").val(resData.content)
 
-            // // 渲染任务图片
-            // $(".task .image-remark").hide()
-            // for (let i = 0; i < resData.images.length; i++) {
-            //     var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.images[i] + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.images[i] + '"></div>'
-            //     $('.task').append($imgBox)
-            // }
+            
             
         },
         error: function (ex) {

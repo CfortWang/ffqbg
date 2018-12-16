@@ -391,7 +391,7 @@ div.dataTables_filter {
     top: 50%;
     transform: translateY(55%);
 }
-.news-switch > .label-radio, .cashout-switch > .label-radio {
+.news-switch > .label-radio, .cashout-switch > .label-radio, .reward-switch > .label-radio{
     margin-right: 40px;
     height: 40px;
     line-height: 33px;

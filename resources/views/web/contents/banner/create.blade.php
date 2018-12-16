@@ -51,7 +51,7 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">显示位置</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
                                 <select class="form-control" id="show_place" name="advertisement_position_id">
-                                    <option value="0">全部</option>
+                                    <!-- <option value="0">全部</option> -->
                                     <option value="1">主页</option>
                                     <option value="2">商城</option>
                                 </select>
@@ -97,6 +97,8 @@ function selectImage(file, selector) {
         let remark = selector + ' .image-remark'
         $(remark).hide()
         $(".file").hide()
+        $(".create-btn").attr("disabled", true)
+        $(".create-btn").text("轮播图片上传中...")
     }
     reader.readAsDataURL(file.files[0]);
     fd = new FormData()
@@ -117,6 +119,8 @@ function upLoadImage (file, kind) {
             let url = res.data.url
             let selector = kind + ' .selected-image:last-child .img-value'
             $(selector).val(url)
+            $(".create-btn").attr("disabled", false)
+            $(".create-btn").text("创建轮播")
         },
         error: function (ex) {
             console.log(ex)

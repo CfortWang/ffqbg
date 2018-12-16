@@ -88,6 +88,8 @@ function selectImage(file, selector) {
         image = evt.target.result;
         let remark = selector + ' .image-remark'
         $(remark).hide()
+        $(".create-btn").attr("disabled", true)
+        $(".create-btn").text("任务图片上传中...")
     }
     reader.readAsDataURL(file.files[0]);
     var fd = new FormData()
@@ -104,29 +106,12 @@ function upLoadImage (file, kind) {
         data: file,
         processData: false,
         contentType: false,
-        // xhr: function(){
-        //     myXhr = $.ajaxSettings.xhr();
-        //     if(myXhr.upload){
-        //         myXhr.upload.addEventListener('progress',function(e) {
-        //             if (e.lengthComputable) {
-        //                 var percent = Math.floor(e.loaded/e.total*100);
-        //                 if(percent <= 100) {
-        //                     // $("#J_progress_bar").progress('set progress', percent);
-        //                     $("#percentage").text('已上传：'+percent+'%');
-        //                 }
-        //                 if(percent >= 100) {
-        //                     $("#percentage").text('文件上传完毕，请等待...');
-        //                     // $("#percentage").addClass('success');
-        //                 }
-        //             }
-        //         }, false);
-        //     }
-        //     return myXhr;
-        // },
         success: function (res) {
             let url = res.data.url
             let selector = kind + ' .selected-image:last-child .img-value'
             $(selector).val(url)
+            $(".create-btn").attr("disabled", false)
+            $(".create-btn").text("发布任务")
         },
         error: function (ex) {
             console.log(ex)

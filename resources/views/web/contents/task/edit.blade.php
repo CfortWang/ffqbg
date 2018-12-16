@@ -89,6 +89,8 @@ function selectImage(file, selector) {
         image = evt.target.result;
         let remark = selector + ' .image-remark'
         $(remark).hide()
+        $(".modify-btn").attr("disabled", true)
+        $(".modify-btn").text("任务图片上传中...")
     }
     reader.readAsDataURL(file.files[0]);
     var fd = new FormData()
@@ -109,6 +111,8 @@ function upLoadImage (file, kind) {
             let url = res.data.url
             let selector = kind + ' .selected-image:last-child .img-value'
             $(selector).val(url)
+            $(".modify-btn").attr("disabled", false)
+            $(".modify-btn").text("保存修改")
         },
         error: function (ex) {
             console.log(ex)
