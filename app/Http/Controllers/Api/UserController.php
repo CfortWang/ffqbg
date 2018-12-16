@@ -390,6 +390,7 @@ class UserController extends Controller
             if($alireturn['code']==10000){
                 $data->status = 2;
                 $data->withdraw_complete_time = time();
+                $data->withdraw_reason = $alireturn['code'];
             }else{
                 $data->status = 3;
                 $data->withdraw_reason = $alireturn['sub_msg'];
