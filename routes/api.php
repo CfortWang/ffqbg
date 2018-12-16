@@ -28,6 +28,7 @@ use Illuminate\Http\Request;
             Route::get('levelList',              'UserController@levelList');
             Route::get('callAlipay',              'UserController@callAlipay');
             Route::post('addFaker',              'UserController@addVirtualUser');
+            Route::post('updateReason',              'UserController@updateReason');
         });
 
         Route::group(['prefix' => 'task'], function() {

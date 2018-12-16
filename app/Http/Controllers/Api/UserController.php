@@ -520,4 +520,21 @@ class UserController extends Controller
         UserWalletRecord::create($data);
         return 1;
     }
+
+    public function updateReason(Request $request)
+    {
+        $id = $request->input('id');
+        $reason = $request->input('reason');
+        if($id&&$reason){
+            $data = UserCashout::where('id',$id)->where('withdraw_status',2)->first();
+            if(!$data){
+                return $this->responseNotFound('数据不存在',[]);
+            }
+            $data->withdraw_reason = $reason;
+            $data->save();
+            return $this->responseOK('操作成功', []);
+        }else{
+            return $this->responseNotFound('参数错误',[]);
+        }
+    }
 }
