@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 use App\Models\Admin;
+use App\Models\Role2Menu;
+use App\Models\Menu;
 
 class LoginController extends Controller
 {
@@ -46,7 +48,11 @@ class LoginController extends Controller
 
       $request->session()->put('admin.id', $admin->id);
       $request->session()->put('admin.super_admin', $admin->super_admin);
-
+      $meuns = Role2Menu::where('role_id',$admin->role_id)->pluck('menu_id');
+      $meun = Menu::whereIn('id',$meuns)->get();
+      foreach ($meun as $key => $value) {
+        $request->session()->put($value['url'],1);
+      }
       return $this->responseOk('access success',[
         'adminInfo'   => $admin
       ]);

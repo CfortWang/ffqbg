@@ -45,7 +45,7 @@ class BannerController extends Controller
     {
         $input = Input::only('title','description','file','link','advertisement_position_id');
         $message = array(
-            "required" => "不能为空",
+            "required" => ":attribute "."不能为空",
             "string" => "数据类型错误",
             'array' => '图片不能为空'
         );

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Input;
 use App\Models\UserSetting;
 use App\Models\Setting;
 use App\Models\TaskSetting;
+use App\Models\PhoneVerificationCode;
 
 class SystemController extends Controller
 {
@@ -74,6 +75,11 @@ class SystemController extends Controller
     {
         $data = UserSetting::get();
         return $this->responseOK('', $data);
+
+    }
+
+    public function code(Request $request)
+    {
 
     }
 
