@@ -150,7 +150,7 @@ class UserController extends Controller
             $where['type'] = $type;
         }
         if($pay_method){
-            $where['payment'] = $payment;
+            $where['payment'] = $pay_method;
         }
         if(isset($where)){
             $items->where($where);
