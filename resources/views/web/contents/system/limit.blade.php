@@ -59,11 +59,31 @@
                                 <input type="number" id="max_amount" class="form-control input-md" placeholder="" aria-controls="">
                             </div>
                             <div class="search-btn">
-                                <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
+                                <button type="button" class="btn btn-primary btn-sm" id="search-btn" data-toggle="" data-target="">查找</button>
                             </div>
                             <div class="limit-switch">
-                                
+                                <label>限制 :</label>
+                                <label for="limit_switch1" class="label-radio">
+                                    <input type="radio" checked hidden id="limit_switch1" name="is_model_close" value="1">
+                                    <label for="limit_switch1" class="time-radio"></label>
+                                    <span>开</span>
+                                </label>
+                                <label for="limit_switch2" class="label-radio">
+                                    <input type="radio" hidden="" id="limit_switch2" name="is_model_close" value="0">
+                                    <label for="limit_switch2" class="time-radio"></label>
+                                    <span>关</span>
+                                </label>
                             </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <span>符合条件的用户共有：</span>
+                        <span class="filter-data"></span>
+                        <span>人</span>
+                        <div class="limit-info">
+                            <span>目前系统限制人数：</span>
+                            <span class="limit-number"></span>
+                            <button type="button" class="btn btn-success btn-sm" id="add-limit" data-toggle="modal" data-target="#addLimit">添加限制</button>
                         </div>
                     </div>
                 </div>
@@ -71,73 +91,19 @@
         </div>
     </div>
 
-    <!-- 编辑用户信息 -->
-    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!-- 添加限制 -->
+    <div class="modal fade" id="addLimit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">用户资料</h4>
+                <h4 class="modal-title" id="myModalLabel">添加限制</h4>
             </div>
             <div class="modal-body">
             <form>
                 <div class="form-group">
-                    <label for="phone_number" class="control-label">手机号:</label>
-                    <input type="text" class="form-control" id="phone_number">
-                </div>
-                <div class="form-group">
-                    <label for="nickname" class="control-label">昵称:</label>
-                    <input type="text" class="form-control" id="nickname">
-                </div>
-                <div class="form-group">
-                    <label for="superior_id" class="control-label">上级ID:</label>
-                    <input type="text" class="form-control" id="superior_id">
-                </div>
-                <div class="form-group">
-                    <label for="user_level" class="control-label">用户等级:</label>
-                    <select class="form-control" id="user_level">
-                        <option value="0">游客</option>
-                        <option value="1">会员</option>
-                        <option value="2">中级会员</option>
-                        <option value="3">高级会员</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="total_amount" class="control-label">操作账户余额:</label>
-                    <input type="text" class="form-control" id="total_amount">
-                </div>
-            </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" id="sure-modify">保存修改</button>
-            </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 添加用户下级 -->
-    <div class="modal fade" id="addSubordinate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">添加下级</h4>
-            </div>
-            <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <label for="user_id" class="control-label">用户ID:</label>
-                    <input type="text" class="form-control" id="user_id" placeholder="当前用户ID" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="user_level" class="control-label">用户等级:</label>
-                    <select class="form-control" id="fake_user_level">
-                        <option value="0">游客</option>
-                        <option value="1">会员</option>
-                        <option value="2">中级会员</option>
-                        <option value="3">高级会员</option>
-                    </select>
+                    <label for="user_number" class="control-label">允许发起提现的最大人数:</label>
+                    <input type="text" class="form-control" id="user_number" placeholder="" disabled>
                 </div>
             </form>
             </div>
@@ -156,85 +122,52 @@
 
 $(document).ready(function(){
 
-    $('.search-btn').on("click", function () {
-        table.ajax.reload()
+    $('#search-btn').on("click", function () {
+        var minAmount = $("#min_amount").val()
+        var maxAmount = $("#max_amount").val()
+        var startDate = $("#start-date").val()
+        var endDate = $("#end-date").val()
+        $.ajax({
+            url: '/api/system/limit',
+            type: 'get',
+            data: {
+                min: minAmount,
+                max: maxAmount,
+                start_at: startDate,
+                end_at: endDate
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    $(".filter-data").text(res.data)
+                } else {
+                    toastr.error(res.message)
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
     })
 
-    $('.ibox-content').on("click", ".btn-group-vertical .edit-btn", function () {
-        var id = $(this).parent().attr("data-id")
-        $("#sure-modify").attr("data-id", id)
+    $('#sure-add').on("click", function () {
+        var userNumber = $("#user_number").val()
         $.ajax({
-            url: '/api/user/' + id + '/detail',
+            url: '/api/system/addLimit',
             type: 'get',
+            data: {
+                total: userNumber
+            },
             dataType: 'json',
             success: function (res) {
                 console.log(res)
-                $("#phone_number").val(res.data.phone_number)
-                $("#nickname").val(res.data.name)
-                $("#superior_id").val(res.data.recommder_id)
-                $("#user_level").val(res.data.user_level_id)
-                $("#total_amount").val(res.data.total_amount)
-                $("#total_amount").attr("placeholder", "当前余额：" + res.data.total_amount)
-            },
-            error: function (ex) {
-                console.log(ex)
-            }
-        })
-    })
-    $("#sure-modify").on("click", function () {
-        var id = $(this).attr("data-id")
-        var phoneNumber = $("#phone_number").val()
-        var nickname = $("#nickname").val()
-        var userLevel = $("#user_level").val()
-        var superiorID = $("#superior_id").val()
-        var totalAmount = $("#total_amount").val()
-        if (totalAmount == '' || totalAmount == null) {
-            toastr.error("账户余额不能为空！")
-            return false
-        }
-        $.ajax({
-            url: '/api/user/update',
-            type: 'post',
-            data: {
-                id: id,
-                name: nickname,
-                phone_number: phoneNumber,
-                user_level_id: userLevel,
-                total_amount: totalAmount,
-                recommder_id: superiorID
-            },
-            dataType: 'json',
-            success: function (res) {
-                toastr.success(res.message)
-                $('#editUser').modal('hide')
-                table.ajax.reload()
-            },
-            error: function (ex) {
-                console.log(ex)
-            }
-        })
-    })
-    
-    $('.ibox-content').on("click", ".btn-group-vertical .add-btn", function () {
-        let id = $(this).parent().attr("data-id")
-        $("#user_id").val(id)
-    })
-    
-    $('#sure-add').on("click", function () {
-        var userID = $("#user_id").val()
-        var fakeLevel = $("#fake_user_level").val()
-        $.ajax({
-            url: '/api/user/addFaker',
-            type: 'POST',
-            data: {
-                id: userID,
-                level: fakeLevel
-            },
-            dataType: 'json',
-            success: function (res) {
-                toastr.success(res.message)
-                $('#addSubordinate').modal('hide')
-                table.ajax.reload()
+                // if (res.status == 200) {
+                //     toastr.success(res.message)
+                //     $(".filter-data").text(res.data)
+                // } else {
+                //     toastr.error(res.message)
+                // }
             },
             error: function (ex) {
                 console.log(ex)
@@ -242,35 +175,6 @@ $(document).ready(function(){
         })
     })
 
-    $('.ibox-content').on("click", ".btn-group-vertical .level-btn", function () {
-        var id = $(this).parent().attr("data-id")
-        window.location.href = '/user/list/level?id=' + id
-    })
-    $('.ibox-content').on("click", ".btn-group-vertical .delete-btn", function () {
-        var id = $(this).parent().attr("data-id")
-        $("#sure-delete").attr("data-id", id)
-    })
-
-    $('#sure-delete').on("click", function () {
-        var id = $(this).attr("data-id")
-        $.ajax({
-            url: '/api/user/delete',
-            type: 'delete',
-            data: {
-                id: id
-            },
-            dataType: 'json',
-            success: function (res) {
-                toastr.success(res.message)
-                $('#systemTips').modal('hide')
-                table.ajax.reload()
-            },
-            error: function (ex) {
-                console.log(ex)
-            }
-        })
-    })
-    
 });
 </script>
 @endsection

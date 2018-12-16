@@ -128,10 +128,6 @@ $(document).ready(function(){
         }
     });
 
-    $('.search-btn').on("click", function () {
-        table.ajax.reload()
-    })
-
     $('.ibox-content').on("click", ".edit-btn", function () {
         var id = $(this).parent().attr("data-id")
         window.location.href = '/news/' + id + '/detail'

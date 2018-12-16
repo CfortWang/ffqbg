@@ -11,10 +11,10 @@
                 <a href="/">主页</a>
             </li>
             <li>
-                <a href="{{ url('/user/list') }}">@lang('user/list.header.depth2')</a>
+                <a href="{{ url('/system/basis') }}">系统设置</a>
             </li>
             <li class="active">
-                <strong>@lang('user/list.header.depth3')</strong>
+                <strong>验证码列表</strong>
             </li>
         </ol>
     </div>
@@ -24,7 +24,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>@lang('user/list.contents.title')</h5>
+                    <h5>验证码列表</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -33,15 +33,6 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                    <div id="" class="dataTables_filter">
-                            <div class="search-box">
-                                <label>搜索 :</label>
-                                <input type="search" id="search_id" class="form-control input-md" placeholder="手机号" aria-controls="">
-                            </div>
-                            <div class="search-btn">
-                                <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
-                            </div>
-                        </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -49,8 +40,8 @@
                                    <th class="text-center">类型</th>
                                    <th class="text-center">验证码</th>
                                    <th class="text-center">时间</th>
-                                   <th class="text-center">过期时间</th>
-                                   <th class="text-center">IP</th>
+                                   <!-- <th class="text-center">过期时间</th>
+                                   <th class="text-center">IP</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,7 +76,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         ajax: {
-            url: "{{ url('/datatable/user/list')}}",
+            url: "{{ url('/api/system/code')}}",
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string
@@ -93,47 +84,32 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"seq",
+                data:"phone_number",
                 className:"text-center",
             },
             {
-                data:"phone_num",
+                data:"msg_type",
                 className:"text-center",
                 render:function(data,type,row) {
-                    var details = '<a href="/user/detail/' + row.seq + '">' + row.phone_num + '</a>';
-                    return details;
-                }
-            },
-            {
-                data:"point",
-                className:"text-center",
-            },
-            {
-                data:"ticket_cnt",
-                className:"text-center",
-            },
-            {
-                data:"is_cert_email",
-                className:"text-center",
-                render:function(data,type,row) {
-                    var details;
-                    if(row.is_cert_email){
-                        details = "<span class='label label-success'>@lang('user/list.table.contents.is_cert_yes')</span>";
-                    }else{
-                        details = "<span class='label label-danger'>@lang('user/list.table.contents.is_cert_no')</span>";
+                    if (row.msg_type == "register") {
+                        return "注册"
+                    } else if (row.msg_type == "reset_password") {
+                        return "找回密码"
                     }
-                    return details;
                 }
             },
             {
-                data:"last_login_at",
+                data:"code",
                 className:"text-center",
             },
             {
                 data:"created_at",
                 className:"text-center",
-            },
+            }
         ],
+        drawCallback: function () {
+            appendSkipPage()
+        }
     });
 });
 </script>

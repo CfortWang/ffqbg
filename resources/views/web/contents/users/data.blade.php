@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="search-btn">
-                        <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="search-btn" data-toggle="" data-target="">查找</button>
                     </div>
                 </div>
                 <div class="ibox-title">

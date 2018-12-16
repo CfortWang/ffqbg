@@ -82,7 +82,7 @@
                                 </select>
                             </div>
                             <div class="search-btn">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="" data-target="">查找</button>
+                                <button type="button" class="btn btn-primary btn-sm" id="search-btn" data-toggle="" data-target="">查找</button>
                             </div>
                         </div>
                         <table class="table table-striped table-bordered table-hover user-list-table" >
@@ -220,7 +220,7 @@ $(document).ready(function(){
         }
     });
 
-    $('.search-btn').on("click", function () {
+    $('#search-btn').on("click", function () {
         table.ajax.reload()
     })
 
