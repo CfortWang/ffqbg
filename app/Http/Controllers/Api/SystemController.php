@@ -102,9 +102,12 @@ class SystemController extends Controller
         $searchValue = $request->search['value'];
         $orderColumnsNo = $request->order[0]['column'];
         $orderType = $request->order[0]['dir'];
-
+        $phone = $request->input('phone');
         $columnArray = array('id','title','content','url','create_at');
         $items = PhoneVerificationCode::where('id','>',0);
+        if($phone){
+            $where['phone_number'] = $phone;
+        }
         $recordsTotal = $items->count();
       
         $recordsFiltered = $items->count();
