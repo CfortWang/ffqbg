@@ -248,7 +248,7 @@ class UserController extends Controller
 
         $withdraw_status = $request->input('withdraw_status');
         $id = $request->input('id');
-        if($withdraw_status||$withdraw_status===0){
+        if($withdraw_status||$withdraw_status==0){
             $where['withdraw_status'] = $withdraw_status;
         }
         if($id){
