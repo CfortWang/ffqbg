@@ -56,6 +56,13 @@ class SystemController extends Controller
         ]);
     }
 
+    public function limit()
+    {
+        return view('web.contents.system.limit', [
+            'title' => $this->title,
+        ]);
+    }
+
     public function protocol()
     {
         return view('web.contents.system.protocol', [

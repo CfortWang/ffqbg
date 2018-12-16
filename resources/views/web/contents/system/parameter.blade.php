@@ -26,7 +26,7 @@
                 <div class="ibox-content clear-fix">
                 <form id="submit" action="/api/system/modify" method="post"  enctype="multipart/form-data">
                     <div class="form-container">
-                        <div class="form-group clear-fix">
+                        <div class="form-group clear-fix reward">
                             <label class="col-lg-2 col-md-2 col-sm-12">推广奖励</label>
                             <div class="col-lg-10 col-md-10 col-sm-12">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 info">
@@ -163,7 +163,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group clear-fix">
+                        <div class="form-group clear-fix news">
                             <label class="col-lg-2 col-md-2 col-sm-3">新闻公告</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
                                 <textarea class="rule-text" name="model_text" id="model_text" cols="" rows="" placeholder="支持换行（不超过300字符）" maxlength="300"></textarea>
@@ -213,8 +213,27 @@ var drawData = function () {
             $("input#register_award").val(resData.register_award)
             $("input#first_publish_award").val(resData.first_publish_award)
 
-            
-            
+            if (resData.is_callout_close) {
+                $("input[type=radio][name=is_callout_close]:eq(0)").attr("checked", 'checked')
+            } else {
+                $("input[type=radio][name=is_callout_close]:eq(1)").attr("checked", 'checked')
+            }
+
+            if (resData.is_limit_close) {
+                $("input[type=radio][name=is_limit_close]:eq(0)").attr("checked", 'checked')
+                $(".reward").show()
+            } else {
+                $("input[type=radio][name=is_limit_close]:eq(1)").attr("checked", 'checked')
+                $(".reward").hide()
+            }
+
+            if (resData.is_model_close) {
+                $("input[type=radio][name=is_model_close]:eq(0)").attr("checked", 'checked')
+                $(".news").show()
+            } else {
+                $("input[type=radio][name=is_model_close]:eq(1)").attr("checked", 'checked')
+                $(".news").hide()
+            }
         },
         error: function (ex) {
             console.log(ex)
@@ -222,6 +241,21 @@ var drawData = function () {
     })
 }
 drawData();
+
+$('input[type=radio][name=is_limit_close]').change(function() {
+    if (this.value == 0) {
+        $(".reward").hide()
+    } else if (this.value == 1) {
+        $(".reward").show()
+    }
+})
+$('input[type=radio][name=is_model_close]').change(function() {
+    if (this.value == 0) {
+        $(".news").hide()
+    } else if (this.value == 1) {
+        $(".news").show()
+    }
+})
 
 $(".modify-btn").on("click", function () {
     $.ajax({

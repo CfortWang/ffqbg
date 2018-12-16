@@ -61,6 +61,7 @@ Route::group(['namespace' => 'Web'], function() {
             Route::get('parameter',              'SystemController@parameter')->name("web_system_parameter");
             Route::get('member',              'SystemController@member')->name("web_system_member");
             Route::get('task',              'SystemController@task')->name("web_system_task");
+            Route::get('limit',              'SystemController@limit')->name("web_system_limit");
             Route::get('code',              'SystemController@code')->name("web_system_code");
             Route::get('protocol',              'SystemController@protocol')->name("web_system_protocol");
             Route::get('{id}/detail',      'SystemController@detail')->name("web_system_detail");

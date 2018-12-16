@@ -142,10 +142,10 @@
 					<span class="nav-label">系统设置</span>
 				</a>
 				<ul class="nav nav-second-level collapse">
-					 @if (Session::get('/system/basis'))
-					<!-- <li class="{{ isActiveRoute('list', 2) }}">
-						<a href="{{ url('/system/basis') }}">基础设置</a>
-					</li> -->
+					 @if (Session::get('/system/limit'))
+					<li class="{{ isActiveRoute('list', 2) }}">
+						<a href="{{ url('/system/limit') }}">用户限制</a>
+					</li>
 					@endif
 					 @if (Session::get('/system/parameter'))
 					<li class="{{ isActiveRoute('parameter', 2) }}">
