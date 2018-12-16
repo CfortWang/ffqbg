@@ -115,8 +115,8 @@
                             <input type="text" class="form-control" id="cashout_type">
                         </div>
                         <div class="form-group">
-                            <label for="nickname" class="control-label">会员昵称：</label>
-                            <input type="text" class="form-control" id="nickname">
+                            <label for="cashout_type" class="control-label">提现方式：</label>
+                            <input type="text" class="form-control" id="cashout_method">
                         </div>
                         <div class="form-group">
                             <label for="alipay_name" class="control-label">支付宝姓名：</label>
@@ -130,43 +130,28 @@
                             <label for="cashout_amount" class="control-label">提现金额：</label>
                             <input type="text" class="form-control" id="cashout_amount">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="cashout_fee" class="control-label">提现手续费：</label>
                             <input type="text" class="form-control" id="cashout_fee">
                         </div>
                         <div class="form-group">
                             <label for="arrival_amount" class="control-label">到账金额：</label>
                             <input type="text" class="form-control" id="arrival_amount">
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="cashout_status" class="control-label">提现状态：</label>
                             <input type="text" class="form-control" id="cashout_status">
                         </div>
-                        <div class="form-group">
-                            <label for="sign_time" class="control-label">申请时间：</label>
-                            <input type="text" class="form-control" id="sign_time">
-                        </div>
-                        <div class="form-group">
-                            <label for="review_time" class="control-label">审核时间：</label>
-                            <input type="text" class="form-control" id="review_time">
-                        </div>
-                        <div class="form-group">
-                            <label for="cashout_time" class="control-label">提现时间：</label>
-                            <input type="text" class="form-control" id="cashout_time">
-                        </div>
-                        <div class="form-group">
+                        <div class="form-group reason">
                             <label for="reason" class="control-label">审核失败原因：</label>
                             <input type="text" class="form-control" id="reason">
-                        </div>
-                        <div class="form-group">
-                            <label for="deal_by" class="control-label">处理人：</label>
-                            <input type="text" class="form-control" id="deal_by">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <!-- <button type="button" class="btn btn-primary" id="sure-modify">保存修改</button> -->
+                    <button type="button" class="btn btn-info" data-type="confirm" id="pass-btn">通过申请</button>
+                    <button type="button" class="btn btn-danger" data-type="refuse" id="refuse-btn">拒绝申请</button>
                 </div>
             </div>
         </div>
@@ -285,7 +270,6 @@ $(document).ready(function(){
                 data:"withdraw_apply_time",
                 className:"text-center",
                 render:function(data,type,row) {
-                    // return '<p>申请时间：' + row.withdraw_apply_time + '<p/><p>审核时间：' + row.withdraw_confirm_time + '<p/><p>提现时间：' + row.withdraw_complete_time + '<p/>'
                     if (row.withdraw_confirm_time == "" || row.withdraw_confirm_time == null) {
                         row.withdraw_confirm_time = "-"
                     }
@@ -299,7 +283,7 @@ $(document).ready(function(){
                 data: null,
                 className: "text-center",
                 render: function (data, type, row) {
-                    return '<button type="button" data-id="' + row.id + '" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#operating">操作</button>'
+                    return '<button type="button" data-id="' + row.id + '" data-info="'+row.name+'['+row.user_id+']'+'" data-status="'+row.withdraw_status+'" data-type="'+row.withdraw_wallet+'" data-method="'+row.withdraw_type+'" data-reason="'+row.withdraw_reason+'" data-amount="'+row.withdraw_amount+'" data-name="'+row.withdraw_alipay_realname+'" data-account="'+row.withdraw_alipay_account+'" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#operating">操作</button>'
                 }
             }
         ],
@@ -310,6 +294,63 @@ $(document).ready(function(){
 
     $('#search-btn').on("click", function () {
         table.ajax.reload()
+    })
+
+    $('.ibox-content').on("click", ".edit-btn", function () {
+        var data = $(this)
+        $(".modal-footer").attr("data-id", data.attr("data-id"))
+        $("#myModalLabel").text("会员" + data.attr("data-info") + "的提现信息")
+        $("#cashout_id").val(data.attr("data-id"))
+        $("#alipay_name").val(data.attr("data-name"))
+        $("#alipay_account").val(data.attr("data-account"))
+        $("#cashout_amount").val(data.attr("data-amount"))
+        $("#cashout_type").val(data.attr("data-type"))
+        $("#cashout_method").val(data.attr("data-method"))
+        var cashoutStatus = data.attr("data-status")
+        if (cashoutStatus == 0) {
+            $("#pass-btn").show()
+            $("#refuse-btn").show()
+            $("#reason").val("")
+            $(".reason").show()
+            $("#reason").attr("disabled", false)
+        } else if (cashoutStatus == 2) {
+            $("#pass-btn").hide()
+            $("#refuse-btn").hide()
+            $(".reason").show()
+            $("#reason").val(data.attr("data-reason"))
+        } else {
+            $("#pass-btn").hide()
+            $("#refuse-btn").hide()
+            $(".reason").hide()
+        }
+
+        $("#cashout_status").val("1")
+
+    })
+
+    $(".pass-btn, .refuse-btn").on("click", function () {
+        var type = $(this).attr("data-type")
+        var reason = $("#reason").val()
+        var id = $(this).parent().attr("data-id")
+        
+        $.ajax({
+            url: '/api/user/deal',
+            type: 'post',
+            data: {
+                id: id,
+                type: type,
+                reason: reason
+            },
+            dataType: 'json',
+            success: function (res) {
+                toastr.success(res.message)
+                $('#systemTips').modal('hide')
+                table.ajax.reload()
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
     })
 
     $("#operating input").attr("disabled", true)

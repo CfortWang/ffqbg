@@ -103,7 +103,7 @@
             <form>
                 <div class="form-group">
                     <label for="user_number" class="control-label">允许发起提现的最大人数:</label>
-                    <input type="text" class="form-control" id="user_number" placeholder="" disabled>
+                    <input type="number" class="form-control" id="user_number" placeholder="">
                 </div>
             </form>
             </div>
@@ -155,7 +155,7 @@ $(document).ready(function(){
         var userNumber = $("#user_number").val()
         $.ajax({
             url: '/api/system/addLimit',
-            type: 'get',
+            type: 'POST',
             data: {
                 total: userNumber
             },
