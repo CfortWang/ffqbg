@@ -22,7 +22,6 @@ class SystemController extends Controller
     public function systemUpdate(Request $request)
     {
         $data = Setting::first();
-        $data->id = $request->input('id');
         $data->cashout_max = $request->input('cashout_max');
         $data->cashout_min = $request->input('cashout_min');
         $data->cashout_rate = $request->input('cashout_rate');
@@ -36,12 +35,16 @@ class SystemController extends Controller
         $data->register_3_return = $request->input('register_3_return');
         $data->created_at = $request->input('created_at');
         $data->updated_at = $request->input('updated_at');
-        $data->withdraw_status = $request->input('withdraw_status');
+        $data->is_callout_close = $request->input('is_callout_close');
         $data->model_text = $request->input('model_text');
         $data->is_model_close = $request->input('is_model_close');
+        $data->is_limit_close = $request->input('is_limit_close');
         $data->limit_1_return = $request->input('limit_1_return');
         $data->limit_2_return = $request->input('limit_2_return');
         $data->limit_3_return = $request->input('limit_3_return');
+        $data->limit_1_number = $request->input('limit_1_number');
+        $data->limit_2_number = $request->input('limit_2_number');
+        $data->limit_3_number = $request->input('limit_3_number');
         $data->save();
         return $this->responseOK('修改成功',[]);
     }
@@ -53,9 +56,23 @@ class SystemController extends Controller
 
     }
 
+    public function userUpdate(Request $request)
+    {
+        $data = UserSetting::get();
+        return $this->responseOK('', $data);
+
+    }
+
     public function task(Request $request)
     {
         $data = TaskSetting::get();
+        return $this->responseOK('', $data);
+
+    }
+
+    public function taskUpdate(Request $request)
+    {
+        $data = UserSetting::get();
         return $this->responseOK('', $data);
 
     }
