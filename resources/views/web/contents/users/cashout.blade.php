@@ -139,8 +139,8 @@
                             <input type="text" class="form-control" id="arrival_amount">
                         </div> -->
                         <div class="form-group">
-                            <label for="cashout_status" class="control-label">提现状态：</label>
-                            <input type="text" class="form-control" id="cashout_status">
+                            <label for="withdraw_status" class="control-label">提现状态：</label>
+                            <input type="text" class="form-control" id="withdraw_status">
                         </div>
                         <div class="form-group reason">
                             <label for="reason" class="control-label">审核失败原因：</label>
@@ -152,6 +152,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-info" data-type="confirm" id="pass-btn">通过申请</button>
                     <button type="button" class="btn btn-danger" data-type="refuse" id="refuse-btn">拒绝申请</button>
+                    <button type="button" class="btn btn-success" id="update-btn">拒绝申请</button>
                 </div>
             </div>
         </div>
@@ -309,28 +310,25 @@ $(document).ready(function(){
         var cashoutStatus = data.attr("data-status")
         
         if (cashoutStatus == 0) {
-            $("#cashout_status").val("已申请")
-            $("#pass-btn").show()
-            $("#refuse-btn").show()
+            $("#withdraw_status").val("已申请")
+            $("#pass-btn, #refuse-btn").show()
+            $("#update-btn").hide()
             $("#reason").val("")
             $(".reason").show()
             $("#reason").attr("disabled", false)
         } else if (cashoutStatus == 2) {
-            $("#cashout_status").val("已拒绝")
-            $("#pass-btn").hide()
-            $("#refuse-btn").hide()
+            $("#withdraw_status").val("已拒绝")
+            $("#pass-btn, #refuse-btn").hide()
+            $("#update-btn").show()
             $(".reason").show()
+            $("#reason").attr("disabled", false)
             $("#reason").val(data.attr("data-reason"))
         } else if (cashoutStatus == 1) {
-            $("#cashout_status").val("已成功")
-            $("#pass-btn").hide()
-            $("#refuse-btn").hide()
-            $(".reason").hide()
+            $("#withdraw_status").val("已成功")
+            $("#pass-btn, #refuse-btn, .reason, #update-btn").hide()
         } else if (cashoutStatus == 3) {
-            $("#cashout_status").val("待提现")
-            $("#pass-btn").hide()
-            $("#refuse-btn").hide()
-            $(".reason").hide()
+            $("#withdraw_status").val("待提现")
+            $("#pass-btn, #refuse-btn, .reason, #update-btn").hide()
         }
 
     })
@@ -351,7 +349,30 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (res) {
                 toastr.success(res.message)
-                $('#systemTips').modal('hide')
+                $('#operating').modal('hide')
+                table.ajax.reload()
+            },
+            error: function (ex) {
+                console.log(ex)
+            }
+        })
+    })
+
+    $("#update-btn").on("click", function () {
+        var reason = $("#reason").val()
+        var id = $(this).parent().attr("data-id")
+        
+        $.ajax({
+            url: '/api/user/updateReason',
+            type: 'post',
+            data: {
+                id: id,
+                reason: reason
+            },
+            dataType: 'json',
+            success: function (res) {
+                toastr.success(res.message)
+                $('#operating').modal('hide')
                 table.ajax.reload()
             },
             error: function (ex) {
