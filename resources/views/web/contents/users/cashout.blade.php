@@ -307,19 +307,27 @@ $(document).ready(function(){
         $("#cashout_type").val(data.attr("data-type"))
         $("#cashout_method").val(data.attr("data-method"))
         var cashoutStatus = data.attr("data-status")
-        $("#cashout_status").val(cashoutStatus)
+        
         if (cashoutStatus == 0) {
+            $("#cashout_status").val("已申请")
             $("#pass-btn").show()
             $("#refuse-btn").show()
             $("#reason").val("")
             $(".reason").show()
             $("#reason").attr("disabled", false)
         } else if (cashoutStatus == 2) {
+            $("#cashout_status").val("已拒绝")
             $("#pass-btn").hide()
             $("#refuse-btn").hide()
             $(".reason").show()
             $("#reason").val(data.attr("data-reason"))
-        } else {
+        } else if (cashoutStatus == 1) {
+            $("#cashout_status").val("已成功")
+            $("#pass-btn").hide()
+            $("#refuse-btn").hide()
+            $(".reason").hide()
+        } else if (cashoutStatus == 3) {
+            $("#cashout_status").val("待提现")
             $("#pass-btn").hide()
             $("#refuse-btn").hide()
             $(".reason").hide()
