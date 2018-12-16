@@ -129,10 +129,32 @@ class UserController extends Controller
         $items = UserLevelUp::where('u.id','>','0')
             ->leftjoin('user as u','u.id','=','user_levelup.user_id');
 
-        if($request->status){
-            // $items =  $items->where('Q35SalesItem.shipping_status', $request->status);
+        $id = $request->input('id');
+        $start_at = $request->input('start_at');
+        $end_at = $request->input('end_at');
+        $status = $request->input('status');
+        $type = $request->input('type');
+        $pay_method = $request->input('pay_method');
+        if($start_at && $end_at){
+            $start_at = strtotime($start_at);
+            $end_at = strtotime($end_at);
+            $items->where('time','>',$start_at)->where('time','<',$end_at);
         }
-        
+        if($id){
+            $where['user_id'] = $id;
+        }
+        if($status){
+            $where['status'] = $status;
+        }
+        if($type){
+            $where['type'] = $type;
+        }
+        if($pay_method){
+            $where['payment'] = $payment;
+        }
+        if(isset($where)){
+            $items->where($where);
+        }
         $recordsTotal = $items->count();
         
         if (!empty($request->search['value'])) {
@@ -149,12 +171,15 @@ class UserController extends Controller
             }
         }
         $recordsFiltered = $items->count();
-        $items = $items->select('u.id as user_id','u.name','payment','order_id','user_levelup.id','status','amount','user_levelup.created_at','user_levelup.updated_at','remarks')
+        $items = $items->select('u.id as user_id','u.name','payment','order_id','user_levelup.id','status','amount','user_levelup.time','user_levelup.pay_time','remarks')
             // ->orderBy($columnArray[$orderColumnsNo], $orderType)
             ->offset($offset)
             ->limit($limit)
             ->get();
-           
+        foreach ($items as $key => $value) {
+            $items[$key]['created_at'] = date('Y-m-d h:i:s',$value['time']);
+            $items[$key]['updated_at'] = $value['pay_time']>0?date('Y-m-d h:i:s',$value['pay_time']):null;
+        }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 
@@ -169,21 +194,26 @@ class UserController extends Controller
 
         $columnArray = array('phone_number','amount','p_amount','type');
         $type = $request->input('type');
+        $id = $request->input('id');
         $inout = $request->input('inout');
         $items = UserWalletRecord::where('u.id','>','0')
             ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
-        $where['type'] = $type;
-        if($inout){
-            if($inout=='in'){
-                $items = UserWalletRecord::where('u.id','>','0')->where('users_wallet_record','>',0)
-                    ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
-            }else{
-                $items = UserWalletRecord::where('u.id','>','0')->where('users_wallet_record','<',0)
-                    ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
-            }
-
+        if($id){
+            $where['user_id'] = $id;
         }
         if($type){
+            $where['type'] = $type;
+        }
+        if($inout){
+            if($inout=='in'){
+                $items = UserWalletRecord::where('u.id','>','0')->where('amount','>',0)
+                    ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
+            }else{
+                $items = UserWalletRecord::where('u.id','>','0')->where('amount','<',0)
+                    ->leftjoin('user as u','u.id','=','users_wallet_record.user_id');
+            }
+        }
+        if($type||$id){
             $items->where($where);
         }
 
@@ -218,8 +248,12 @@ class UserController extends Controller
 
         $withdraw_status = $request->input('withdraw_status');
         $id = $request->input('id');
-        $where['withdraw_status'] = $withdraw_status;
-        $where['user_id'] = $id;
+        if($withdraw_status){
+            $where['withdraw_status'] = $withdraw_status;
+        }
+        if($id){
+            $where['user_id'] = $id;
+        }
         $start_at = $request->input('start_at');
         $end_at = $request->input('end_at');
         if($start_at&&$end_at){
@@ -227,7 +261,7 @@ class UserController extends Controller
                 ->where('withdraw_apply_time','>',$start_at)->where('withdraw_apply_time','<',$end_at)
                 ->leftjoin('user as u','u.id','=','users_cashout.user_id');
         }
-        if($where){
+        if(isset($where)){
             $items->where($where);
         }
         $recordsTotal = $items->count();

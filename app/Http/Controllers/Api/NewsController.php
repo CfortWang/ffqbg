@@ -61,7 +61,7 @@ class NewsController extends Controller
         $data['title'] = $request->input('title');
         $data['content'] = $request->input('content');
         $data['url'] = $request->input('url');
-        SystemNews::creat($data);
+        SystemNews::create($data);
         return $this->responseOK('新建成功',[]);
     }
 

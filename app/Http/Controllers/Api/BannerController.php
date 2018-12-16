@@ -27,7 +27,7 @@ class BannerController extends Controller
         $recordsTotal = $items->count();
       
         $recordsFiltered = $items->count();
-        $items = $items->select('A.link','A.file as image','advertisement_position.width','advertisement_position.height','A.name','A.description')
+        $items = $items->select('A.id','A.link','A.file as image','advertisement_position.width','advertisement_position.height','advertisement_position_id','A.name','A.description')
             ->offset($offset)
             ->limit($limit)
             ->get();
@@ -43,7 +43,7 @@ class BannerController extends Controller
 
     public function create(Request $request)
     {
-        $input = Input::only('title','content','url');
+        $input = Input::only('title','description','file','link');
         $message = array(
             "required" => "不能为空",
             "string" => "数据类型错误",
@@ -61,13 +61,13 @@ class BannerController extends Controller
             $message = $validator->errors()->first();
             return $this->responseBadRequest($message);
         }
-        $data['title'] = $request->input('title');
+        $data['name'] = $request->input('title');
         $data['description'] = $request->input('description');
         $data['file'] = $request->input('file');
         $data['link'] = $request->input('link');
         $data['advertisement_position_id'] = 1;
         $data['sort'] = 1;
-        AppAdvertisement::creat($data);
+        AppAdvertisement::create($data);
         return $this->responseOK('新建成功',[]);
     }
 
