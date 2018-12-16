@@ -257,6 +257,8 @@ class UserController extends Controller
         $start_at = $request->input('start_at');
         $end_at = $request->input('end_at');
         if($start_at&&$end_at){
+            $start_at = strtotime($start_at);
+            $end_at = strtotime($end_at);
             $items = UserCashout::where('u.id','>','0')
                 ->where('withdraw_apply_time','>',$start_at)->where('withdraw_apply_time','<',$end_at)
                 ->leftjoin('user as u','u.id','=','users_cashout.user_id');
