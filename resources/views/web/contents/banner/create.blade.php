@@ -69,7 +69,7 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">轮播描述</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="description" id="task_desc" cols="" rows="" placeholder="轮播的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
+                                <textarea class="rule-text" name="description" id="desc" cols="" rows="" placeholder="轮播的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
                             </div>
                         </div>
                         <div class="create-task"><button type="button" class="btn btn-primary btn-lg create-btn">创建轮播</button></div>
@@ -135,7 +135,7 @@ $(".create-btn").on("click", function () {
     let title = $("#banner_title").val()
     let link = $("#link").val()
     let showPlace = $("#show_place").val()
-    let desc = $("#task_desc").val()
+    let desc = $("#desc").val()
     if (title == '' || title == null) {
         toastr.error("轮播标题不能为空！")
         return false

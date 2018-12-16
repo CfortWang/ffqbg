@@ -33,10 +33,10 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                    <div id="" class="dataTables_filter">
+                    <div id="" class="dataTables_filter no-margin" style="padding: 10px 0px;">
                             <div class="search-box">
                                 <label>搜索 :</label>
-                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="用户ID" aria-controls="" style="max-width: 100px;">
                             </div>
                             <div class="interval-box">
                                 <label>时间 :</label>
@@ -158,6 +158,13 @@ $(document).ready(function(){
             {
                 data:"payment",
                 className:"text-center",
+                render: function (data, type, row) {
+                    if (row.payment == "WEIXINPAY") {
+                        return "微信"
+                    } else {
+                        return "支付宝"
+                    }
+                },
                 searchable: false,
                 orderable: false
             },

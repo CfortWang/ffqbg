@@ -33,7 +33,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                    <div id="" class="dataTables_filter">
+                        <!-- <div id="" class="dataTables_filter">
                             <div class="search-box">
                                 <label>搜索 :</label>
                                 <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
@@ -49,7 +49,7 @@
                             <div class="search-btn">
                                 <button type="button" class="btn btn-primary btn-sm search-btn" data-toggle="" data-target="">查找</button>
                             </div>
-                        </div>
+                        </div> -->
                         <table class="table table-striped table-bordered table-hover user-list-table" >
                             <thead>
                                 <tr>
@@ -92,6 +92,9 @@ $(document).ready(function(){
         serverSide:true,
         ajax: {
             url: "{{ url('/api/news/list')}}",
+            data: function (d) {
+                d.id = $("#search_id").val()
+            },
             dataFilter: function(data){
                 var json = jQuery.parseJSON( data );
                 return JSON.stringify( json.data ); // return JSON string

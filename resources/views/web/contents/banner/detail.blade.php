@@ -36,7 +36,7 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">轮播图片</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 banner">
                                 <a href="javascript:;" class="file">+添加图片
-                                    <input type="file" class="" id="task_image" name="file" onchange="selectImage(this, '.banner')">
+                                    <input type="file" class="" id="task_image" name="" onchange="selectImage(this, '.banner')">
                                 </a>
                                 <span class="image-remark">建议尺寸:200×200像素，请上传gif,jpeg,png,bmp格式的图片</span>
                             </div>
@@ -44,7 +44,7 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">跳转链接</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="number" class="form-control" id="link" name="amount" placeholder="为空则不跳转">
+                                <input type="text" class="form-control" id="link" name="link" placeholder="为空则不跳转">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
@@ -69,7 +69,7 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">轮播描述</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
-                                <textarea class="rule-text" name="content" id="task_desc" cols="" rows="" placeholder="轮播的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
+                                <textarea class="rule-text" name="description" id="desc" cols="" rows="" placeholder="轮播的详细说明，支持换行（不超过300字符）" maxlength="300"></textarea>
                             </div>
                         </div>
                         <div class="create-task"><button type="button" class="btn btn-primary btn-lg modify-btn">保存修改</button></div>
@@ -84,24 +84,21 @@
 
 @section('scripts')
 <script>
-
-
-
-
 function selectImage(file, selector) {
     if (!file.files || !file.files[0]) {
         return;
     }
     var reader = new FileReader();
     reader.onload = function (evt) {
-        var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' +evt.target.result + '"><input class="img-value" type="text" name="image[]" hidden></div>'
+        var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' +evt.target.result + '"><input class="img-value" type="text" name="file" hidden></div>'
         $(selector).append($imgBox)
         image = evt.target.result;
         let remark = selector + ' .image-remark'
         $(remark).hide()
+        $(".file").hide()
     }
     reader.readAsDataURL(file.files[0]);
-    var fd = new FormData()
+    fd = new FormData()
     fd.append('file', file.files[0])
     fd.append('type', 'banner')
     upLoadImage(fd, selector);
@@ -132,6 +129,7 @@ $(".banner").on("click", ".selected-image .delete-image", function () {
     if (sonNum == 2) {
         $(".banner .image-remark").show()
     }
+    $(".file").show()
 })
 
 var id = window.location.pathname.split("/")[2]
@@ -146,19 +144,16 @@ var drawData = function () {
         success: function (res) {
             let resData = res.data
             console.log(resData)
-            $("input#banner_title").val(resData.title)
-            $("input#task_price").val(resData.price)
-            $("input#task_limit").val(resData.task_limit)
-            $("select#task_type").val(resData.user_level)
-            $("select#task_type").find("option[value = '"+ resData.user_level +"']").attr("selected","selected")
-            $("#task_desc").val(resData.content)
+            $("input#banner_title").val(resData.name)
+            $("input#link").val(resData.link)
+            $("select#show_place").val(resData.advertisement_position_id)
+            $("select#show_place").find("option[value = '"+ resData.advertisement_position_id +"']").attr("selected","selected")
+            $("#desc").val(resData.description)
 
-            // 渲染任务图片
             $(".banner .image-remark").hide()
-            for (let i = 0; i < resData.images.length; i++) {
-                var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.images[i] + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.images[i] + '"></div>'
-                $('.banner').append($imgBox)
-            }
+            var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.file + '"><input class="img-value" id="banner_url" type="text" name="file" hidden value="' + resData.file + '"></div>'
+            $('.banner').append($imgBox)
+            $(".file").hide()
             
         },
         error: function (ex) {
@@ -168,22 +163,37 @@ var drawData = function () {
 }
 drawData();
 
+
 $(".modify-btn").on("click", function () {
+    let title = $("#banner_title").val()
+    let desc = $("#desc").val()
+    if (title == '' || title == null) {
+        toastr.error("轮播标题不能为空！")
+        return false
+    }
+    if (desc == '' || desc == null) {
+        toastr.error("轮播描述不能为空！")
+        return false
+    }
+
     $.ajax({
         type: "POST",
         dataType: 'JSON',
-        url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
-        success: function(data, status, x) {
-            if(data.status == 200){
-                toastr.success("修改成功")
-                setTimeout(() => {
-                    window.location.href = '/banner/list'
-                }, 1500);
-            } else {
-                toastr.error(data.message);
-            }
-            console.log(status);
+        success: function(res) {
+            console.log(res)
+            // if(data.status == 200){
+            //     toastr.success("发布任务成功")
+            //     setTimeout(() => {
+            //         window.location.href = '/task/list'
+            //     }, 1500);
+            // } else {
+            //     toastr.error(data.message);
+            // }
+            // console.log(status);
+        },
+        error: function (ex) {
+            console.log(ex)
         }
     });
 })

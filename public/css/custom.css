@@ -446,3 +446,6 @@ input[type="checkbox"]:checked + .menu-checkbox {
 .title{
     margin: 13px 0px 10px;
 }
+.no-margin > div{
+    margin: 0px;
+}

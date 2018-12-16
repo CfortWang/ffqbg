@@ -41,7 +41,6 @@
                                    <th class="text-center">文字提示</th>
                                    <th class="text-center">链接</th>
                                    <th class="text-center">显示位置</th>
-                                   <th class="text-center">状态</th>
                                    <th class="text-center">操作</th>
                                 </tr>
                             </thead>
@@ -62,7 +61,7 @@ $(document).ready(function(){
     var table = $('.user-list-table').DataTable({
         pageLength: 10,
         responsive: true,
-        dom: 'f<"row"t>p',
+        dom: '<"row"t>p',
         order: [[ 0, "desc" ]],
         language: {
             "zeroRecords": "@lang('user/list.table.no_data')",
@@ -85,7 +84,7 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"name",
+                data:"id",
                 className:"text-center",
             },
             {
@@ -110,15 +109,16 @@ $(document).ready(function(){
                 orderable: false
             },
             {
-                data:"name",
+                data:"advertisement_position_id",
                 className:"text-center",
-                searchable: false,
-                orderable: false
-                
-            },
-            {
-                data:"name",
-                className:"text-center",
+                render: function (data, type, row) {
+                    if (row.advertisement_position_id == 1) {
+                        var place = "主页"
+                    } else {
+                        var place = "商城"
+                    }
+                    return place
+                },
                 searchable: false,
                 orderable: false
             },
@@ -126,7 +126,7 @@ $(document).ready(function(){
                 data: null,
                 className:"text-center",
                 render:function(data,type,row) {
-                    return '<div data-id="' + row.name + '"><button type="button" class="btn btn-primary btn-sm edit-btn" style="margin-right: 10px;" data-toggle="modal" data-target="#editNews">编辑</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除</button></div>'
+                    return '<div data-id="' + row.id + '"><button type="button" class="btn btn-primary btn-sm edit-btn" style="margin-right: 10px;" data-toggle="modal" data-target="#editNews">编辑</button><button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".bs-example-modal-sm">删除</button></div>'
                 },
                 searchable: false,
                 orderable: false

@@ -36,7 +36,7 @@
                         <div id="" class="dataTables_filter">
                             <div class="search-box">
                                 <label>搜索 :</label>
-                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="用户ID" aria-controls="">
                             </div>
                             <div class="interval-box">
                                 <label>申请时间 :</label>
@@ -61,10 +61,10 @@
                                 <label>状态 :</label>
                                 <select class="form-control" id="cashout_status">
                                     <option value="">全部</option>
-                                    <option value="APPLY">申请中</option>
-                                    <option value="CONFIRM">已审核，待提现</option>
-                                    <option value="SENDED">提现成功</option>
-                                    <option value="CANCEL">审核完毕</option>
+                                    <option value="0">申请中</option>
+                                    <option value="3">已审核，待提现</option>
+                                    <option value="1">提现成功</option>
+                                    <option value="2">审核完毕</option>
                                 </select>
                             </div>
                             <div class="search-btn">
@@ -292,7 +292,7 @@ $(document).ready(function(){
                     if (row.withdraw_complete_time == "" || row.withdraw_complete_time == null) {
                         row.withdraw_complete_time = "-"
                     }
-                    return '申请时间：' + row.withdraw_apply_time + '<br/>审核时间：' + row.withdraw_confirm_time + '<br/>提现时间：' + row.withdraw_complete_time
+                    return '申请：' + row.withdraw_apply_time + '<br/>审核：' + row.withdraw_confirm_time + '<br/>提现：' + row.withdraw_complete_time
                 }
             },
             {
