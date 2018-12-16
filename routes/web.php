@@ -16,9 +16,8 @@ Route::group(['namespace' => 'Web'], function() {
     Route::post('/login/access', 'LoginController@access')->name("login_access");
     Route::get('/logout', 'LoginController@logout')->name("logout");
 
-    Route::group([], function() {
-        Route::get('/', 'DashBoardController@index')->name("web_dashboard");
-
+    Route::group(['middleware' => 'loginCheck'], function() {
+        Route::get('/', 'UserController@list');
         Route::group(['prefix' => 'user'], function() {
             Route::get('list',              'UserController@list')->name("web_user_list");
             Route::get('list/level',              'UserController@level')->name("web_user_level");

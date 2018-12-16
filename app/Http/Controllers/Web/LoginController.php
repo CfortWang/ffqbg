@@ -29,7 +29,6 @@ class LoginController extends Controller
     public function access(Request $request)
     {
       $input = Input::only('loginID', 'loginPW');
-
       $validator = Validator::make($input, [
         'loginID'           => 'required',
         'loginPW'           => 'required'
