@@ -172,7 +172,7 @@ class UserController extends Controller
         }
         $recordsFiltered = $items->count();
         $items = $items->select('u.id as user_id','u.name','payment','order_id','user_levelup.id','status','amount','user_levelup.time','user_levelup.pay_time','remarks')
-            // ->orderBy($columnArray[$orderColumnsNo], $orderType)
+            ->orderBy('user_levelup.id', 'desc')
             ->offset($offset)
             ->limit($limit)
             ->get();
@@ -283,7 +283,7 @@ class UserController extends Controller
         }
         $recordsFiltered = $items->count();
         $items = $items->select('users_cashout.id','u.id as user_id','u.user_level_id','u.name','u.phone_number','withdraw_long_id','withdraw_type','withdraw_amount','withdraw_alipay_account','withdraw_alipay_realname','withdraw_status','withdraw_apply_time','withdraw_confirm_time','withdraw_complete_time','withdraw_reason','withdraw_wallet')
-            // ->orderBy($columnArray[$orderColumnsNo], $orderType)
+            ->orderBy('users_cashout.id', 'desc')
             ->offset($offset)
             ->limit($limit)
             ->get();
