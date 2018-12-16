@@ -382,46 +382,47 @@ class UserController extends Controller
         $data->withdraw_confirm_time = time();
         if($type =='refuse'){
             $data->refuse_msg = $request->input('withdraw_reason');
-            $data->status = 2;
+            $data->withdraw_status = 2;
             // ($user_id,-$amount,'WITHDRAW','申请提现款项冻结',0)
             $this->userAmountChange($data->user_id,$data->withdraw_amount,'WITHDRAW','提现失败返还',0);
         }else{
-            $alireturn = $this->callAlipay($id);
+            $alireturn = $this->callAlipay($data->withdraw_amount,$data->withdraw_alipay_account,$data->withdraw_alipay_realname);
             if($alireturn['code']==10000){
-                $data->status = 1;
+                $data->withdraw_status = 1;
                 $data->withdraw_complete_time = time();
                 $data->withdraw_reason = $alireturn['code'];
             }else{
-                $data->status = 2;
-                $data->withdraw_reason = $alireturn['sub_msg'];
+                $data->withdraw_status = 2;
+                $data->withdraw_reason = $alireturn['msg'];
             }
         }
         $data->save();
         return $this->responseOK('操作成功', []);
     }
 
-    public function callAlipay()
+    public function callAlipay($amount,$account,$name)
     {
         $config = $this->config['alipay'];
-        // if($return_url&&$mobileOs=='web'){
         $alipay = Pay::alipay($config);
         $order = [
             'out_biz_no' => time(),
             'payee_type' => 'ALIPAY_LOGONID',
-            'payee_account' => '18202777477',
-            'amount' => '1',
+            'payee_account' => $account,
+            'payee_real_name' => $name,
+            'amount' => $amount,
         ];
-        // "code" => "10000"
-        // "msg" => "Success"
-        // "order_id" => "20181213110070001502460072184860"
-        // "out_biz_no" => "1544710615"
-        // "pay_date" => "2018-12-13 22:16:51"
-        $result = $alipay->transfer($order);
-        $data['code'] = $result->code;
-        if($result->code==10000){
-            return $data;
-        }else{
-            $data['msg'] = $result->sub_msg;
+        try{
+            $result = $alipay->transfer($order);
+            $data['code'] = $result->code;
+            if($result->code==10000){
+                return $data;
+            }else{
+                $data['msg'] = $result->sub_msg;
+                return $data;
+            }
+        } catch (\Exception $e) {
+            $data['code'] = 11111;
+            $data['msg'] = $e->getMessage();
             return $data;
         }
     }
