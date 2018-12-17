@@ -67,7 +67,6 @@ class TaskController extends Controller
             $items = TaskRcord::where($where)
                 ->leftjoin('user as u','u.id','=','tasks_record.user_id');
         }
-   
         $recordsTotal = $items->count();
       
         $recordsFiltered = $items->count();
@@ -94,12 +93,7 @@ class TaskController extends Controller
         $image = [];
         foreach ($images as $key => $value) {
             if($value){
-                // if($info['id']<3579){
-                    $string =  'https://ffq-adv.oss-cn-shenzhen.aliyuncs.com/static/images/goods/'.$value;
-                    $image[] = $string;
-                // }else{
-                //     $image[] = $value;
-                // }
+                $image[] = $value;
             }
         }
         $info['images'] = $image;
@@ -191,7 +185,7 @@ class TaskController extends Controller
         $data->price = $request->input('amount');
         $data->user_level = $request->input('user_level');
         $images = implode(',',$request->input('image'));
-        $data->image = $images;
+        $data->images = $images;
         $res = $data->save();
         return $this->responseOk('创建成功',$res);
     }

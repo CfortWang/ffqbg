@@ -24,7 +24,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content clear-fix">
-                <form id="submit" action="/api/system/modify" method="post"  enctype="multipart/form-data">
+                <form id="submit" action="/api/system/system" method="post"  enctype="multipart/form-data">
                     <div class="form-container">
                         <div class="form-group clear-fix reward">
                             <label class="col-lg-2 col-md-2 col-sm-12">推广奖励</label>
@@ -116,6 +116,12 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">首次发布任务返回</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
                                 <input type="number" class="form-control" id="first_publish_award" name="first_publish_award" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group clear-fix">
+                            <label class="col-lg-2 col-md-2 col-sm-3">提现手续费率</label>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="number" class="form-control" id="cashout_rate" name="cashout_rate" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">
@@ -212,6 +218,7 @@ var drawData = function () {
                 $("input#register_3_return").val(resData.register_3_return)
 
                 $("input#register_award").val(resData.register_award)
+                $("input#cashout_rate").val(resData.cashout_rate)
                 $("input#first_publish_award").val(resData.first_publish_award)
 
                 if (!resData.is_callout_close) {

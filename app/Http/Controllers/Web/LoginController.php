@@ -45,7 +45,9 @@ class LoginController extends Controller
       $pe = md5($loginPW);
       $admin = Admin::where('username', $loginID)->where('password',$pe)->first();
       if (empty($admin)) return $this->responseBadRequest('账户名或密码错误', 101);
-
+      $admin->last_login_time = time();
+      $admin->last_login_ip = $request->getClientIp();
+      $admin->save();
       $request->session()->put('admin.id', $admin->id);
       $request->session()->put('admin.super_admin', $admin->super_admin);
       $meuns = Role2Menu::where('role_id',$admin->role_id)->pluck('menu_id');

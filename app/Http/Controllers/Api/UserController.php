@@ -52,7 +52,7 @@ class UserController extends Controller
         if($phone_number){
             $where['phone_number'] = $phone_number;
         }
-        if($user_level_id){
+        if($user_level_id||$user_level_id==='0'){
             $where['user_level_id'] = $user_level_id;
         }
         $items = User::where($where);
@@ -439,6 +439,7 @@ class UserController extends Controller
 
         $columnArray = array('phone_number','amount','p_amount','type');
         $id = $request->input('id');
+        $from_uid = $request->input('from_uid');
         $type = $request->input('type');
         if($id){
             if($type=='from'){
@@ -446,6 +447,9 @@ class UserController extends Controller
             }else{
                 $where['uid'] = $id;
             }
+        }
+        if($from_uid){
+            $where['from_uid'] = $from_uid;
         }
         $items = UserLevel::where('id','>','0');
         if(isset($where)){
