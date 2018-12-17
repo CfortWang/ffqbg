@@ -114,7 +114,7 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"from_uid",
+                data:"id",
                 className:"text-center",
             },
             {

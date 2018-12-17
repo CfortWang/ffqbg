@@ -36,7 +36,7 @@
                     <div id="" class="dataTables_filter">
                             <div class="search-box">
                                 <label>搜索 :</label>
-                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="用户ID" aria-controls="">
                             </div>
                             <div class="filter-box">
                                 <label>类型 :</label>
@@ -82,6 +82,8 @@
 
 @section('scripts')
 <script>
+var args = getArgs()
+$("#search_id").val(args['id'])
 $(document).ready(function(){
     var table = $('.user-list-table').DataTable({
         pageLength: 10,

@@ -54,7 +54,7 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">选择角色</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
                                 <select class="form-control" id="role_id" name="role_id">
-                                    <option value="">获取角色信息失败</option>
+                                    <option value="">暂无角色信息，请先创建角色</option>
                                 </select>
                             </div>
                         </div>
@@ -76,17 +76,24 @@ function getRole () {
         dataType: 'JSON',
         url: '/api/admin/role?start=0&length=10',
         success: function(res) {
-            let resData = res.data.data
-            if (resData.length) {
-                $("#role_id").empty()
-            }
-            for (let i = 0; i < resData.length; i++) {
-                let option = '<option value="' + resData[i].id + '">' + resData[i].name + '</option>'
-                $("#role_id").append(option)
+            if (res.status == 200) {
+                let resData = res.data.data
+                if (resData.length) {
+                    $("#role_id").empty()
+                } else {
+                    toastr.info("暂无角色信息，请先创建角色")
+                }
+                for (let i = 0; i < resData.length; i++) {
+                    let option = '<option value="' + resData[i].id + '">' + resData[i].name + '</option>'
+                    $("#role_id").append(option)
+                }
+            } else {
+                toastr.error(res.message)
             }
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error("获取角色列表失败，请刷新页面重试")
         }
     });
 }
@@ -127,16 +134,19 @@ $(".create-btn").on("click", function () {
         dataType: 'JSON',
         url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
-        success: function(data, status, x) {
-            if(data.status == 200){
-                toastr.success("创建管理员成功")
+        success: function(res) {
+            if(res.status == 200){
+                toastr.success("管理员创建成功")
                 setTimeout(() => {
                     window.location.href = '/admin/list'
                 }, 1500);
             } else {
-                toastr.error(data.message);
+                toastr.error(res.message);
             }
-            console.log(status);
+        },
+        error: function (ex) {
+            console.log(ex)
+            toastr.error(ex.statusText)
         }
     });
 })

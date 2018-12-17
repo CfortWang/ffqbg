@@ -62,33 +62,51 @@ var drawData = function () {
         },
         dataType: 'json',
         success: function (res) {
-            let resData = res.data
-            $("#news_title").val(resData.title)
-            $("#news_desc").val(resData.content)
+            if (res.status == 200) {
+                let resData = res.data
+                $("#news_title").val(resData.title)
+                $("#news_desc").val(resData.content)
+            } else {
+                toastr.error(res.message)
+            }
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error(ex.statusText)
         }
     })
 }
 drawData();
 
 $(".modify-btn").on("click", function () {
+    let news_title = $("#news_title").val()
+    let news_desc = $("#news_desc").val()
+    if (news_title == '' || news_title == null) {
+        toastr.error("新闻标题标题不能为空！")
+        return false
+    }
+    if (news_desc == '' || news_desc == null) {
+        toastr.error("新闻详情不能为空！")
+        return false
+    }
     $.ajax({
         type: "POST",
         dataType: 'JSON',
         url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
-        success: function(data, status, x) {
-            if(data.status == 200){
+        success: function(res) {
+            if(res.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
                     window.location.href = '/news/list'
                 }, 1500);
             } else {
-                toastr.error(data.message);
+                toastr.error(res.message);
             }
-            console.log(status);
+        },
+        error: function (ex) {
+            toastr.error(ex.statusText)
+            console.log(ex)
         }
     });
 })

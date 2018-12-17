@@ -107,14 +107,21 @@ function upLoadImage (file, kind) {
         processData: false,
         contentType: false,
         success: function (res) {
-            let url = res.data.url
-            let selector = kind + ' .selected-image:last-child .img-value'
-            $(selector).val(url)
-            $(".create-btn").attr("disabled", false)
-            $(".create-btn").text("发布任务")
+            if (res.status == 200) {
+                let url = res.data.url
+                let selector = kind + ' .selected-image:last-child .img-value'
+                $(selector).val(url)
+                $(".create-btn").attr("disabled", false)
+                $(".create-btn").text("发布任务")
+            } else {
+                toastr.error(res.message)
+                $(".create-btn").attr("disabled", false)
+                $(".create-btn").text("发布任务")
+            }
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error("图片上传失败，请重试")
         }
     })
 }
@@ -128,21 +135,39 @@ $(".task").on("click", ".selected-image .delete-image", function () {
 })
 
 $(".create-btn").on("click", function () {
+    let taskTitle = $("#task_title").val()
+    let taskLimit = $("#task_limit").val()
+    let taskDesc = $("#task_desc").val()
+    if (taskTitle == '' || taskTitle == null) {
+        toastr.error("任务标题不能为空！")
+        return false
+    }
+    if (taskLimit == '' || taskLimit == null) {
+        toastr.error("任务人数限制不能为空！")
+        return false
+    }
+    if (taskDesc == '' || taskDesc == null) {
+        toastr.error("任务详情不能为空！")
+        return false
+    }
     $.ajax({
         type: "POST",
         dataType: 'JSON',
         url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
-        success: function(data, status, x) {
-            if(data.status == 200){
+        success: function(res) {
+            if(res.status == 200){
                 toastr.success("发布任务成功")
                 setTimeout(() => {
                     window.location.href = '/task/list'
                 }, 1500);
             } else {
-                toastr.error(data.message);
+                toastr.error(res.message);
             }
-            console.log(status);
+        },
+        error: function (ex) {
+            toastr.error(ex.statusText)
+            console.log(ex)
         }
     });
 })

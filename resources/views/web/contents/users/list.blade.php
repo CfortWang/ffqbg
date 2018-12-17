@@ -36,7 +36,7 @@
                         <div id="" class="dataTables_filter">
                             <div class="search-box">
                                 <label>搜索 :</label>
-                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="用户ID" aria-controls="">
                             </div>
                             <div class="filter-box">
                                 <label>用户等级 :</label>
@@ -288,16 +288,20 @@ $(document).ready(function(){
             type: 'get',
             dataType: 'json',
             success: function (res) {
-                console.log(res)
-                $("#phone_number").val(res.data.phone_number)
-                $("#nickname").val(res.data.name)
-                $("#superior_id").val(res.data.recommder_id)
-                $("#user_level").val(res.data.user_level_id)
-                $("#total_amount").val(res.data.total_amount)
-                $("#total_amount").attr("placeholder", "当前余额：" + res.data.total_amount)
+                if (res.status == 200) {
+                    $("#phone_number").val(res.data.phone_number)
+                    $("#nickname").val(res.data.name)
+                    $("#superior_id").val(res.data.recommder_id)
+                    $("#user_level").val(res.data.user_level_id)
+                    $("#total_amount").val(res.data.total_amount)
+                    $("#total_amount").attr("placeholder", "当前余额：" + res.data.total_amount)
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     })
@@ -325,12 +329,17 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                toastr.success(res.message)
                 $('#editUser').modal('hide')
-                table.ajax.reload()
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    table.ajax.reload()
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     })
@@ -352,11 +361,16 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                toastr.success(res.message)
                 $('#addSubordinate').modal('hide')
-                table.ajax.reload()
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    table.ajax.reload()
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
+                toastr.error(ex.statusText)
                 console.log(ex)
             }
         })
@@ -381,11 +395,16 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                toastr.success(res.message)
                 $('#systemTips').modal('hide')
-                table.ajax.reload()
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    table.ajax.reload()
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
+                toastr.error(ex.statusText)
                 console.log(ex)
             }
         })

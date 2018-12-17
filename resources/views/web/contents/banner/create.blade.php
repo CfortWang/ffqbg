@@ -116,14 +116,21 @@ function upLoadImage (file, kind) {
         processData: false,
         contentType: false,
         success: function (res) {
-            let url = res.data.url
-            let selector = kind + ' .selected-image:last-child .img-value'
-            $(selector).val(url)
-            $(".create-btn").attr("disabled", false)
-            $(".create-btn").text("创建轮播")
+            if (res.status == 200) {
+                let url = res.data.url
+                let selector = kind + ' .selected-image:last-child .img-value'
+                $(selector).val(url)
+                $(".create-btn").attr("disabled", false)
+                $(".create-btn").text("创建轮播")
+            } else {
+                toastr.error(res.message)
+                $(".create-btn").attr("disabled", false)
+                $(".create-btn").text("创建轮播")
+            }
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error("图片上传失败，请重试")
         }
     })
 }
@@ -165,10 +172,10 @@ $(".create-btn").on("click", function () {
             } else {
                 toastr.error(res.message);
             }
-            console.log(status);
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error(ex.statusText)
         }
     });
 })

@@ -108,14 +108,21 @@ function upLoadImage (file, kind) {
         processData: false,
         contentType: false,
         success: function (res) {
-            let url = res.data.url
-            let selector = kind + ' .selected-image:last-child .img-value'
-            $(selector).val(url)
-            $(".modify-btn").attr("disabled", false)
-            $(".modify-btn").text("保存修改")
+            if (res.status == 200) {
+                let url = res.data.url
+                let selector = kind + ' .selected-image:last-child .img-value'
+                $(selector).val(url)
+                $(".modify-btn").attr("disabled", false)
+                $(".modify-btn").text("保存修改")
+            } else {
+                toastr.error(res.message)
+                $(".modify-btn").attr("disabled", false)
+                $(".modify-btn").text("保存修改")
+            }
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error("图片上传失败，请重试")
         }
     })
 }
@@ -138,46 +145,67 @@ var drawData = function () {
         },
         dataType: 'json',
         success: function (res) {
-            let resData = res.data
-            console.log(resData)
-            $("input#task_title").val(resData.title)
-            $("input#task_price").val(resData.price)
-            $("input#task_limit").val(resData.task_limit)
-            $("select#task_type").val(resData.user_level)
-            $("select#task_type").find("option[value = '"+ resData.user_level +"']").attr("selected","selected")
-            $("#task_desc").val(resData.content)
+            if (res.status == 200) {
+                let resData = res.data
+                $("input#task_title").val(resData.title)
+                $("input#task_price").val(resData.price)
+                $("input#task_limit").val(resData.task_limit)
+                $("select#task_type").val(resData.user_level)
+                $("select#task_type").find("option[value = '"+ resData.user_level +"']").attr("selected","selected")
+                $("#task_desc").val(resData.content)
 
-            // 渲染任务图片
-            $(".task .image-remark").hide()
-            for (let i = 0; i < resData.images.length; i++) {
-                var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.images[i] + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.images[i] + '"></div>'
-                $('.task').append($imgBox)
+                // 渲染任务图片
+                $(".task .image-remark").hide()
+                for (let i = 0; i < resData.images.length; i++) {
+                    var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.images[i] + '"><input class="img-value" type="text" name="image[]" hidden value="' + resData.images[i] + '"></div>'
+                    $('.task').append($imgBox)
+                }
+            } else {
+                toastr.error(res.message)
             }
-            
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error(ex.statusText)
         }
     })
 }
 drawData();
 
 $(".modify-btn").on("click", function () {
+    let taskTitle = $("#task_title").val()
+    let taskLimit = $("#task_limit").val()
+    let taskDesc = $("#task_desc").val()
+    if (taskTitle == '' || taskTitle == null) {
+        toastr.error("任务标题不能为空！")
+        return false
+    }
+    if (taskLimit == '' || taskLimit == null) {
+        toastr.error("任务人数限制不能为空！")
+        return false
+    }
+    if (taskDesc == '' || taskDesc == null) {
+        toastr.error("任务详情不能为空！")
+        return false
+    }
     $.ajax({
         type: "POST",
         dataType: 'JSON',
         url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
-        success: function(data, status, x) {
-            if(data.status == 200){
+        success: function(res) {
+            if(res.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
                     window.location.href = '/task/list'
                 }, 1500);
             } else {
-                toastr.error(data.message);
+                toastr.error(res.message);
             }
-            console.log(status);
+        },
+        error: function (ex) {
+            toastr.error(ex.statusText)
+            console.log(ex)
         }
     });
 })

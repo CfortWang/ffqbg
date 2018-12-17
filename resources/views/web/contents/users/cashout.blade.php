@@ -130,14 +130,6 @@
                             <label for="cashout_amount" class="control-label">提现金额：</label>
                             <input type="text" class="form-control" id="cashout_amount">
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="cashout_fee" class="control-label">提现手续费：</label>
-                            <input type="text" class="form-control" id="cashout_fee">
-                        </div>
-                        <div class="form-group">
-                            <label for="arrival_amount" class="control-label">到账金额：</label>
-                            <input type="text" class="form-control" id="arrival_amount">
-                        </div> -->
                         <div class="form-group">
                             <label for="withdraw_status" class="control-label">提现状态：</label>
                             <input type="text" class="form-control" id="withdraw_status">
@@ -215,7 +207,7 @@ $(document).ready(function(){
                     if (row.phone_number == "" || row.phone_number == null) {
                         row.phone_number = "-"
                     }
-                    var details = row.name + '[' + row.user_id + ']' + '<br>' + row.phone_number + '<br/>' + userLevel
+                    var details = '[' + row.user_id + ']' + row.name + '<br>' + row.phone_number + '<br/>' + userLevel
                     return details;
                 }
             },
@@ -348,12 +340,17 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                toastr.success(res.message)
                 $('#operating').modal('hide')
-                table.ajax.reload()
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    table.ajax.reload()
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     })
@@ -371,12 +368,17 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                toastr.success(res.message)
                 $('#operating').modal('hide')
-                table.ajax.reload()
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    table.ajax.reload()
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     })

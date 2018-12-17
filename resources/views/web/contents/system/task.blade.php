@@ -69,22 +69,27 @@ var drawData = function () {
         type: 'get',
         dataType: 'json',
         success: function (res) {
-            let resData = res.data
-            $("input#id0").val(resData[0].id)
-            $("input#id1").val(resData[1].id)
-            $("input#id2").val(resData[2].id)
-            $("input#id3").val(resData[3].id)
-            $("input#taskhall0_name").val(resData[0].name)
-            $("input#taskhall1_name").val(resData[1].name)
-            $("input#taskhall2_name").val(resData[2].name)
-            $("input#taskhall3_name").val(resData[3].name)
-            $("input#taskhall0_price").val(resData[0].price)
-            $("input#taskhall1_price").val(resData[1].price)
-            $("input#taskhall2_price").val(resData[2].price)
-            $("input#taskhall3_price").val(resData[3].price)
+            if (res.status == 200) {
+                let resData = res.data
+                $("input#id0").val(resData[0].id)
+                $("input#id1").val(resData[1].id)
+                $("input#id2").val(resData[2].id)
+                $("input#id3").val(resData[3].id)
+                $("input#taskhall0_name").val(resData[0].name)
+                $("input#taskhall1_name").val(resData[1].name)
+                $("input#taskhall2_name").val(resData[2].name)
+                $("input#taskhall3_name").val(resData[3].name)
+                $("input#taskhall0_price").val(resData[0].price)
+                $("input#taskhall1_price").val(resData[1].price)
+                $("input#taskhall2_price").val(resData[2].price)
+                $("input#taskhall3_price").val(resData[3].price)
+            } else {
+                toastr.error(res.message)
+            }
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error(ex.statusText)
         }
     })
 }
@@ -96,16 +101,19 @@ $(".modify-btn").on("click", function () {
         dataType: 'JSON',
         url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
-        success: function(data, status, x) {
-            if(data.status == 200){
+        success: function(res) {
+            if(res.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
                     window.location.href = window.location.href
                 }, 1500);
             } else {
-                toastr.error(data.message);
+                toastr.error(res.message);
             }
-            console.log(status);
+        },
+        error: function (ex) {
+            console.log(ex)
+            toastr.error(ex.statusText)
         }
     });
 })

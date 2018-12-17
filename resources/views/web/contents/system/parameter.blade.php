@@ -188,51 +188,55 @@ var drawData = function () {
         type: 'get',
         dataType: 'json',
         success: function (res) {
-            let resData = res.data
-            console.log(resData)
-            $("input#limit_1_number").val(resData.limit_1_number)
-            $("input#limit_2_number").val(resData.limit_2_number)
-            $("input#limit_3_number").val(resData.limit_3_number)
-            
-            $("input#limit_1_return").val(resData.limit_1_return)
-            $("input#limit_2_return").val(resData.limit_2_return)
-            $("input#limit_3_return").val(resData.limit_3_return)
+            if (res.status == 200) {
 
-            $("input#cashout_max").val(resData.cashout_max)
-            $("input#cashout_min").val(resData.cashout_min)
-            $("input#cashout_fee").val(resData.cashout_rate)
+                let resData = res.data
+                $("input#limit_1_number").val(resData.limit_1_number)
+                $("input#limit_2_number").val(resData.limit_2_number)
+                $("input#limit_3_number").val(resData.limit_3_number)
+                
+                $("input#limit_1_return").val(resData.limit_1_return)
+                $("input#limit_2_return").val(resData.limit_2_return)
+                $("input#limit_3_return").val(resData.limit_3_return)
 
-            $("input#finish_1_return").val(resData.finish_1_return)
-            $("input#finish_2_return").val(resData.finish_2_return)
-            $("input#finish_3_return").val(resData.finish_3_return)
+                $("input#cashout_max").val(resData.cashout_max)
+                $("input#cashout_min").val(resData.cashout_min)
+                $("input#cashout_fee").val(resData.cashout_rate)
 
-            $("input#register_1_return").val(resData.register_1_return)
-            $("input#register_2_return").val(resData.register_2_return)
-            $("input#register_3_return").val(resData.register_3_return)
+                $("input#finish_1_return").val(resData.finish_1_return)
+                $("input#finish_2_return").val(resData.finish_2_return)
+                $("input#finish_3_return").val(resData.finish_3_return)
 
-            $("input#register_award").val(resData.register_award)
-            $("input#first_publish_award").val(resData.first_publish_award)
+                $("input#register_1_return").val(resData.register_1_return)
+                $("input#register_2_return").val(resData.register_2_return)
+                $("input#register_3_return").val(resData.register_3_return)
 
-            if (resData.is_callout_close) {
-                $("input[type=radio][name=is_callout_close]:eq(0)").attr("checked", 'checked')
+                $("input#register_award").val(resData.register_award)
+                $("input#first_publish_award").val(resData.first_publish_award)
+
+                if (!resData.is_callout_close) {
+                    $("input[type=radio][name=is_callout_close]:eq(0)").attr("checked", 'checked')
+                } else {
+                    $("input[type=radio][name=is_callout_close]:eq(1)").attr("checked", 'checked')
+                }
+
+                if (!resData.is_limit_close) {
+                    $("input[type=radio][name=is_limit_close]:eq(0)").attr("checked", 'checked')
+                    $(".reward").show()
+                } else {
+                    $("input[type=radio][name=is_limit_close]:eq(1)").attr("checked", 'checked')
+                    $(".reward").hide()
+                }
+
+                if (!resData.is_model_close) {
+                    $("input[type=radio][name=is_model_close]:eq(0)").attr("checked", 'checked')
+                    $(".news").show()
+                } else {
+                    $("input[type=radio][name=is_model_close]:eq(1)").attr("checked", 'checked')
+                    $(".news").hide()
+                }
             } else {
-                $("input[type=radio][name=is_callout_close]:eq(1)").attr("checked", 'checked')
-            }
-
-            if (resData.is_limit_close) {
-                $("input[type=radio][name=is_limit_close]:eq(0)").attr("checked", 'checked')
-                $(".reward").show()
-            } else {
-                $("input[type=radio][name=is_limit_close]:eq(1)").attr("checked", 'checked')
-                $(".reward").hide()
-            }
-
-            if (resData.is_model_close) {
-                $("input[type=radio][name=is_model_close]:eq(0)").attr("checked", 'checked')
-                $(".news").show()
-            } else {
-                $("input[type=radio][name=is_model_close]:eq(1)").attr("checked", 'checked')
-                $(".news").hide()
+                toastr.error(res.message)
             }
         },
         error: function (ex) {
@@ -263,16 +267,19 @@ $(".modify-btn").on("click", function () {
         dataType: 'JSON',
         url: $("#submit").attr('action'),
         data: $("#submit").serialize(),
-        success: function(data, status, x) {
-            if(data.status == 200){
+        success: function(res) {
+            if(res.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
-                    window.location.href = '/task/list'
+                    window.location.href = window.location.href
                 }, 1500);
             } else {
-                toastr.error(data.message);
+                toastr.error(res.message);
             }
-            console.log(status);
+        },
+        error: function (ex) {
+            console.log(ex)
+            toastr.error(ex.statusText)
         }
     });
 })

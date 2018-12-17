@@ -116,14 +116,21 @@ function upLoadImage (file, kind) {
         processData: false,
         contentType: false,
         success: function (res) {
-            let url = res.data.url
-            let selector = kind + ' .selected-image:last-child .img-value'
-            $(selector).val(url)
-            $(".modify-btn").attr("disabled", false)
-            $(".modify-btn").text("保存修改")
+            if (res.status == 200) {
+                let url = res.data.url
+                let selector = kind + ' .selected-image:last-child .img-value'
+                $(selector).val(url)
+                $(".modify-btn").attr("disabled", false)
+                $(".modify-btn").text("保存修改")
+            } else {
+                toastr.error(res.message)
+                $(".modify-btn").attr("disabled", false)
+                $(".modify-btn").text("保存修改")
+            }
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error("图片上传失败，请重试")
         }
     })
 }
@@ -148,22 +155,26 @@ var drawData = function () {
         },
         dataType: 'json',
         success: function (res) {
-            let resData = res.data
-            console.log(resData)
-            $("input#banner_title").val(resData.name)
-            $("input#link").val(resData.link)
-            $("select#show_place").val(resData.advertisement_position_id)
-            $("select#show_place").find("option[value = '"+ resData.advertisement_position_id +"']").attr("selected","selected")
-            $("#desc").val(resData.description)
+            if (res.status == 200) {
+                let resData = res.data
+                $("input#banner_title").val(resData.name)
+                $("input#link").val(resData.link)
+                $("select#show_place").val(resData.advertisement_position_id)
+                $("select#show_place").find("option[value = '"+ resData.advertisement_position_id +"']").attr("selected","selected")
+                $("#desc").val(resData.description)
 
-            $(".banner .image-remark").hide()
-            var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.file + '"><input class="img-value" id="banner_url" type="text" name="file" hidden value="' + resData.file + '"></div>'
-            $('.banner').append($imgBox)
-            $(".file").hide()
+                $(".banner .image-remark").hide()
+                var $imgBox = '<div class="selected-image"><div class="delete-image"><img class="image" src="/img/close.png" alt=""></div><img class="image" alt="" src="' + resData.file + '"><input class="img-value" id="banner_url" type="text" name="file" hidden value="' + resData.file + '"></div>'
+                $('.banner').append($imgBox)
+                $(".file").hide()
+            } else {
+                toastr.error(res.message)
+            }
             
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error(ex.statusText)
         }
     })
 }
@@ -196,10 +207,10 @@ $(".modify-btn").on("click", function () {
             } else {
                 toastr.error(res.message);
             }
-            console.log(status);
         },
         error: function (ex) {
             console.log(ex)
+            toastr.error(ex.statusText)
         }
     });
 })

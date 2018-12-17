@@ -156,6 +156,7 @@ $(document).ready(function(){
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     })
@@ -191,6 +192,7 @@ $(document).ready(function(){
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     })
@@ -212,6 +214,7 @@ $(document).ready(function(){
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     })

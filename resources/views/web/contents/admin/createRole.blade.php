@@ -82,6 +82,7 @@
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         });
     }
@@ -93,16 +94,19 @@
             dataType: 'JSON',
             url: $("#submit").attr('action'),
             data: $("#submit").serialize(),
-            success: function(data, status, x) {
-                if(data.status == 200){
+            success: function(res) {
+                if(res.status == 200){
                     toastr.success("创建角色成功")
                     setTimeout(() => {
                         window.location.href = '/admin/role'
                     }, 1500);
                 } else {
-                    toastr.error(data.message);
+                    toastr.error(res.message);
                 }
-                console.log(status);
+            },
+            error: function (ex) {
+                console.log(ex)
+                toastr.error(ex.statusText)
             }
         });
     })

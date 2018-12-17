@@ -157,12 +157,17 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                toastr.success(res.message)
                 $('#systemTips').modal('hide')
-                table.ajax.reload()
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    table.ajax.reload()
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     })

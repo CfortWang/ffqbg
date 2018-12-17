@@ -21,7 +21,6 @@ Route::group(['namespace' => 'Web'], function() {
         Route::group(['prefix' => 'user'], function() {
             Route::get('list',              'UserController@list')->name("web_user_list");
             Route::get('list/level',              'UserController@level')->name("web_user_level");
-            Route::get('{id}/detail',      'UserController@detail')->name("web_user_detail");
             Route::get('brokerages',              'UserController@brokerages')->name("web_user_brokerages");
             Route::get('wallet',              'UserController@wallet')->name("web_user_wallet");
             Route::get('pay',              'UserController@pay')->name("web_user_pay");
@@ -34,7 +33,6 @@ Route::group(['namespace' => 'Web'], function() {
             Route::get('create',              'TaskController@create')->name("web_task_create");
             Route::get('list/edit',              'TaskController@edit')->name("web_task_edit");
             Route::get('join',              'TaskController@join')->name("web_task_join");
-            Route::get('{id}/detail',      'TaskController@detail')->name("web_task_detail");
         });
 
         Route::group(['prefix' => 'news'], function() {
@@ -64,7 +62,6 @@ Route::group(['namespace' => 'Web'], function() {
             Route::get('limit',              'SystemController@limit')->name("web_system_limit");
             Route::get('code',              'SystemController@code')->name("web_system_code");
             Route::get('protocol',              'SystemController@protocol')->name("web_system_protocol");
-            Route::get('{id}/detail',      'SystemController@detail')->name("web_system_detail");
         });
     });
 });

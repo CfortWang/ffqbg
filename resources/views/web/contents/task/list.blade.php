@@ -36,7 +36,7 @@
                     <div id="" class="dataTables_filter">
                             <div class="search-box">
                                 <label>搜索 :</label>
-                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="任务ID" aria-controls="">
                             </div>
                             <div class="search-btn">
                                 <button type="button" class="btn btn-primary btn-sm" id="search-btn" data-toggle="" data-target="">查找</button>
@@ -259,30 +259,34 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                console.log(res)
-                $("#task_title").val(res.data.title)
-                $("#task_owner").val(res.data.user_id)
-                if (res.data.user_level == '0') {
-                    $("#task_type").val("普通")
-                } else if (res.data.user_level == '1') {
-                    $("#task_type").val("会员")
-                } else if (res.data.user_level == '2') {
-                    $("#task_type").val("中级")
+                if (res.status == 200) {
+                    $("#task_title").val(res.data.title)
+                    $("#task_owner").val(res.data.user_id)
+                    if (res.data.user_level == '0') {
+                        $("#task_type").val("普通")
+                    } else if (res.data.user_level == '1') {
+                        $("#task_type").val("会员")
+                    } else if (res.data.user_level == '2') {
+                        $("#task_type").val("中级")
+                    } else {
+                        $("#task_type").val("高级")
+                    }
+                    $("#task_desc").val(res.data.content)
+                    $("#created_at").val(res.data.create_time)
+                    $("#total_amount").val("￥" + res.data.price * res.data.task_limit)
+                    $("#task_price").val("￥" + res.data.price)
+                    $("#task_count").val(res.data.task_limit + "人")
+                    for (let i = 0; i < res.data.images.length; i++) {
+                        var $imgBox = '<div class="selected-image"><img class="image" alt="" src="' + res.data.images[i] + '"></div>'
+                        $('.task').append($imgBox)
+                    }
                 } else {
-                    $("#task_type").val("高级")
-                }
-                $("#task_desc").val(res.data.content)
-                $("#created_at").val(res.data.create_time)
-                $("#total_amount").val("￥" + res.data.price * res.data.task_limit)
-                $("#task_price").val("￥" + res.data.price)
-                $("#task_count").val(res.data.task_limit + "人")
-                for (let i = 0; i < res.data.images.length; i++) {
-                    var $imgBox = '<div class="selected-image"><img class="image" alt="" src="' + res.data.images[i] + '"></div>'
-                    $('.task').append($imgBox)
+                    toastr.error(res.message)
                 }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.responseText)
             }
         })
     })
@@ -306,13 +310,17 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                toastr.success(res.message)
                 $('#task_details').modal('hide')
-                
-                table.ajax.reload()
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    table.ajax.reload()
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.responseText)
             }
         })
     })
@@ -339,12 +347,17 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function (res) {
-                toastr.success(res.message)
                 $('#systemTips').modal('hide')
-                table.ajax.reload()
+                if (res.status == 200) {
+                    toastr.success(res.message)
+                    table.ajax.reload()
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.responseText)
             }
         })
     })

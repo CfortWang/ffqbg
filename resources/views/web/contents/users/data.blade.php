@@ -95,20 +95,24 @@ $(document).ready(function () {
             type: 'get',
             dataType: 'json',
             success: function (res) {
-                console.log(res)
-                $("#cashout_fee").text(res.data.callout_factorage)
-                $("#cashout_amount").text(res.data.callout)
-                $("#not_cashout_amount").text(res.data.callout_pending)
-                $("#member_sale1").text(res.data.first)
-                $("#member_sale2").text(res.data.middle)
-                $("#member_sale3").text(res.data.top)
-                $("#wallet_amount").text(res.data.amount)
-                $("#member_count1").text(res.data.first_total)
-                $("#member_count2").text(res.data.middle_total)
-                $("#member_count3").text(res.data.top_total)
+                if (res.status == 200) {
+                    $("#cashout_fee").text(res.data.callout_factorage)
+                    $("#cashout_amount").text(res.data.callout)
+                    $("#not_cashout_amount").text(res.data.callout_pending)
+                    $("#member_sale1").text(res.data.first)
+                    $("#member_sale2").text(res.data.middle)
+                    $("#member_sale3").text(res.data.top)
+                    $("#wallet_amount").text(res.data.amount)
+                    $("#member_count1").text(res.data.first_total)
+                    $("#member_count2").text(res.data.middle_total)
+                    $("#member_count3").text(res.data.top_total)
+                } else {
+                    toastr.error(res.message)
+                }
             },
             error: function (ex) {
                 console.log(ex)
+                toastr.error(ex.statusText)
             }
         })
     }

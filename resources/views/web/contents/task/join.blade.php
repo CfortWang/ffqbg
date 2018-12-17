@@ -39,7 +39,7 @@
                         <div id="" class="dataTables_filter">
                             <div class="search-box">
                                 <label>搜索 :</label>
-                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="用户ID" aria-controls="">
                             </div>
                             <div class="search-btn">
                                 <button type="button" class="btn btn-primary btn-sm" id="search-btn" data-toggle="" data-target="">查找</button>

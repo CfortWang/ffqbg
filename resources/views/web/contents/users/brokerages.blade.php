@@ -36,9 +36,9 @@
                         <div id="" class="dataTables_filter">
                             <div class="search-box">
                                 <label>搜索 :</label>
-                                <input type="search" id="search_id" class="form-control input-md" placeholder="" aria-controls="">
+                                <input type="search" id="search_id" class="form-control input-md" placeholder="受佣人ID" aria-controls="">
                             </div>
-                            <div class="filter-box">
+                            <!-- <div class="filter-box">
                                 <label>筛选 :</label>
                                 <select class="form-control" id="fileter">
                                     <option value="">全部</option>
@@ -47,7 +47,7 @@
                                     <option value="2">最高返佣</option>
                                     <option value="3">最低返佣</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="search-btn">
                                 <button type="button" class="btn btn-primary btn-sm" id="search-btn" data-toggle="" data-target="">查找</button>
                             </div>
