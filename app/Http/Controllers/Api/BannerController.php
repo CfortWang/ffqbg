@@ -21,8 +21,7 @@ class BannerController extends Controller
         $orderType = $request->order[0]['dir'];
 
         $columnArray = array('A.link','A.file as image','advertisement_position.width','advertisement_position.height','A.name','A.description');
-        $flag = 'home_top';
-        $items  = AdvertisementPosition::where('flag',$flag)->where('A.deleted_at',null)
+        $items  = AdvertisementPosition::where('A.deleted_at',null)
             ->join('app_advertisement as A', 'A.advertisement_position_id', '=', 'advertisement_position.id');
         $recordsTotal = $items->count();
       
