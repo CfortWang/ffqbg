@@ -38,6 +38,7 @@
                                 <a href="javascript:;" class="file">+添加图片
                                     <input type="file" class="" id="task_image" name="file" onchange="selectImage(this, '.task')">
                                 </a>
+                                <a href="javascript:;" class="file update-info" style="display:none">上传中...</a>
                                 <span class="image-remark">建议尺寸:200×200像素，请上传gif,jpeg,png,bmp格式的图片</span>
                             </div>
                         </div>
@@ -91,6 +92,8 @@ function selectImage(file, selector) {
         $(remark).hide()
         $(".modify-btn").attr("disabled", true)
         $(".modify-btn").text("任务图片上传中...")
+        $(".file").hide()
+        $(".update-info").show()
     }
     reader.readAsDataURL(file.files[0]);
     var fd = new FormData()
@@ -108,16 +111,16 @@ function upLoadImage (file, kind) {
         processData: false,
         contentType: false,
         success: function (res) {
+            $(".file").show()
+            $(".update-info").hide()
+            $(".modify-btn").attr("disabled", false)
+            $(".modify-btn").text("保存修改")
             if (res.status == 200) {
                 let url = res.data.url
                 let selector = kind + ' .selected-image:last-child .img-value'
                 $(selector).val(url)
-                $(".modify-btn").attr("disabled", false)
-                $(".modify-btn").text("保存修改")
             } else {
                 toastr.error(res.message)
-                $(".modify-btn").attr("disabled", false)
-                $(".modify-btn").text("保存修改")
             }
         },
         error: function (ex) {

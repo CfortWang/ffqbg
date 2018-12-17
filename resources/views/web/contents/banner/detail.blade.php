@@ -44,7 +44,7 @@
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">跳转链接</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
-                                <input type="text" class="form-control" id="link" name="link" placeholder="为空则不跳转">
+                                <input type="text" class="form-control" id="link" name="link" placeholder="">
                             </div>
                         </div>
                         <div class="form-group clear-fix">

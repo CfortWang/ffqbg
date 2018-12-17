@@ -90,9 +90,15 @@
 $(document).ready(function () {
     getData()
     function getData () {
+        var startDate = $("#start-date").val()
+        var endDate = $("#end-date").val()
         $.ajax({
             url: '/api/user/data',
             type: 'get',
+            data: {
+                start_at: startDate,
+                end_at: endDate
+            },
             dataType: 'json',
             success: function (res) {
                 if (res.status == 200) {
@@ -116,6 +122,10 @@ $(document).ready(function () {
             }
         })
     }
+
+    $("#search-btn").on("click", function () {
+        getData()
+    })
 })
 </script>
 @endsection

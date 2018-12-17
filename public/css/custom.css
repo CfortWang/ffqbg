@@ -495,7 +495,7 @@ input[type="checkbox"]:checked + .menu-checkbox {
 	margin-bottom: 10px;
 }
 
-#editor {
+#editor1, #editor2, #editor3, #editor4{
 	max-height: 400px;
 	height: 400px;
 	background-color: white;
@@ -523,4 +523,15 @@ input[type="checkbox"]:checked + .menu-checkbox {
 	color: #fff;
 	background-color: #5bc0de;
 	border-color: #46b8da;
+}
+
+.textarea-title{
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.img-td img{
+    height: 50px;
+    width: auto;
 }

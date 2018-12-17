@@ -49,7 +49,7 @@
                                         <li><a data-type="from">下级会员</a></li>
                                     </ul>
                                 </div>
-                                <input type="text" id="level_type" hidden>
+                                <input type="text" id="level_type" value="to" hidden>
                             </div>
                             <div class="search-btn">
                                 <button type="button" class="btn btn-primary btn-sm" id="search-btn" data-toggle="" data-target="">查找</button>
@@ -105,6 +105,7 @@ $(document).ready(function(){
             url: "{{ url('/api/user/levelList')}}",
             data: function (d) {
                 d.id = id
+                d.from_uid = $("#search_id").val()
                 d.type = $("#level_type").val()
             },
             dataFilter: function(data){
@@ -114,8 +115,16 @@ $(document).ready(function(){
         },
         columns:[
             {
-                data:"id",
+                data: "uid",
                 className:"text-center",
+                render: function (data, type, row) {
+                    var level_type = $("#level_type").val()
+                    if (level_type == 'from') {
+                        return row.uid
+                    } else {
+                        return row.from_uid
+                    }
+                }
             },
             {
                 data:"user.phone_number",

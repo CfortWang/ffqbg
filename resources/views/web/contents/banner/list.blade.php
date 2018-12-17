@@ -89,7 +89,7 @@ $(document).ready(function(){
             },
             {
                 data:"image",
-                className:"text-center",
+                className:"text-center img-td",
                 render:function(data,type,row) {
                     return '<div><img src="' + row.image + '" /></div>';
                 },

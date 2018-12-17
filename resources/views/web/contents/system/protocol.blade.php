@@ -30,8 +30,8 @@
                     <form id="submit" action="/api/banner" method="post"  enctype="multipart/form-data">
                     <div class="form-container">
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">用户协议</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
+                            <div class="col-lg-2 col-md-2 col-sm-3 textarea-title">用户协议</div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 rule-box">
                                 <div class="editor-container">
                                     <div class="btn-toolbar" role="toolbar" data-role="editor-toolbar" data-target="#editor">
                                         <div class="btn-group" role="group">
@@ -111,10 +111,10 @@
                                         </div>
 
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn">
+                                            <button type="button" class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn1">
                                                 <i class="icon-picture"></i>
                                             </button>
-                                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+                                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn1" data-edit="insertImage" />
                                         </div>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)">
@@ -125,13 +125,13 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div id="editor"></div>
+                                    <div id="editor1"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">公司简介</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
+                            <div class="col-lg-2 col-md-2 col-sm-3 textarea-title">公司简介</div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 rule-box">
                                 <div class="editor-container">
                                     <div class="btn-toolbar" role="toolbar" data-role="editor-toolbar" data-target="#editor">
                                         <div class="btn-group" role="group">
@@ -211,10 +211,10 @@
                                         </div>
 
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn">
+                                            <button type="button" class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn2">
                                                 <i class="icon-picture"></i>
                                             </button>
-                                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+                                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn2" data-edit="insertImage" />
                                         </div>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)">
@@ -225,13 +225,13 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div id="editor"></div>
+                                    <div id="editor2"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">系统帮助</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
+                            <div class="col-lg-2 col-md-2 col-sm-3 textarea-title">系统帮助</div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 rule-box">
                                 <div class="editor-container">
                                     <div class="btn-toolbar" role="toolbar" data-role="editor-toolbar" data-target="#editor">
                                         <div class="btn-group" role="group">
@@ -311,10 +311,10 @@
                                         </div>
 
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn">
+                                            <button type="button" class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn3">
                                                 <i class="icon-picture"></i>
                                             </button>
-                                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+                                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn3" data-edit="insertImage" />
                                         </div>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)">
@@ -325,13 +325,13 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div id="editor"></div>
+                                    <div id="editor3"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group clear-fix">
-                            <label class="col-lg-2 col-md-2 col-sm-3">领取规则</label>
-                            <div class="col-lg-10 col-md-10 col-sm-9 rule-box">
+                            <div class="col-lg-2 col-md-2 col-sm-3 textarea-title">领取规则</div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 rule-box">
                                 <div class="editor-container">
                                     <div class="btn-toolbar" role="toolbar" data-role="editor-toolbar" data-target="#editor">
                                         <div class="btn-group" role="group">
@@ -411,10 +411,10 @@
                                         </div>
 
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn">
+                                            <button type="button" class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn4">
                                                 <i class="icon-picture"></i>
                                             </button>
-                                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+                                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn4" data-edit="insertImage" />
                                         </div>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)">
@@ -425,7 +425,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div id="editor"></div>
+                                    <div id="editor4"></div>
                                 </div>
                             </div>
                         </div>
@@ -448,20 +448,19 @@
 		// 初始化工具条
 		initToolbarBootstrapBindings();
 
-		$('#editor').wysiwyg();
+		$('#editor1').wysiwyg();
+        $('#editor2').wysiwyg();
+        $('#editor3').wysiwyg();
+        $('#editor4').wysiwyg();
 	});
 
 	// 初始化工具条
 	function initToolbarBootstrapBindings() {
 		// 字体样式
-		var fonts = [ 'Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
-				'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact',
-				'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
-				'Times New Roman', 'Verdana' ],
-			fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+		var fonts = [ 'Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times', 'Times New Roman', 'Verdana' ]
+        var fontTarget = $('[title=Font]').siblings('.dropdown-menu');
 		$.each(fonts,function(idx, fontName) {
-			fontTarget.append($('<li><a href="#" data-edit="fontName ' + fontName 
-					+'" style="font-family:\''+ fontName +'\'">' + fontName + '</a></li>'));
+			fontTarget.append($('<li><a href="#" data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">' + fontName + '</a></li>'));
 		});
 
 		$('button[title]').tooltip({
@@ -483,9 +482,7 @@
 		// [data-role=magic-overlay]的样式
 		$('[data-role=magic-overlay]').each(function() {
 			var overlay = $(this), target = $(overlay.data('target'));
-			overlay.css('opacity', 0).css('position', 'absolute')
-					.offset(target.offset()).width(target.outerWidth())
-					.height(target.outerHeight());
+			overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
 		});
 	};
 
