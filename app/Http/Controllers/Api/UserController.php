@@ -295,14 +295,31 @@ class UserController extends Controller
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 
-    public function data()
+    public function data(Request $request)
     {
-        $data['callout_factorage'] = UserCashout::where('withdraw_status',1)->sum('withdraw_factorage');
-        $data['callout'] = UserCashout::where('withdraw_status',1)->sum('withdraw_amount');
-        $data['callout_pending'] = UserCashout::where('withdraw_status',0)->sum('withdraw_amount');
-        $data['first'] =  $data['first_total'] = UserLevelUp::where('status','PAIED')->where('fid',1)->count('id');
-        $data['middle'] =  $data['middle_total'] = UserLevelUp::where('status','PAIED')->where('fid',2)->count('id');
-        $data['top'] =  $data['top_total'] = UserLevelUp::where('status','PAIED')->where('fid',3)->count('id');
+        $start_at = $request->input('start_at');
+        $end_at = $request->input('end_at');
+        if($start_at&&$end_at){
+            $start_at = \strtotime($start_at);
+            $end_at = \strtotime($end_at);
+            // withdraw_apply_time
+            $data['callout_factorage'] = UserCashout::where('withdraw_status',1)->where('withdraw_apply_time','>',$start_at)->where('withdraw_apply_time','<',$end_at)->sum('withdraw_factorage');
+            $data['callout'] = UserCashout::where('withdraw_status',1)->where('withdraw_apply_time','>',$start_at)->where('withdraw_apply_time','<',$end_at)->sum('withdraw_amount');
+            $data['callout_pending'] = UserCashout::where('withdraw_status',0)->where('withdraw_apply_time','>',$start_at)->where('withdraw_apply_time','<',$end_at)->sum('withdraw_amount');
+            $data['first'] = UserLevelUp::where('status','PAIED')->where('type','MEMBER-BUY-VIP')->where('amount',98)->where('time','>',$start_at)->where('time','<',$end_at)->count('id');
+            $data['middle'] =  UserLevelUp::where('status','PAIED')->where('type','MEMBER-BUY-VIP')->where('amount','>',100)->where('amount','<',400)->where('time','>',$start_at)->where('time','<',$end_at)->count('id');
+            $data['top'] =  UserLevelUp::where('status','PAIED')->where('type','MEMBER-BUY-VIP')->where('amount','>',400)->where('time','>',$start_at)->where('time','<',$end_at)->count('id');
+        }else{
+            $data['callout_factorage'] = UserCashout::where('withdraw_status',1)->sum('withdraw_factorage');
+            $data['callout'] = UserCashout::where('withdraw_status',1)->sum('withdraw_amount');
+            $data['callout_pending'] = UserCashout::where('withdraw_status',0)->sum('withdraw_amount');
+            $data['first'] = UserLevelUp::where('status','PAIED')->where('type','MEMBER-BUY-VIP')->where('amount',98)->count('id');
+            $data['middle'] =  UserLevelUp::where('status','PAIED')->where('type','MEMBER-BUY-VIP')->where('amount','>',100)->where('amount','<',400)->count('id');
+            $data['top'] =  UserLevelUp::where('status','PAIED')->where('type','MEMBER-BUY-VIP')->where('amount','>',400)->count('id');
+        }
+         $data['first_total'] = User::where('user_level_id','1')->count('id');
+        $data['middle_total'] = User::where('user_level_id','2')->count('id');
+        $data['top_total'] = User::where('user_level_id','3')->count('id');
         $data['amount'] = UserWalletRecord::sum('amount');
         return $this->responseOK('', $data);
     }
