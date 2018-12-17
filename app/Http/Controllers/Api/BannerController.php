@@ -20,13 +20,12 @@ class BannerController extends Controller
         $orderColumnsNo = $request->order[0]['column'];
         $orderType = $request->order[0]['dir'];
 
-        $columnArray = array('A.link','A.file as image','advertisement_position.width','advertisement_position.height','A.name','A.description');
-        $items  = AdvertisementPosition::where('A.deleted_at',null)
-            ->join('app_advertisement as A', 'A.advertisement_position_id', '=', 'advertisement_position.id');
+        $columnArray = array('link','file as image','name','description');
+        $items  = AppAdvertisement::where('id','>',0);
         $recordsTotal = $items->count();
       
         $recordsFiltered = $items->count();
-        $items = $items->select('A.id','A.link','A.file as image','advertisement_position.width','advertisement_position.height','advertisement_position_id','A.name','A.description')
+        $items = $items->select('id','link','file as image','advertisement_position_id','name','description')
             ->offset($offset)
             ->limit($limit)
             ->get();
