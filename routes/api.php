@@ -83,6 +83,10 @@ use Illuminate\Http\Request;
             Route::get('limit',              'SystemController@limit');
             Route::post('switchLoginLimit',              'SystemController@switchLoginLimit');
             Route::post('addLimit',              'SystemController@setlimit');
+
+            Route::post('protocol',              'SystemController@updateProtocol');
+            Route::get('protocol',              'SystemController@protocol');
+            
             
         });
         Route::group(['prefix' => 'upload'], function() {

@@ -441,6 +441,9 @@ class UserController extends Controller
         $id = $request->input('id');
         $from_uid = $request->input('from_uid');
         $type = $request->input('type');
+        if($from_uid){
+            $where['id'] = $from_uid;
+        }
         if($id){
             if($type=='from'){
                 $where['from_uid'] = $id;
@@ -448,9 +451,7 @@ class UserController extends Controller
                 $where['uid'] = $id;
             }
         }
-        if($from_uid){
-            $where['id'] = $from_uid;
-        }
+        
         $items = UserLevel::where('id','>','0');
         if(isset($where)){
             $items->where($where);

@@ -12,6 +12,7 @@ use App\Models\TaskSetting;
 use App\Models\PhoneVerificationCode;
 use App\Models\User;
 use App\Models\UserLimit;
+use App\Models\Protocol;
 
 class SystemController extends Controller
 {
@@ -184,5 +185,17 @@ class SystemController extends Controller
         }
         return $this->responseOK('修1改成功',[]);
     }
-     
+    public function protocol()
+    {
+        $data = Protocol::first();
+        return $this->responseOK('',$data);
+    }
+
+    public function updateProtocol(Request $request)
+    {
+        $data = Protocol::first();
+        $data->content = $request->input('content');
+        $data->save();
+        return $this->responseOK('修改成功',[]);
+    }
 }

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Input;
 
 use App\Models\Setting;
 
+use App\Models\Protocol;
 
 class SystemController extends Controller
 {
