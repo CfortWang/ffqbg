@@ -449,7 +449,7 @@ class UserController extends Controller
             }
         }
         if($from_uid){
-            $where['from_uid'] = $from_uid;
+            $where['id'] = $from_uid;
         }
         $items = UserLevel::where('id','>','0');
         if(isset($where)){
