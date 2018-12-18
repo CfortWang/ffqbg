@@ -102,7 +102,7 @@
             <div class="modal-body">
             <form>
                 <div class="form-group">
-                    <label for="user_number" class="control-label">允许发起提现的最大人数:</label>
+                    <label for="user_number" class="control-label">允许进入平台的最大人数:</label>
                     <input type="number" class="form-control" id="user_number" placeholder="">
                 </div>
             </form>
