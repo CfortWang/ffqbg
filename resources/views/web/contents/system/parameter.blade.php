@@ -278,7 +278,7 @@ $(".modify-btn").on("click", function () {
             if(res.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
-                    // window.location.href = window.location.href
+                    window.location.href = window.location.href
                 }, 1500);
             } else {
                 toastr.error(res.message);
