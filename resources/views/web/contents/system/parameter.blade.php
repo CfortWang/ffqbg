@@ -254,16 +254,16 @@ var drawData = function () {
 drawData();
 
 $('input[type=radio][name=is_limit_close]').change(function() {
-    if (this.value == 0) {
+    if (this.value == 1) {
         $(".reward").hide()
-    } else if (this.value == 1) {
+    } else if (this.value == 0) {
         $(".reward").show()
     }
 })
 $('input[type=radio][name=is_model_close]').change(function() {
-    if (this.value == 0) {
+    if (this.value == 1) {
         $(".news").hide()
-    } else if (this.value == 1) {
+    } else if (this.value == 0) {
         $(".news").show()
     }
 })
