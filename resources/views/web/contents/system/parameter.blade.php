@@ -221,6 +221,8 @@ var drawData = function () {
                 $("input#cashout_rate").val(resData.cashout_rate)
                 $("input#first_publish_award").val(resData.first_publish_award)
 
+                $("#model_text").val(resData.model_text)
+
                 if (!resData.is_callout_close) {
                     $("input[type=radio][name=is_callout_close]:eq(0)").attr("checked", 'checked')
                 } else {
