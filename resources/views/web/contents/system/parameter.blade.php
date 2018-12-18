@@ -221,6 +221,8 @@ var drawData = function () {
                 $("input#cashout_rate").val(resData.cashout_rate)
                 $("input#first_publish_award").val(resData.first_publish_award)
 
+                $("#model_text").val(resData.model_text)
+
                 if (!resData.is_callout_close) {
                     $("input[type=radio][name=is_callout_close]:eq(0)").attr("checked", 'checked')
                 } else {
@@ -278,7 +280,7 @@ $(".modify-btn").on("click", function () {
             if(res.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
-                    // window.location.href = window.location.href
+                    window.location.href = window.location.href
                 }, 1500);
             } else {
                 toastr.error(res.message);
