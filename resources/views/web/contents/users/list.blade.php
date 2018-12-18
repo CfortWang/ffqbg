@@ -112,7 +112,7 @@
                 </div>
                 <div class="form-group">
                     <label for="superior_id" class="control-label">上级ID:</label>
-                    <input type="text" class="form-control" id="superior_id">
+                    <input type="text" class="form-control" id="superior_id" disabled>
                 </div>
                 <div class="form-group">
                     <label for="user_level" class="control-label">用户等级:</label>
@@ -292,6 +292,9 @@ $(document).ready(function(){
                     $("#phone_number").val(res.data.phone_number)
                     $("#nickname").val(res.data.name)
                     $("#superior_id").val(res.data.recommder_id)
+                    if (res.data.recommder_id == 0 || res.data.recommder_id == '' || res.data.recommder_id == null) {
+                        $("#superior_id").attr("disabled", false)
+                    }
                     $("#user_level").val(res.data.user_level_id)
                     $("#total_amount").val(res.data.total_amount)
                     $("#total_amount").attr("placeholder", "当前余额：" + res.data.total_amount)
