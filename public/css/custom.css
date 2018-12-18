@@ -535,3 +535,78 @@ input[type="checkbox"]:checked + .menu-checkbox {
     height: 50px;
     width: auto;
 }
+
+.paginate_button{
+    list-style: none;
+}
+
+#DataTables_Table_0_paginate > a:first-child{
+    margin-left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+#DataTables_Table_0_paginate > #DataTables_Table_0_next{
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+#DataTables_Table_0_paginate a.disabled, #DataTables_Table_0_paginate a.disabled:focus, #DataTables_Table_0_paginate a.disabled:hover, #DataTables_Table_0_paginate>span.disabled, #DataTables_Table_0_paginate>span.disabled:focus, #DataTables_Table_0_paginate>span.disabled:hover {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+
+#DataTables_Table_0_paginate>a, #DataTables_Table_0_paginate>span>span, #DataTables_Table_0_paginate>span>a {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: inherit;
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 4px 10px;
+    position: relative;
+    text-decoration: none;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate a.paginate_button.current:hover {
+    background-color: #f4f4f4!important;
+    border-color: #ddd!important;
+    color: inherit!important;
+    cursor: default!important;
+    z-index: 2;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background-color: #f4f4f4!important;
+    border-color: #ddd!important;
+    color: inherit!important;
+    z-index: 2;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:focus{
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
+.goto-box{
+    font-size: 0px;
+}
+.goto-text, .goto-btn, .goto-page{
+    background: #fff;
+    display: inline-block;
+    font-size: 12px;
+    padding: 8px 12px;
+    text-align: center;
+    font-weight: 400;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    height: 34px;
+}
+.goto-page{
+    max-width: 80px;
+}
+.goto-btn{
+    font-weight: 600;
+}
