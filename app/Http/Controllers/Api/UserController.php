@@ -40,7 +40,7 @@ class UserController extends Controller
         $orderType = $request->order[0]['dir'];
 
         $columnArray = array('id','phone_number','user_register_time','user_register_ip','user_level_id','total_amount');
-        $where['user_delete'] = 0;
+        // $where['user_delete'] = 0;
         $id = $request->input('id');
         $phone_number = $request->input('phone_number');
         $user_level_id = $request->input('user_level_id');
@@ -55,7 +55,10 @@ class UserController extends Controller
         if($user_level_id||$user_level_id==='0'){
             $where['user_level_id'] = $user_level_id;
         }
-        $items = User::where($where);
+        $items = User::where('id','>',0);
+        if(isset($where)){
+            $items = User::where($where);
+        }
         if($start_at && $end_at){
             $start_at = strtotime($start_at);
             $end_at = strtotime($end_at);
@@ -347,7 +350,7 @@ class UserController extends Controller
         $data->name = $request->input('name');
         $data->phone_number = $request->input('phone_number');
         $data->user_level_id = $request->input('user_level_id');
-        $admin_id = $request->session()->put('admin.id');
+        $admin_id = $request->session()->get('admin.id');
         if($data->total_amount!=$request->input('total_amount')){
             $change = $request->input('total_amount') - $data->total_amount;
             $this->userAmountChange($id,$change,'ADMIN','管理员操作',$admin_id);
