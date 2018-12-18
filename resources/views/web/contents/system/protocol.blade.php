@@ -428,6 +428,7 @@
                                     <div id="editor4"></div>
                                 </div>
                             </div>
+                            <input type="text" id="id" hidden>
                         </div>
 
                         <div class="create-task"><button type="button" class="btn btn-primary btn-lg modify-btn">保存</button></div>
@@ -484,43 +485,68 @@
 			var overlay = $(this), target = $(overlay.data('target'));
 			overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
 		});
-	};
+    };
+    
+    function getProtocol () {
+        $.ajax({
+            type: "GET",
+            dataType: 'JSON',
+            url: '/api/system/protocol',
+            success: function(res) {
+                if(res.status == 200){
+                    let resData = res.data
+                    $("#id").val(resData.id)
+                    $("#editor1").html(resData.user)
+                    $("#editor2").html(resData.company)
+                    $("#editor3").html(resData.help)
+                    $("#editor4").html(resData.rule)
+                } else {
+                    toastr.error(res.message);
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+                toastr.error(ex.statusText)
+            }
+        });
+    }
 
-$(".modify-btn").on("click", function () {
-    // let title = $("#banner_title").val()
-    // let link = $("#link").val()
-    // let showPlace = $("#show_place").val()
-    // let desc = $("#desc").val()
-    // if (title == '' || title == null) {
-    //     toastr.error("轮播标题不能为空！")
-    //     return false
-    // }
-    // if (desc == '' || desc == null) {
-    //     toastr.error("轮播描述不能为空！")
-    //     return false
-    // }
+    getProtocol();
 
-    // $.ajax({
-    //     type: "POST",
-    //     dataType: 'JSON',
-    //     url: $("#submit").attr('action'),
-    //     data: $("#submit").serialize(),
-    //     success: function(res) {
-    //         if(res.status == 200){
-    //             toastr.success("新建轮播成功")
-    //             setTimeout(() => {
-    //                 window.location.href = '/banner/list'
-    //             }, 1500);
-    //         } else {
-    //             toastr.error(res.message);
-    //         }
-    //         console.log(status);
-    //     },
-    //     error: function (ex) {
-    //         console.log(ex)
-    //     }
-    // });
-})
+    $(".modify-btn").on("click", function () {
+        let id = $("#id").val()
+        let user = $("#editor1").html()
+        let company = $("#editor2").html()
+        let help = $("#editor3").html()
+        let rule = $("#editor4").html()
+
+        $.ajax({
+            type: "POST",
+            dataType: 'JSON',
+            url: '/api/system/protocol',
+            data: {
+                id: id,
+                user: user,
+                company: company,
+                help: help,
+                rule: rule
+            },
+            success: function(res) {
+                if(res.status == 200){
+                    toastr.success(res.message)
+                    setTimeout(() => {
+                        window.location.href = window.location.href
+                    }, 1000);
+                } else {
+                    toastr.error(res.message);
+                }
+            },
+            error: function (ex) {
+                console.log(ex)
+                toastr.error(ex.statusText)
+            }
+        });
+    })
 
 </script>
 @endsection

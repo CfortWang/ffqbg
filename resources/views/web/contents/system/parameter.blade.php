@@ -100,12 +100,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group clear-fix">
+                        <!-- <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-12">限制操作金额</label>
                             <div class="col-lg-10 col-md-10 col-sm-12">
                                 <input type="number" class="form-control" id="task_title" name="title" placeholder="" maxlength="20">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-3">新用户赠送金额</label>
                             <div class="col-lg-10 col-md-10 col-sm-9">
@@ -128,12 +128,12 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">推广奖励开关</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 reward-switch">
                                 <label for="reward_switch1" class="label-radio">
-                                    <input type="radio" checked hidden id="reward_switch1" name="is_limit_close" value="1">
+                                    <input type="radio" checked hidden id="reward_switch1" name="is_limit_close" value="0">
                                     <label for="reward_switch1" class="time-radio"></label>
                                     <span>开</span>
                                 </label>
                                 <label for="reward_switch2" class="label-radio">
-                                    <input type="radio" hidden id="reward_switch2" name="is_limit_close" value="0">
+                                    <input type="radio" hidden id="reward_switch2" name="is_limit_close" value="1">
                                     <label for="reward_switch2" class="time-radio"></label>
                                     <span>关</span>
                                 </label>
@@ -143,12 +143,12 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">提现开关</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 cashout-switch">
                                 <label for="cashout_switch1" class="label-radio">
-                                    <input type="radio" checked hidden id="cashout_switch1" name="is_callout_close" value="1">
+                                    <input type="radio" checked hidden id="cashout_switch1" name="is_callout_close" value="0">
                                     <label for="cashout_switch1" class="time-radio"></label>
                                     <span>开</span>
                                 </label>
                                 <label for="cashout_switch2" class="label-radio">
-                                    <input type="radio" hidden id="cashout_switch2" name="is_callout_close" value="0">
+                                    <input type="radio" hidden id="cashout_switch2" name="is_callout_close" value="1">
                                     <label for="cashout_switch2" class="time-radio"></label>
                                     <span>关</span>
                                 </label>
@@ -158,12 +158,12 @@
                             <label class="col-lg-2 col-md-2 col-sm-3">新闻公告开关</label>
                             <div class="col-lg-10 col-md-10 col-sm-9 news-switch">
                                 <label for="news_switch1" class="label-radio">
-                                    <input type="radio" checked hidden id="news_switch1" name="is_model_close" value="1">
+                                    <input type="radio" checked hidden id="news_switch1" name="is_model_close" value="0">
                                     <label for="news_switch1" class="time-radio"></label>
                                     <span>开</span>
                                 </label>
                                 <label for="news_switch2" class="label-radio">
-                                    <input type="radio" hidden="" id="news_switch2" name="is_model_close" value="0">
+                                    <input type="radio" hidden="" id="news_switch2" name="is_model_close" value="1">
                                     <label for="news_switch2" class="time-radio"></label>
                                     <span>关</span>
                                 </label>
@@ -254,16 +254,16 @@ var drawData = function () {
 drawData();
 
 $('input[type=radio][name=is_limit_close]').change(function() {
-    if (this.value == 0) {
+    if (this.value == 1) {
         $(".reward").hide()
-    } else if (this.value == 1) {
+    } else if (this.value == 0) {
         $(".reward").show()
     }
 })
 $('input[type=radio][name=is_model_close]').change(function() {
-    if (this.value == 0) {
+    if (this.value == 1) {
         $(".news").hide()
-    } else if (this.value == 1) {
+    } else if (this.value == 0) {
         $(".news").show()
     }
 })
@@ -278,7 +278,7 @@ $(".modify-btn").on("click", function () {
             if(res.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
-                    window.location.href = window.location.href
+                    // window.location.href = window.location.href
                 }, 1500);
             } else {
                 toastr.error(res.message);

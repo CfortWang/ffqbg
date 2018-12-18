@@ -7,6 +7,7 @@
     <link rel="icon" href="/img/logo/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="{!! asset('css/app.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/plugins/datatables.min.css') !!}" />
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"> -->
     <link rel="stylesheet" href="{!! asset('css/plugins/awesome-bootstrap-checkbox.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/plugins/datepicker3.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/plugins/clockpicker.css') !!}" />
@@ -65,7 +66,8 @@
 <!-- session -->
 <!-- <script src="{!! asset('js/session.js') !!}" type="text/javascript"></script> -->
 <!-- DataTables -->
-<script src="{!! asset('js/plugins/datatables.min.js') !!}" type="text/javascript"></script>
+<!-- <script src="{!! asset('js/plugins/datatables.min.js') !!}" type="text/javascript"></script> -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
 <!-- DatePicker -->
 <script src="{!! asset('js/plugins/bootstrap-datepicker.js') !!}" type="text/javascript"></script>
 <script src="{!! asset('js/plugins/bootstrap-datepicker-locale.js') !!}" type="text/javascript"></script>
@@ -123,14 +125,16 @@ var getArgs = function () {
 
 function appendSkipPage () {
     var table = $(".user-list-table").dataTable(); 
-    var template =
-        $("<li class='paginate_button active'>" +
-            "   <div class='input-group' style='margin-left:3px;'>" +
-            "       <span class='input-group-addon' style='padding:0px 8px;background-color:#fff;font-size: 12px;'>跳转页</span>" +
-            "       <input type='text' class='form-control' style='text-align:center;padding: 8px 2px;height:30px;width:40px;' />" +
-            "       <span class='input-group-addon active' style='padding:0px 8px;'><a href='javascript:void(0)'> Go </a></span>" +
-            "   </div>" +
-            "</li>");
+    // var template =
+    //     $("<li class='paginate_button active'>" +
+    //         "   <div class='input-group' style='margin-left:3px;'>" +
+    //         "       <span class='input-group-addon' style='padding:0px 8px;background-color:#fff;font-size: 12px;'>跳转页</span>" +
+    //         "       <input type='text' class='form-control' style='text-align:center;padding: 8px 2px;height:30px;width:40px;' />" +
+    //         "       <span class='input-group-addon active' style='padding:0px 8px;'><a href='javascript:void(0)'> Go </a></span>" +
+    //         "   </div>" +
+    //         "</li>");
+
+    var template = $('<div class="goto-box"><div class="goto-text">跳转至</div><input type="text" class="form-control goto-page"><div class="goto-btn"><a href="javascript:void(0)"> Go </a></div></div>')
 
     template.find("a").click(function () {
         var pn = template.find("input").val();
@@ -141,7 +145,8 @@ function appendSkipPage () {
         }
         table.fnPageChange(pn);
     });
-    $("ul.pagination").append(template)
+    // $("ul.pagination").append(template)
+    $("div#DataTables_Table_0_paginate").append(template)
 }
 
 $(document).ready(function(){
