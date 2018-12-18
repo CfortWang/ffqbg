@@ -163,6 +163,13 @@ class SystemController extends Controller
         if($limit&&$limit<$amount){
             return $this->responseNotFound('已有限制登录用户',[]);
         }
+        if($amount==0){
+            $data = UserLimit::get();
+            foreach ($data as $key => $value) {
+                UserLimit::where('id',$value['id'])->delete();
+            }
+            return $this->responseOK('当前没有限制用户登录',[]);
+        }
         if($limit&&$amount<=$limit){
             $left = $limit-$amount;
             $data = UserLimit::limit($amount)->get();
