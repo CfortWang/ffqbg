@@ -32,6 +32,9 @@ class AdminController extends Controller
             ->offset($offset)
             ->limit($limit)
             ->get();
+        foreach ($items as $key => $value) {
+            $items[$key]['last_login_time'] = date('Y-m-d H:i:s',$value['last_login_time']);
+        }
         return $this->response4DataTables($items, $recordsTotal, $recordsFiltered);
     }
 

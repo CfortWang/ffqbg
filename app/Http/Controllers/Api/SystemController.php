@@ -110,6 +110,7 @@ class SystemController extends Controller
         $items = PhoneVerificationCode::where('id','>',0);
         if($phone){
             $where['phone_number'] = $phone;
+            $items->where($where);
         }
         $recordsTotal = $items->count();
       
