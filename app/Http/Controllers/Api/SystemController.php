@@ -194,7 +194,10 @@ class SystemController extends Controller
     public function updateProtocol(Request $request)
     {
         $data = Protocol::first();
-        $data->content = $request->input('content');
+        $data->user = $request->input('user');
+        $data->help = $request->input('help');
+        $data->rule = $request->input('rule');
+        $data->company = $request->input('company');
         $data->save();
         return $this->responseOK('修改成功',[]);
     }
