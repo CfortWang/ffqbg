@@ -347,7 +347,12 @@ class UserController extends Controller
         $data->name = $request->input('name');
         $data->phone_number = $request->input('phone_number');
         $data->user_level_id = $request->input('user_level_id');
-        $data->total_amount = $request->input('total_amount');
+        $admin_id = $request->session()->put('admin.id');
+        if($data->total_amount!=$request->input('total_amount')){
+            $change = $request->input('total_amount') - $data->total_amount;
+            $this->userAmountChange($id,$change,'ADMIN','管理员操作',$admin_id);
+            $data->total_amount = $request->input('total_amount');
+        }
         $data->save();
         $recommder_id = $request->input('recommder_id');
         $recommder = UserLevel::where('uid',$id)->where('layer',1)->first();
