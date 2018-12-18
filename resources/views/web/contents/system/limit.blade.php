@@ -64,12 +64,12 @@
                             <div class="limit-switch">
                                 <label>限制 :</label>
                                 <label for="limit_switch1" class="label-radio">
-                                    <input type="radio" checked hidden id="limit_switch1" name="limit_switch" value="1">
+                                    <input type="radio"  hidden id="limit_switch1" name="limit_switch" value="0">
                                     <label for="limit_switch1" class="time-radio"></label>
                                     <span>开</span>
                                 </label>
                                 <label for="limit_switch2" class="label-radio">
-                                    <input type="radio" hidden="" id="limit_switch2" name="limit_switch" value="0">
+                                    <input type="radio" checked hidden="" id="limit_switch2" name="limit_switch" value="1">
                                     <label for="limit_switch2" class="time-radio"></label>
                                     <span>关</span>
                                 </label>
@@ -122,7 +122,7 @@
 
 $(document).ready(function(){
 
-    $('#search-btn').on("click", function () {
+    function getData() {
         var minAmount = $("#min_amount").val()
         var maxAmount = $("#max_amount").val()
         var startDate = $("#start-date").val()
@@ -140,8 +140,9 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (res) {
                 if (res.status == 200) {
-                    toastr.success(res.message)
+                    // toastr.success(res.message)
                     $(".filter-data").text(res.data.count)
+                    $("input[type=radio][name=limit_switch][value='"+res.data.is_login_limit_close+"']").attr("checked", 'checked')
                     if (res.data.limit) {
                         $(".limit-desc").text("目前系统限制人数：")
                         $("#add-limit").text("修改限制")
@@ -159,6 +160,11 @@ $(document).ready(function(){
                 toastr.error(ex.statusText)
             }
         })
+    }
+    getData()
+
+    $('#search-btn').on("click", function () {
+        getData()
     })
 
     $('#sure-add').on("click", function () {
