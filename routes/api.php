@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-    Route::group(['namespace' => 'Api'], function() {
+    Route::group(['namespace' => 'Api','middleware' => 'loginCheck'], function() {
 
         Route::group(['prefix' => 'user'], function() {
             Route::get('list',              'UserController@list');
