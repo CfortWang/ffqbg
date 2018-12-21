@@ -492,7 +492,11 @@ class UserController extends Controller
             ->get();
         foreach ($items as $key => $value) {
             $from = User::where('id',$value['from_user_id'])->select('name','phone_number','user_level_id')->first();
-            $user = User::where('id',$value['uid'])->select('name','phone_number','user_level_id','user_register_time','user_register_ip')->first();
+            if($type=='from'){
+                $user = User::where('id',$value['uid'])->select('name','phone_number','user_level_id','user_register_time','user_register_ip')->first();
+            }else{
+                $user = User::where('id',$value['from_uid'])->select('name','phone_number','user_level_id','user_register_time','user_register_ip')->first();
+            }
             $user['user_register_time'] = date('Y-m-d',$user['user_register_time']);
             $items[$key]['from'] = $from;
             $items[$key]['user'] = $user;

@@ -131,6 +131,9 @@ class SystemController extends Controller
         $count = User::where('total_amount','>',$min)->where('total_amount','<',$max)->count();
         $limit = UserLimit::count();
         $setting = Setting::first();
+        if(empty($min)||empty($max)){
+            $data['login_limit_params'] = $setting->login_limit_params;
+        }
         $data['is_login_limit_close'] = $setting->is_login_limit_close;
         $data['count'] = $count;
         $data['limit'] = $limit;
@@ -168,6 +171,7 @@ class SystemController extends Controller
             foreach ($data as $key => $value) {
                 UserLimit::where('id',$value['id'])->delete();
             }
+            Setting::where('id',1)->update(['login_limit_params'=>'']);
             return $this->responseOK('当前没有限制用户登录',[]);
         }
         if($limit&&$amount<=$limit){
@@ -186,6 +190,15 @@ class SystemController extends Controller
                     $insert[]=$d;
                 }
                 UserLimit::insert($insert);
+                $setting_data=[
+                    'start_time'=>$start_at,
+                    'end_time'=>$end_at,
+                    'min'=>$min,
+                    'max'=>$max,
+                    'count'=>$amount,
+                    'total'=>$count
+                ];
+                Setting::where('id',1)->update(['login_limit_params'=>json_encode($setting_data)]);
                 return $this->responseOK('设置成功',[]);
             }else{
                 return $this->responseBadRequest('没有足够的用户',[]);

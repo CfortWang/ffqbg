@@ -135,7 +135,7 @@ class TaskController extends Controller
         $price = $list['price'];
         $data = array(
             'code_url' => 'user'.str_random(6).$user_id,
-            'status' => 1,
+            'status' => 0,
             'title' => $request->input('title'),
             'price' => $price,
             'task_rank' => 0,
@@ -182,7 +182,7 @@ class TaskController extends Controller
         $data = Task::where('id',$id)->first();
         $data->title = $request->input('title');
         $data->content = $request->input('content');
-        $data->price = $request->input('amount');
+        $data->task_limit = $request->input('amount');
         $data->user_level = $request->input('user_level');
         $images = implode(',',$request->input('image'));
         $data->images = $images;

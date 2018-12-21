@@ -151,6 +151,14 @@ $(document).ready(function(){
                         $(".limit-desc").text("目前系统没有设置限制")
                         $("#add-limit").text("添加限制")
                     }
+                    if(res.data.login_limit_params){
+                        var params=JSON.parse(res.data.login_limit_params);
+                        $("#min_amount").val(params.min);
+                        $("#max_amount").val(params.max);
+                        $("#start-date").val(params.start_time);
+                        $("#end-date").val(params.end_time);
+                        $(".filter-data").text(params.total);
+                    }
                 } else {
                     toastr.error(res.message)
                 }

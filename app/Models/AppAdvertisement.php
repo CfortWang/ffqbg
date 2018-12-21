@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AppAdvertisement extends Model
 {
-    use SoftDeletes;
+//    use SoftDeletes;
 
     protected $table = 'app_advertisement';
 
