@@ -28,25 +28,13 @@
                     <div class="form-container">
                     <div class="form-group clear-fix">
                             <label class="col-lg-2 col-md-2 col-sm-12">任务大厅设置</label>
-                            <div class="col-lg-10 col-md-10 col-sm-12">
-                                <div class="col-lg-4 col-md-6 col-sm-8 col-xs-8 info">
+                            <div class="col-lg-10 col-md-10 col-sm-12" id="task">
+                                <div class="col-lg-4 col-md-6 col-sm-8 col-xs-8 info" id="name">
                                     <div class="title">名称</div>
-                                    <input type="text" class="form-control full-width" id="taskhall0_name" name="name[]" placeholder="">
-                                    <input type="text" class="form-control full-width" id="taskhall1_name" name="name[]" placeholder="">
-                                    <input type="text" class="form-control full-width" id="taskhall2_name" name="name[]" placeholder="">
-                                    <input type="text" class="form-control full-width" id="taskhall3_name" name="name[]" placeholder="">
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-4 col-xs-4 info" style="padding: 0px;">
+                                <div class="col-lg-3 col-md-6 col-sm-4 col-xs-4 info" id="price" style="padding: 0px;">
                                     <div class="title">单价（元）</div>
-                                    <input type="number" class="form-control full-width" id="taskhall0_price" name="price[]" placeholder="">
-                                    <input type="number" class="form-control full-width" id="taskhall1_price" name="price[]" placeholder="">
-                                    <input type="number" class="form-control full-width" id="taskhall2_price" name="price[]" placeholder="">
-                                    <input type="number" class="form-control full-width" id="taskhall3_price" name="price[]" placeholder="">
                                 </div>
-                                <input type="text" name="id[]" id="id0" hidden>
-                                <input type="text" name="id[]" id="id1" hidden>
-                                <input type="text" name="id[]" id="id2" hidden>
-                                <input type="text" name="id[]" id="id3" hidden>
                             </div>
                         </div>
                         
@@ -71,18 +59,17 @@ var drawData = function () {
         success: function (res) {
             if (res.status == 200) {
                 let resData = res.data
-                $("input#id0").val(resData[0].id)
-                $("input#id1").val(resData[1].id)
-                $("input#id2").val(resData[2].id)
-                $("input#id3").val(resData[3].id)
-                $("input#taskhall0_name").val(resData[0].name)
-                $("input#taskhall1_name").val(resData[1].name)
-                $("input#taskhall2_name").val(resData[2].name)
-                $("input#taskhall3_name").val(resData[3].name)
-                $("input#taskhall0_price").val(resData[0].price)
-                $("input#taskhall1_price").val(resData[1].price)
-                $("input#taskhall2_price").val(resData[2].price)
-                $("input#taskhall3_price").val(resData[3].price)
+                let $name = '<input type="text" class="form-control full-width task-name" id="" name="name[]" placeholder="">'
+                let $price = '<input type="number" class="form-control full-width task-price" id="" name="price[]" placeholder="">'
+                let $id = '<input type="text" name="id[]" class="id" hidden>'
+                for (let i = 0; i < resData.length; i++) {
+                    $("#name").append($name)
+                    $("#price").append($price)
+                    $("#task").append($id)
+                    $("input.task-name:eq("+i+")").val(resData[i].name)
+                    $("input.task-price:eq("+i+")").val(resData[i].price)
+                    $("input.id:eq("+i+")").val(resData[i].id)
+                }
             } else {
                 toastr.error(res.message)
             }
@@ -105,7 +92,7 @@ $(".modify-btn").on("click", function () {
             if(res.status == 200){
                 toastr.success("修改成功")
                 setTimeout(() => {
-                    window.location.href = window.location.href
+                    // window.location.href = window.location.href
                 }, 1500);
             } else {
                 toastr.error(res.message);
